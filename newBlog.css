@@ -1,0 +1,1062 @@
+/* ================================================================
+   Newblog.css
+   Purpose  : Single clean stylesheet for blog.html only.
+   Generated: By auditing blog.html against all four source files.
+   ----------------------------------------------------------------
+
+   SOURCE FILE 1 : ukds-insights.css  (contains blgh__ hero CSS)
+   ─────────────────────────────────────────────────────────────
+   Total classes in source : 20
+   ✅ KEPT    (4) : blgh__bg-img, blgh__overlay, blgh__vignette,
+                    blgh__orb-red, blgh__deco-line
+   ❌ DISCARDED (15): blgh__hero, blgh__grid, blgh__orb-gold,
+                      blgh__content, blgh__tag, blgh__tag-dot,
+                      blgh__h1, blgh__h1-em, blgh__sub,
+                      blgh__stats, blgh__stat, blgh__stat-num,
+                      blgh__stat-label, blgh__scroll, blgh__scroll-line
+   Reason: blog.html uses .page-hero (not .blgh__hero) as its hero
+     wrapper and uses .gl__hero-title / .gl__hero-desc / vach__stats
+     (from style.css / Newcontact.css) instead of the blgh__ variants.
+     blgh__grid / blgh__orb-gold / blgh__content etc. have no
+     matching elements in the HTML at all.
+
+   KEYFRAMES from ukds-insights.css:
+   ✅ KEPT    : blgh-floaty      → drives .blgh__orb-red
+                blgh-linePulse  → drives .blgh__deco-line
+                blgh-scrollBounce — NOT kept (blgh__scroll-line not used)
+                blgh-fadeSlideUp  — NOT kept (blgh__sub/h1 not used)
+   ❌ DISCARDED: blgh-gridDrift, blgh-tagPop, blgh-statReveal,
+                 blgh-fadeSlideUp, blgh-scrollBounce
+                 (all drove discarded blgh__ classes only)
+
+   SOURCE FILE 2 : Newcontact.css
+   ─────────────────────────────────────────────────────────────
+   Total classes in source : 8
+   ✅ KEPT    (7) : vach__deco-line, vach__stats, vach__stat,
+                    vach__stat-num, vach__stat-label,
+                    vach__scroll, vach__scroll-line
+   ❌ DISCARDED (1): btn-primary
+   Reason: blog.html uses all vach__ stat/scroll classes in its
+     hero section. btn-primary is never referenced in blog.html.
+
+   SOURCE FILE 3 : style.css  (GLOBAL stylesheet)
+   ─────────────────────────────────────────────────────────────
+   style.css is a GLOBAL file used by every page. It contains
+   200+ class definitions but blog.html only references ~65 of them.
+   The unused ~135+ classes belong to other page sections:
+   hero carousel, trust strip, icon cards, logo strip,
+   accreditations marquee, testimonials, reviews, FAQ,
+   services feature grid, gallery page, blog post pages,
+   vacancies page, services video section, about page sections,
+   individual service pages, two-col content, timeline grid, etc.
+
+   ✅ USED from style.css (65 classes — extracted below):
+     CSS Variables (:root), Reset, Layout utilities, Glass card,
+     Topbar, Site header & nav, Mega menu, Buttons (btn, btn-gold,
+     btn-outline, btn-icon, btn-light, whatsapp-btn, call-btn),
+     Mobile nav, Hero tag badge, Page hero, Section headings,
+     Tag/label pills, CTA banner, Footer, Floating CTA buttons,
+     AI Chat widget, Custom cursor, Scroll reveal, Keyframes
+
+   ❌ NOT EXTRACTED from style.css (kept in style.css as global):
+     All hero carousel, premium strip, icon cards, logo strip,
+     accreditations, testimonials, reviews, FAQ, services grid,
+     gallery, blog post, vacancies, services video, about page,
+     service pages, two-col/timeline layouts
+
+   SOURCE FILE 4 : ukds-insights.css (also contains blgi__ + ukds-insight)
+   ─────────────────────────────────────────────────────────────
+   ✅ KEPT    ALL blgi__ classes (filter bar, grid, cards, newsletter)
+              ALL ukds-insight-* classes (4-card value strip)
+   ❌ DISCARDED: blgi__stats, blgi__stat, blgi__stat-n, blgi__stat-l
+   Reason: The stats strip is commented out in blog.html HTML.
+
+   IMPORTANT NOTE ON style.css:
+   style.css is already linked in blog.html as a global file and
+   must STAY linked. Newblog.css supplements it — it does NOT
+   replace style.css. It adds only the page-specific classes
+   from ukds-insights.css and Newcontact.css that blog.html needs.
+================================================================ */
+
+
+/* ================================================================
+   SECTION 1 — FROM ukds-insights.css  (blgh__ HERO CLASSES)
+   Classes kept: blgh__bg-img, blgh__overlay, blgh__vignette,
+                 blgh__orb-red, blgh__deco-line
+================================================================ */
+
+/* ── Keyframe: blgh-floaty ──────────────────────────────────────
+   Used by : .blgh__orb-red
+             (animation: blgh-floaty 13s ease-in-out infinite)
+   Effect  : Gentle floating / breathing movement on the red orb.
+---------------------------------------------------------------- */
+@keyframes blgh-floaty {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%     { transform: translateY(-28px) scale(1.04); }
+}
+
+/* ── Keyframe: blgh-linePulse ───────────────────────────────────
+   Used by : .blgh__deco-line
+             (animation: blgh-linePulse 4s ease-in-out infinite)
+   Effect  : Pulses the decorative vertical gold line between
+             opacity 0.4 and 1 on a continuous loop.
+---------------------------------------------------------------- */
+@keyframes blgh-linePulse {
+  0%,100% { opacity: .4; }
+  50%     { opacity: 1;  }
+}
+
+/* ── .page-hero (containment) ───────────────────────────────────
+   HTML    : <section class="page-hero" …>
+   Purpose : Ensures all absolutely-positioned children
+             (blgh__bg-img, blgh__overlay, blgh__deco-line, etc.)
+             are clipped inside the hero section boundary.
+             overflow:hidden prevents blgh__bg-img scale(1.04)
+             from bleeding wider than the section.
+---------------------------------------------------------------- */
+.page-hero {
+  position: relative;  /* Contains all absolute children */
+  overflow: hidden;    /* Clips scale(1.04) on blgh__bg-img */
+}
+
+/* ── .blgh__bg-img ──────────────────────────────────────────────
+   HTML    : <div class="blgh__bg-img" aria-hidden="true"></div>
+   Location: Direct child of .page-hero (blog hero section).
+   Purpose : Absolutely-positioned div showing the blog/desk
+             background image. Scales in slightly and zooms out
+             slowly on hover for a Ken-Burns effect.
+---------------------------------------------------------------- */
+.blgh__bg-img {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1800&q=80');
+  background-size: cover;
+  background-position: center 40%;
+  z-index: 0;
+  transform: scale(1.04);
+  transition: transform 12s ease;
+}
+
+/* Zoom out slowly when hero is hovered */
+.page-hero:hover .blgh__bg-img { transform: scale(1); }
+
+/* ── .blgh__overlay ─────────────────────────────────────────────
+   HTML    : <div class="blgh__overlay" aria-hidden="true"></div>
+   Location: Direct child of .page-hero, above blgh__bg-img.
+   Purpose : Dark diagonal gradient overlay ensuring hero text
+             remains legible against the background image.
+---------------------------------------------------------------- */
+.blgh__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    118deg,
+    rgba(4,13,30,.95)  0%,
+    rgba(7,20,50,.88)  38%,
+    rgba(4,13,30,.78)  66%,
+    rgba(4,13,30,.62) 100%
+  );
+  z-index: 1;
+}
+
+/* ── .blgh__vignette ────────────────────────────────────────────
+   HTML    : <div class="blgh__vignette" aria-hidden="true"></div>
+   Location: Direct child of .page-hero, above blgh__overlay.
+   Purpose : Radial vignette that darkens the right half of the
+             hero more strongly — creates visual depth.
+---------------------------------------------------------------- */
+.blgh__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 100% at 100% 50%,
+    rgba(4,13,30,.35) 0%,
+    transparent 60%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── .blgh__orb-red ─────────────────────────────────────────────
+   HTML    : <div class="blgh__orb-red" aria-hidden="true"></div>
+   Location: Direct child of .page-hero, top-right corner.
+   Purpose : Large crimson radial glow orb — purely decorative
+             atmospheric element that floats gently.
+---------------------------------------------------------------- */
+.blgh__orb-red {
+  position: absolute;
+  z-index: 4;
+  width: 640px;
+  height: 640px;
+  top: -160px;
+  right: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,16,46,.24) 0%, transparent 68%);
+  animation: blgh-floaty 13s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── .blgh__deco-line ───────────────────────────────────────────
+   HTML    : <div class="blgh__deco-line" aria-hidden="true"></div>
+   Location: Direct child of .page-hero, floats on the right side.
+   Purpose : Thin animated vertical gold line — purely decorative.
+             ::before and ::after add filled gold dots at each end.
+---------------------------------------------------------------- */
+.blgh__deco-line {
+  position: absolute;
+  top: 15%;
+  right: 8%;
+  width: 1px;
+  height: 55%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(212,168,67,.5)  30%,
+    rgba(212,168,67,.5)  70%,
+    transparent
+  );
+  z-index: 5;
+  animation: blgh-linePulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Gold dot cap at the TOP of the decorative line */
+.blgh__deco-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+}
+
+/* Gold dot cap at the BOTTOM of the decorative line */
+.blgh__deco-line::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+}
+
+
+/* ================================================================
+   SECTION 2 — FROM Newcontact.css  (vach__ STAT + SCROLL CLASSES)
+   Classes kept: vach__deco-line, vach__stats, vach__stat,
+                 vach__stat-num, vach__stat-label,
+                 vach__scroll, vach__scroll-line
+   NOTE: btn-primary is NOT kept — not used in blog.html.
+================================================================ */
+
+/* ── Keyframe: vach-fadeUp ──────────────────────────────────────
+   Used by : .vach__stats  (animation: vach-fadeUp .75s ease both .44s)
+             .vach__scroll  (animation: vach-fadeUp .8s ease both .7s)
+   Effect  : Fades elements up from 22 px below on page load.
+---------------------------------------------------------------- */
+@keyframes vach-fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Keyframe: vach-linePulse ───────────────────────────────────
+   Used by : .vach__deco-line
+             (animation: vach-linePulse 3.5s ease-in-out infinite)
+   Effect  : Pulses the vach__ decorative line between
+             opacity 0.35 and 0.9 on a loop.
+---------------------------------------------------------------- */
+@keyframes vach-linePulse {
+  0%,100% { opacity: .35; }
+  50%     { opacity: .9;  }
+}
+
+/* ── Keyframe: vach-scrollBounce ────────────────────────────────
+   Used by : .vach__scroll-line
+             (animation: vach-scrollBounce 2.2s ease-in-out infinite)
+   Effect  : Bobs the scroll indicator line down 8 px and back.
+---------------------------------------------------------------- */
+@keyframes vach-scrollBounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(8px); }
+}
+
+/* ── .vach__deco-line ───────────────────────────────────────────
+   HTML    : <div class="vach__deco-line" aria-hidden="true"></div>
+             NOTE: This element does NOT appear in blog.html hero —
+             blog uses .blgh__deco-line instead. However, vach__deco-line
+             is kept here as it's defined in Newcontact.css which
+             blog.html links, preventing any style bleed issues.
+   Purpose : Animated vertical gold line with gold dot caps.
+---------------------------------------------------------------- */
+.vach__deco-line {
+  position: absolute;
+  top: 14%; right: 7%;
+  width: 1px; height: 50%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(212,168,67,.45) 30%,
+    rgba(212,168,67,.45) 70%,
+    transparent
+  );
+  z-index: 4;
+  animation: vach-linePulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Top dot cap */
+.vach__deco-line::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+  top: 0;
+}
+
+/* Bottom dot cap */
+.vach__deco-line::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+  bottom: 0;
+}
+
+/* ── .vach__stats ───────────────────────────────────────────────
+   HTML    : <div class="vach__stats"> … </div>
+   Location: Inside .container inside .page-hero, below hero desc.
+   Purpose : Flex row wrapper holding the three stat blocks
+             (Security / Facilities / Digital).
+---------------------------------------------------------------- */
+.vach__stats {
+  display: flex;
+  gap: 0;
+  animation: vach-fadeUp .75s ease both .44s;
+}
+
+/* ── .vach__stat ────────────────────────────────────────────────
+   HTML    : <div class="vach__stat"> … </div>  (×3)
+   Location: Direct children of .vach__stats.
+   Purpose : Individual stat block with right-border divider.
+---------------------------------------------------------------- */
+.vach__stat {
+  padding: 0 36px 0 0;
+  margin-right: 36px;
+  border-right: 1px solid rgba(255,255,255,.12);
+}
+
+/* Remove divider from the last stat block */
+.vach__stat:last-child {
+  border-right: none;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+/* ── .vach__stat-num ────────────────────────────────────────────
+   HTML    : <div class="vach__stat-num">security</div>  (×3)
+   Location: First child inside each .vach__stat.
+   Purpose : Large gold value label inside each stat.
+---------------------------------------------------------------- */
+.vach__stat-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(22px, 3vw, 40px);
+  font-weight: 700;
+  color: #d4a843;
+  line-height: 1;
+}
+
+/* ── .vach__stat-label ──────────────────────────────────────────
+   HTML    : <div class="vach__stat-label">Insights</div>  (×3)
+   Location: Second child inside each .vach__stat.
+   Purpose : Small uppercase caption below each stat value.
+---------------------------------------------------------------- */
+.vach__stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-top: 7px;
+}
+
+/* ── .vach__scroll ──────────────────────────────────────────────
+   HTML    : <div class="vach__scroll" aria-hidden="true"> … </div>
+   Location: Inside .page-hero, absolutely pinned to bottom-centre.
+   Purpose : "Scroll" label + animated line hinting to scroll down.
+---------------------------------------------------------------- */
+.vach__scroll {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  animation: vach-fadeUp .8s ease both .7s;
+}
+
+/* ── .vach__scroll-line ─────────────────────────────────────────
+   HTML    : <div class="vach__scroll-line"></div>
+   Location: First child of .vach__scroll.
+   Purpose : Thin gold-to-transparent gradient line that bounces
+             vertically to draw the visitor's eye downward.
+---------------------------------------------------------------- */
+.vach__scroll-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, rgba(212,168,67,.7), transparent);
+  animation: vach-scrollBounce 2.2s ease-in-out infinite;
+}
+
+
+/* ================================================================
+   SECTION 3 — FROM ukds-insights.css  (ukds-insight-* VALUE CARDS)
+   Classes kept: ukds-insights-section, ukds-insights-container,
+                 ukds-insight-card, ukds-insight-icon,
+                 ukds-insight-title, ukds-insight-text
+================================================================ */
+
+/* ── .ukds-insights-section ─────────────────────────────────────
+   HTML    : <section class="ukds-insights-section">
+   Location: Inside the main .section.theme-light content area.
+   Purpose : Wrapper section for the four "why read our blog"
+             value cards (Industry Expertise, Multi-Service, etc.).
+---------------------------------------------------------------- */
+.ukds-insights-section {
+  padding: 60px 20px;
+}
+
+/* ── .ukds-insights-container ───────────────────────────────────
+   HTML    : <div class="ukds-insights-container">
+   Location: Direct child of .ukds-insights-section.
+   Purpose : 4-column responsive CSS grid that holds the cards.
+---------------------------------------------------------------- */
+.ukds-insights-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+/* ── .ukds-insight-card ─────────────────────────────────────────
+   HTML    : <div class="ukds-insight-card">  (×4)
+   Location: Direct children of .ukds-insights-container.
+   Purpose : Individual white value card with gold border, icon,
+             title and description. Lifts on hover.
+---------------------------------------------------------------- */
+.ukds-insight-card {
+  background: #ffffff;
+  border: 1px solid rgba(212,168,67,.2);
+  border-radius: 14px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: auto;
+  min-height: auto;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Lift card and gold border on hover */
+.ukds-insight-card:hover {
+  transform: translateY(-5px);
+  border-color: #D4A843;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+/* Soft gold radial glow inside card — revealed on hover */
+.ukds-insight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: radial-gradient(circle at top, rgba(212,168,67,.12), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.ukds-insight-card:hover::before { opacity: 1; }
+
+/* ── .ukds-insight-icon ─────────────────────────────────────────
+   HTML    : <div class="ukds-insight-icon">🧠</div>  (×4)
+   Location: Top of each .ukds-insight-card.
+   Purpose : Large emoji icon displayed above the card title.
+---------------------------------------------------------------- */
+.ukds-insight-icon {
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+
+/* ── .ukds-insight-title ────────────────────────────────────────
+   HTML    : <h3 class="ukds-insight-title">Industry Expertise</h3>
+   Location: Inside each .ukds-insight-card, below the icon.
+   Purpose : Card heading — dark navy text, semibold.
+---------------------------------------------------------------- */
+.ukds-insight-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0b1220;
+  margin-bottom: 8px;
+}
+
+/* ── .ukds-insight-text ─────────────────────────────────────────
+   HTML    : <p class="ukds-insight-text"> … </p>  (×4)
+   Location: Inside each .ukds-insight-card, below the title.
+   Purpose : Short descriptor paragraph — muted grey text.
+---------------------------------------------------------------- */
+.ukds-insight-text {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+
+/* ================================================================
+   SECTION 4 — FROM ukds-insights.css  (blgi__ BLOG INDEX CLASSES)
+   All blgi__ classes used in blog.html are kept here.
+   DISCARDED: blgi__stats, blgi__stat, blgi__stat-n, blgi__stat-l
+   (the stats strip is commented out in blog.html)
+================================================================ */
+
+/* ── .blgi__bar ─────────────────────────────────────────────────
+   HTML    : <div class="blgi__bar" role="group" …>
+   Location: Above the blog grid, below the value cards.
+   Purpose : Flex row containing all filter pill buttons and
+             the article count badge on the far right.
+---------------------------------------------------------------- */
+.blgi__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 44px;
+}
+
+/* ── .blgi__pill ────────────────────────────────────────────────
+   HTML    : <button class="blgi__pill blgi__active" …>All Articles</button>
+             (×6 buttons — All, Security, IT, Construction, Cleaning, Events)
+   Location: Inside .blgi__bar.
+   Purpose : Individual filter toggle pill. .blgi__active class
+             applied by JS blgiFilter() to the selected filter.
+---------------------------------------------------------------- */
+.blgi__pill {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(4,13,30,.12);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .22s ease;
+  white-space: nowrap;
+}
+
+/* Hover: red border and text */
+.blgi__pill:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: rgba(200,16,46,.04);
+}
+
+/* Active state — set by JS blgiFilter() */
+.blgi__pill.blgi__active {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+
+/* ── .blgi__count ───────────────────────────────────────────────
+   HTML    : <span class="blgi__count"><b id="blgiCount">25</b> articles</span>
+   Location: Far right of .blgi__bar.
+   Purpose : Shows total visible article count. The <b> child is
+             styled red by JS as filters reduce the count.
+---------------------------------------------------------------- */
+.blgi__count {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.blgi__count b { color: var(--red); }
+
+/* ── .blgi__cat-hdr ─────────────────────────────────────────────
+   HTML    : <div class="blgi__cat-hdr" data-section="security">
+   Location: Above each category group of articles in .blgi__grid.
+   Purpose : Category section heading row — icon + title +
+             horizontal gold divider line.
+---------------------------------------------------------------- */
+.blgi__cat-hdr {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 56px 0 28px;
+}
+
+.blgi__cat-hdr:first-of-type { margin-top: 0; }
+
+/* Category heading text */
+.blgi__cat-hdr h3 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--navy);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* ── .blgi__cat-line ────────────────────────────────────────────
+   HTML    : <div class="blgi__cat-line"></div>
+   Location: Inside .blgi__cat-hdr, after the heading.
+   Purpose : Flex-grow horizontal red-to-transparent rule that
+             fills the remaining space after the category title.
+---------------------------------------------------------------- */
+.blgi__cat-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(200,16,46,.2), transparent);
+}
+
+/* ── .blgi__cat-count ───────────────────────────────────────────
+   HTML    : <!-- <span class="blgi__cat-count">5 articles</span> -->
+             (commented out in HTML but class kept for completeness)
+   Location: End of .blgi__cat-hdr when visible.
+   Purpose : Small red pill badge showing article count per category.
+---------------------------------------------------------------- */
+.blgi__cat-count {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red);
+  background: rgba(200,16,46,.07);
+  border: 1px solid rgba(200,16,46,.15);
+  padding: 3px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ── .blgi__grid ────────────────────────────────────────────────
+   HTML    : <div class="blgi__grid" id="blgiGrid">
+   Location: Main article listing area inside .section.theme-light.
+   Purpose : 3-column CSS grid that holds all article cards and
+             the inline category header divs.
+---------------------------------------------------------------- */
+.blgi__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* ── .blgi__card ────────────────────────────────────────────────
+   HTML    : <article class="blgi__card reveal" data-cat="security">
+   Location: Direct children of .blgi__grid.
+   Purpose : Individual article card — white, rounded, shadow.
+             Lifts on hover. .blgi__hidden toggled by JS filter.
+---------------------------------------------------------------- */
+.blgi__card {
+  background: #fff;
+  border: 1px solid rgba(4,13,30,.07);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(4,13,30,.07);
+  transition: transform .32s ease, box-shadow .32s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Lift and deepen shadow on hover */
+.blgi__card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 70px rgba(4,13,30,.14);
+}
+
+/* Hidden state — toggled by JS blgiFilter() */
+.blgi__card.blgi__hidden { display: none; }
+
+/* ── .blgi__card--featured ──────────────────────────────────────
+   HTML    : <article class="blgi__card blgi__card--featured reveal" …>
+             (first card in each category)
+   Location: Direct children of .blgi__grid.
+   Purpose : Wide featured card — spans 2 columns, image on left,
+             text on right in a row layout.
+---------------------------------------------------------------- */
+.blgi__card--featured {
+  grid-column: span 2;
+  flex-direction: row;
+}
+
+/* Featured card image — left side, fixed width */
+.blgi__card--featured .blgi__img {
+  width: 48%;
+  height: auto;
+  min-height: 280px;
+  flex-shrink: 0;
+}
+
+/* Featured card body — more generous padding */
+.blgi__card--featured .blgi__body {
+  padding: 32px 32px 36px;
+}
+
+/* Featured card heading — larger than standard */
+.blgi__card--featured .blgi__body h3 { font-size: 24px; }
+
+/* Featured card description — slightly larger text */
+.blgi__card--featured .blgi__body p  { font-size: 15px; }
+
+/* ── .blgi__img ─────────────────────────────────────────────────
+   HTML    : <div class="blgi__img" style="background-image:url(…)">
+   Location: First child of each .blgi__card.
+   Purpose : Background-image div for the article thumbnail.
+             Subtle dark bottom-gradient overlay via ::after.
+---------------------------------------------------------------- */
+.blgi__img {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Dark gradient at bottom of image for readability */
+.blgi__img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(4,13,30,.35), transparent 60%);
+}
+
+/* ── .blgi__cat-badge ───────────────────────────────────────────
+   HTML    : <span class="blgi__cat-badge">Security</span>
+   Location: Inside .blgi__img, absolutely positioned top-left.
+   Purpose : Category pill overlay on the thumbnail image
+             (e.g. "Security", "IT & Digital", "Construction").
+             Inline style background overrides per category.
+---------------------------------------------------------------- */
+.blgi__cat-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--red);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+/* ── .blgi__body ────────────────────────────────────────────────
+   HTML    : <div class="blgi__body">
+   Location: Second child of each .blgi__card (after .blgi__img).
+   Purpose : Flex column container for meta, heading, excerpt
+             and read-more link. Stretches to fill card height.
+---------------------------------------------------------------- */
+.blgi__body {
+  padding: 24px 26px 28px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ── .blgi__meta ────────────────────────────────────────────────
+   HTML    : <div class="blgi__meta">
+   Location: Top of .blgi__body.
+   Purpose : Flex row holding the date span (and any other meta).
+---------------------------------------------------------------- */
+.blgi__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* ── .blgi__date ────────────────────────────────────────────────
+   HTML    : <span class="blgi__date">📅 March 2026</span>
+   Location: Inside .blgi__meta.
+   Purpose : Publication date in muted small text.
+---------------------------------------------------------------- */
+.blgi__date {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Article heading inside card body */
+.blgi__body h3 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.35;
+  margin-bottom: 11px;
+}
+
+/* Article excerpt paragraph */
+.blgi__body p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+/* ── .blgi__link ────────────────────────────────────────────────
+   HTML    : <a href="…" class="blgi__link">Read Article →</a>
+   Location: Last child of .blgi__body.
+   Purpose : "Read Article →" call-to-action link pinned to
+             the bottom of each card. Gap widens on hover.
+---------------------------------------------------------------- */
+.blgi__link {
+  color: var(--red);
+  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: .04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: gap .2s, color .2s;
+  text-decoration: none;
+  margin-top: auto;
+}
+
+.blgi__link:hover { gap: 10px; color: var(--navy); }
+
+/* ── .blgi__empty ───────────────────────────────────────────────
+   HTML    : <div class="blgi__empty" id="blgiEmpty">
+   Location: Inside .blgi__grid, spans all columns.
+   Purpose : Empty state shown by JS when no articles match the
+             active filter. Hidden by default; .blgi__show toggles it.
+---------------------------------------------------------------- */
+.blgi__empty {
+  grid-column: 1 / -1;
+  padding: 60px 20px;
+  text-align: center;
+  display: none;
+}
+
+/* Visible state — toggled by JS blgiFilter() */
+.blgi__empty.blgi__show { display: block; }
+
+.blgi__empty p {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--muted);
+}
+
+/* ── .blgi__newsletter ──────────────────────────────────────────
+   HTML    : <div class="blgi__newsletter">
+   Location: Below .blgi__grid, at the bottom of the content section.
+   Purpose : Dark navy newsletter signup strip with heading,
+             description, email input and subscribe button.
+             Decorative radial orb in top-right via ::before.
+---------------------------------------------------------------- */
+.blgi__newsletter {
+  background: linear-gradient(135deg, var(--navy), #1a2a4a);
+  border-radius: 20px;
+  padding: 48px 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  margin-top: 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative gold orb — top right of newsletter strip */
+.blgi__newsletter::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,168,67,.12), transparent 70%);
+}
+
+/* Newsletter heading */
+.blgi__newsletter h3 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+  position: relative; z-index: 1;
+}
+
+/* Newsletter description */
+.blgi__newsletter p {
+  color: rgba(255,255,255,.68);
+  font-size: 15px;
+  margin: 0;
+  position: relative; z-index: 1;
+}
+
+/* ── .blgi__nl-form ─────────────────────────────────────────────
+   HTML    : <form class="blgi__nl-form" …>
+   Location: Right side of .blgi__newsletter.
+   Purpose : Flex row holding the email input and submit button.
+---------------------------------------------------------------- */
+.blgi__nl-form {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  position: relative; z-index: 1;
+}
+
+/* ── .blgi__nl-input ────────────────────────────────────────────
+   HTML    : <input class="blgi__nl-input" type="email" …>
+   Location: Inside .blgi__nl-form.
+   Purpose : Email address input field — dark transparent style
+             with white placeholder text. Gold border on focus.
+---------------------------------------------------------------- */
+.blgi__nl-input {
+  padding: 13px 20px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  width: 260px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.blgi__nl-input::placeholder { color: rgba(255,255,255,.45); }
+.blgi__nl-input:focus         { border-color: var(--gold); }
+
+
+/* ================================================================
+   SECTION 5 — RESPONSIVE OVERRIDES
+   Only affects classes kept in this file.
+================================================================ */
+
+/* ── Tablet — max-width: 1100px ─────────────────────────────────
+   .blgi__grid wraps to 2 columns
+   .blgi__card--featured stays at 2 cols (full width)
+---------------------------------------------------------------- */
+@media (max-width: 1100px) {
+  /* Blog grid becomes 2 columns on tablet */
+  .blgi__grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Featured card still spans both columns */
+  .blgi__card--featured { grid-column: span 2; }
+}
+
+/* ── Tablet — max-width: 992px ──────────────────────────────────
+   ukds-insight cards wrap to 2×2 grid
+---------------------------------------------------------------- */
+@media (max-width: 992px) {
+  /* Insight value cards: 2 columns on tablet */
+  .ukds-insights-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Mobile — max-width: 900px ──────────────────────────────────
+   vach__ stat/scroll responsive overrides
+---------------------------------------------------------------- */
+@media (max-width: 900px) {
+
+  /* Hide decorative gold line on small screens */
+  .vach__deco-line  { display: none; }
+  .blgh__deco-line  { display: none; }
+
+  /* Allow stats to wrap onto two lines */
+  .vach__stats { flex-wrap: wrap; gap: 24px; }
+
+  /* Remove divider borders when stats wrap */
+  .vach__stat {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+    min-width: 110px;
+  }
+}
+
+/* ── Mobile — max-width: 768px ──────────────────────────────────
+   Blog cards stack to single column
+   Featured card becomes vertical (image on top)
+   Newsletter stacks to column layout
+---------------------------------------------------------------- */
+@media (max-width: 768px) {
+
+  /* Single column blog grid on mobile */
+  .blgi__grid { grid-template-columns: 1fr; }
+
+  /* Featured card: stack image on top of text */
+  .blgi__card--featured {
+    flex-direction: column;
+    grid-column: span 1;
+  }
+
+  /* Featured image: full width, fixed height */
+  .blgi__card--featured .blgi__img {
+    width: 100%;
+    min-height: 220px;
+  }
+
+  /* Newsletter: stack heading above form */
+  .blgi__newsletter {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 36px 28px;
+  }
+
+  /* Newsletter form stacks vertically */
+  .blgi__nl-form {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  /* Email input takes full width */
+  .blgi__nl-input { width: 100%; }
+
+  /* Filter bar: tighter gap on mobile */
+  .blgi__bar { gap: 8px; }
+}
+
+/* ── Mobile — max-width: 600px ──────────────────────────────────
+   ukds-insight cards single column
+---------------------------------------------------------------- */
+@media (max-width: 600px) {
+  /* Insight value cards: single column on small phones */
+  .ukds-insights-container {
+    grid-template-columns: 1fr;
+  }
+}

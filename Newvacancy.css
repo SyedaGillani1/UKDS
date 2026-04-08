@@ -1,0 +1,1765 @@
+/* ================================================================
+   Newvacancy.css
+   Purpose  : Single clean stylesheet for vacancies.html only.
+   Generated: By auditing vacancies.html against both source files.
+   ----------------------------------------------------------------
+
+   SOURCE FILE 1 : ukds-vacancy.css
+   ─────────────────────────────────────────────────────────────
+   Total classes in source : 17
+   ✅ KEPT    (9) : vach__bg, vach__overlay, vach__deco-line,
+                    vach__stats, vach__stat, vach__stat-num,
+                    vach__stat-label, vach__scroll, vach__scroll-line
+   ❌ DISCARDED (8): vach__hero, vach__grid, vach__orb-red,
+                     vach__orb-gold, vach__ring, vach__content,
+                     vach__h1, vach__sub
+   Reason: These 8 classes have no matching elements in
+           vacancies.html. The page uses .page-hero with an
+           inline background instead of vach__hero / vach__bg-grid.
+
+   KEYFRAMES from ukds-vacancy.css:
+   ✅ KEPT    : vach-fadeUp, vach-linePulse, vach-scrollBounce,
+                vach-floaty  (drives vach__bg hover via vach__orb-*)
+                — kept because vach__bg IS used
+   ❌ DISCARDED: vach-gridDrift (drove vach__grid — discarded),
+                 vach-ringPulse (drove vach__ring — discarded)
+
+   SOURCE FILE 2 : ukds-contact.css
+   ─────────────────────────────────────────────────────────────
+   Total classes in source : 76
+   ✅ KEPT    (63): hero-actions, btn-primary, btn-secondary,
+     section-label, h2.section-title, why-grid, why-card, why-icon,
+     filter-panel, filter-row, filter-row-label, filter-btn,
+     filter-divider, search-row, search-box, results-bar,
+     results-count, active-filters, clear-btn, vacancies-grid,
+     job-card, job-info, job-top, job-badge, badge-featured,
+     badge-security, badge-ops, badge-intel, badge-admin,
+     badge-full, badge-part, badge-contract, job-title, salary,
+     job-meta, job-actions, btn-indeed, btn-apply, no-results,
+     unavailable, badge-filled, holding-banner, holding-inner,
+     holding-left, holding-icon, holding-right, holding-notify,
+     holding-stat, holding-stat-icon, holding-stat-text,
+     holding-cta, apply-grid, apply-left, cv-form, form-row,
+     form-group, drop-zone, drop-icon, file-name, submit-btn,
+     toast, modal-overlay, modal, modal-close, modal-body,
+     modal-actions
+   ❌ DISCARDED (13): hero, hero-bg, hero-grid, hero-corner,
+     hero-content, hero-label, hero-sub, hero-stats, hero-stat,
+     hero-divider, scroll-indicator, scroll-line, chip
+   Reason: These belong to an older standalone hero pattern not
+     used in vacancies.html. The .chip class is never referenced
+     in the HTML (JS injects filter chips without that class name).
+
+   KEYFRAMES from ukds-contact.css:
+   ✅ KEPT    : sweep (drives holding-banner::before)
+   ❌ DISCARDED: gridDrift, pulse, blink, fadeInDown, fadeInUp,
+                 fadeIn, scrollPulse
+                 (all drove discarded hero/scroll classes only)
+
+   IMPORTANT — JS-INJECTED CLASSES:
+   job-card, job-info, job-top, job-badge, badge-*, job-title,
+   salary, job-meta, job-actions, btn-indeed, btn-apply,
+   no-results, unavailable, badge-filled, modal-body, modal-actions
+   are NOT hardcoded in vacancies.html but ARE written into the DOM
+   dynamically by vacancies.js → renderJobs() / openModal().
+   They are KEPT because removing them would break the page visually.
+================================================================ */
+
+
+/* ================================================================
+   SECTION 1 — FROM ukds-vacancy.css
+   Classes kept: vach__bg, vach__overlay, vach__deco-line,
+                 vach__stats, vach__stat, vach__stat-num,
+                 vach__stat-label, vach__scroll, vach__scroll-line
+================================================================ */
+
+/* ── Keyframe: vach-floaty ──────────────────────────────────────
+   Used by : .vach__bg hover transition (scale effect on the
+             background image div inside .page-hero).
+   Effect  : Gentle floating/breathing movement on the BG layer.
+---------------------------------------------------------------- */
+@keyframes vach-floaty {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%     { transform: translateY(-26px) scale(1.04); }
+}
+
+/* ── Keyframe: vach-fadeUp ──────────────────────────────────────
+   Used by : .vach__stats  (animation: vach-fadeUp .75s ease both .44s)
+             .vach__scroll  (animation: vach-fadeUp .8s ease both .7s)
+   Effect  : Fades elements up from 22 px below on page load.
+---------------------------------------------------------------- */
+@keyframes vach-fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Keyframe: vach-linePulse ───────────────────────────────────
+   Used by : .vach__deco-line
+             (animation: vach-linePulse 3.5s ease-in-out infinite)
+   Effect  : Pulses the decorative gold vertical line between
+             opacity 0.35 and 0.9 on a continuous loop.
+---------------------------------------------------------------- */
+@keyframes vach-linePulse {
+  0%,100% { opacity: .35; }
+  50%     { opacity: .9;  }
+}
+
+/* ── Keyframe: vach-scrollBounce ────────────────────────────────
+   Used by : .vach__scroll-line
+             (animation: vach-scrollBounce 2.2s ease-in-out infinite)
+   Effect  : Bobs the scroll-indicator line down 8 px and back.
+---------------------------------------------------------------- */
+@keyframes vach-scrollBounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(8px); }
+}
+
+/* ── .page-hero (containment fix) ──────────────────────────────
+   BUG FIX: .vach__bg and .vach__overlay use position:absolute
+   with inset:0, which requires their parent (.page-hero) to be
+   position:relative and overflow:hidden so they are clipped
+   inside the hero boundary and don't bleed wider than the section.
+---------------------------------------------------------------- */
+.page-hero {
+  position: relative;  /* Contains all absolute children (vach__bg, vach__overlay, vach__deco-line, vach__scroll) */
+  overflow: hidden;    /* Clips vach__bg scale(1.04) so it never overflows the hero width */
+}
+
+/* ── .vach__bg ──────────────────────────────────────────────────
+   HTML    : <div class="vach__bg" aria-hidden="true"></div>
+   Location: Direct child of .page-hero (vacancies hero section).
+   Purpose : Absolutely-positioned div that shows the city skyline
+             background image. Scales slightly in by default and
+             animates back to scale(1) on .page-hero hover for a
+             subtle Ken-Burns / zoom-out effect.
+   NOTE    : Relies on .page-hero having position:relative +
+             overflow:hidden (added above) to stay contained.
+---------------------------------------------------------------- */
+.vach__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1800&q=80');
+  background-size: cover;
+  background-position: center 30%;
+  z-index: 0;
+  transform: scale(1.04);
+  transition: transform 14s ease;
+}
+
+/* Zoom background image out slowly when the hero section is hovered */
+.page-hero:hover .vach__bg { transform: scale(1); }
+
+/* ── .vach__overlay ─────────────────────────────────────────────
+   HTML    : <div class="vach__overlay" aria-hidden="true"></div>
+   Location: Direct child of .page-hero, sits above .vach__bg.
+   Purpose : Dark diagonal gradient overlay that ensures the hero
+             text remains legible against the background image.
+---------------------------------------------------------------- */
+.vach__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    112deg,
+    rgba(4,9,28,.97)  0%,
+    rgba(5,14,40,.92) 32%,
+    rgba(4,9,28,.80)  58%,
+    rgba(4,9,28,.52)  100%
+  );
+  z-index: 1;
+}
+
+/* ── .vach__deco-line ───────────────────────────────────────────
+   HTML    : <div class="vach__deco-line" aria-hidden="true"></div>
+   Location: Direct child of .page-hero, floats on the right side.
+   Purpose : Thin animated vertical gold line — purely decorative.
+             ::before and ::after add filled gold dots at each end.
+---------------------------------------------------------------- */
+.vach__deco-line {
+  position: absolute;
+  top: 14%; right: 7%;
+  width: 1px; height: 50%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(212,168,67,.45) 30%,
+    rgba(212,168,67,.45) 70%,
+    transparent
+  );
+  z-index: 4;
+  animation: vach-linePulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Gold dot cap at the TOP of the decorative line */
+.vach__deco-line::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+  top: 0;
+}
+
+/* Gold dot cap at the BOTTOM of the decorative line */
+.vach__deco-line::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+  bottom: 0;
+}
+
+/* ── .vach__stats ───────────────────────────────────────────────
+   HTML    : <div class="vach__stats"> … </div>
+   Location: Inside .container inside .page-hero.
+   Purpose : Flex row wrapper that holds the three stat blocks
+             (48hr / UK / Growing).
+---------------------------------------------------------------- */
+.vach__stats {
+  display: flex;
+  gap: 0;
+  animation: vach-fadeUp .75s ease both .44s;
+}
+
+/* ── .vach__stat ────────────────────────────────────────────────
+   HTML    : <div class="vach__stat"> … </div>  (appears ×3)
+   Location: Direct children of .vach__stats.
+   Purpose : Individual stat block. Right padding and border act
+             as a visual divider between adjacent stats.
+---------------------------------------------------------------- */
+.vach__stat {
+  padding: 0 36px 0 0;
+  margin-right: 36px;
+  border-right: 1px solid rgba(255,255,255,.12);
+}
+
+/* Remove divider border from the last stat block */
+.vach__stat:last-child {
+  border-right: none;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+/* ── .vach__stat-num ────────────────────────────────────────────
+   HTML    : <div class="vach__stat-num">48hr</div>  (×3)
+   Location: First child inside each .vach__stat.
+   Purpose : Large gold number or value displayed in each stat.
+---------------------------------------------------------------- */
+.vach__stat-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(22px, 3vw, 40px);
+  font-weight: 700;
+  color: #d4a843;
+  line-height: 1;
+}
+
+/* ── .vach__stat-label ──────────────────────────────────────────
+   HTML    : <div class="vach__stat-label">CV Review</div>  (×3)
+   Location: Second child inside each .vach__stat.
+   Purpose : Small uppercase caption sitting below the stat number.
+---------------------------------------------------------------- */
+.vach__stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-top: 7px;
+}
+
+/* ── .vach__scroll ──────────────────────────────────────────────
+   HTML    : <div class="vach__scroll" aria-hidden="true"> … </div>
+   Location: Inside .page-hero, absolutely pinned to bottom-centre.
+   Purpose : "Scroll" label + animated line hinting to scroll down.
+---------------------------------------------------------------- */
+.vach__scroll {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  animation: vach-fadeUp .8s ease both .7s;
+}
+
+/* ── .vach__scroll-line ─────────────────────────────────────────
+   HTML    : <div class="vach__scroll-line"></div>
+   Location: First child of .vach__scroll.
+   Purpose : Thin gold-to-transparent gradient line that bounces
+             vertically to draw the visitor's eye downward.
+---------------------------------------------------------------- */
+.vach__scroll-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, rgba(212,168,67,.7), transparent);
+  animation: vach-scrollBounce 2.2s ease-in-out infinite;
+}
+
+
+/* ================================================================
+   SECTION 2 — FROM ukds-contact.css
+   All classes that vacancies.html actually uses from this file.
+================================================================ */
+
+/* ── CSS Custom Properties (Design Tokens) ──────────────────────
+   Defined here so all colour references below resolve correctly.
+   These mirror the :root block in style.css; included here as a
+   fallback in case Newvacancy.css is used standalone.
+---------------------------------------------------------------- */
+:root {
+  --navy:       #0a1628;
+  --navy-mid:   #122040;
+  --navy-light: #1c3260;
+  --gold:       #c9a84c;
+  --gold-light: #e8c96a;
+  --white:      #ffffff;
+  --text-muted: #8a9bb5;
+  --border:     rgba(201,168,76,0.25);
+  --card-bg:    #0f1e3a;
+}
+
+/* ── .hero-actions ──────────────────────────────────────────────
+   HTML    : <div class="hero-actions"> … </div>
+   Location: Inside .container inside .page-hero, below stats row.
+   Purpose : Flex row that holds the two CTA buttons
+             ("View All Vacancies" and "Send Your CV").
+---------------------------------------------------------------- */
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 44px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.9s ease 0.6s both;
+}
+
+/* ── Keyframe: fadeInUp ─────────────────────────────────────────
+   Used by : .hero-actions  (animation: fadeInUp 0.9s ease 0.6s both)
+   Effect  : Fades the CTA buttons up from below on page load.
+---------------------------------------------------------------- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── .btn-primary ───────────────────────────────────────────────
+   HTML    : <a href="#vacancies" class="btn-primary"> … </a>
+   Location: Inside .hero-actions inside .page-hero.
+   Purpose : Gold filled primary CTA button — "View All Vacancies".
+---------------------------------------------------------------- */
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy);
+  padding: 14px 32px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Lighten gold fill and lift button on hover */
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+/* ── .btn-secondary ─────────────────────────────────────────────
+   HTML    : <a href="#apply" class="btn-secondary"> … </a>
+   Location: Inside .hero-actions inside .page-hero.
+   Purpose : Outlined secondary CTA button — "Send Your CV".
+---------------------------------------------------------------- */
+.btn-secondary {
+  border: 1px solid var(--border);
+  color: var(--gold);
+  padding: 14px 32px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Light gold background tint and lift on hover */
+.btn-secondary:hover {
+  background: rgba(201,168,76,0.1);
+  transform: translateY(-2px);
+}
+
+/* ── .section-label ─────────────────────────────────────────────
+   HTML    : <div class="section-label">Why Work With Us</div>
+             <div class="section-label">Current Opportunities</div>
+             <div class="section-label">Direct Applications</div>
+   Location: Top of each content section (Why Join / Vacancies / Apply).
+   Purpose : Small all-caps gold label with a short horizontal
+             gold rule before it, identifying the section topic.
+---------------------------------------------------------------- */
+.section-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Short gold rule before each section label */
+.section-label::before {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: var(--gold);
+}
+
+/* ── h2.section-title ───────────────────────────────────────────
+   HTML    : <h2 class="section-title">BUILT ON HONOUR…</h2>
+             <h2 class="section-title">OPEN VACANCIES</h2>
+             <h2 class="section-title">SEND YOUR CV</h2>
+   Location: Below .section-label in each content section.
+   Purpose : Large condensed section heading in all-caps.
+---------------------------------------------------------------- */
+h2.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 58px);
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+
+/* ================================================================
+   WHY JOIN US — Six benefit cards in a responsive auto-fit grid.
+================================================================ */
+
+/* ── .why-grid ──────────────────────────────────────────────────
+   HTML    : <div class="why-grid"> … </div>
+   Location: Inside the "Why Work With Us" section.
+   Purpose : Responsive CSS grid that auto-fits benefit cards
+             into as many columns as the viewport allows.
+---------------------------------------------------------------- */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 60px;
+}
+
+/* ── .why-card ──────────────────────────────────────────────────
+   HTML    : <div class="why-card"> … </div>  (×6)
+   Location: Direct children of .why-grid.
+   Purpose : Individual benefit card with dark background, subtle
+             gold border, and a gold top-bar that slides in on hover.
+---------------------------------------------------------------- */
+.why-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(201,168,76,0.15);
+  padding: 36px 30px;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+/* Lift card and brighten border on hover */
+.why-card:hover {
+  border-color: rgba(201,168,76,0.5);
+  transform: translateY(-4px);
+}
+
+/* Gold top-bar — hidden by default, slides in from left on hover */
+.why-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+
+/* Reveal gold top-bar on card hover */
+.why-card:hover::before { transform: scaleX(1); }
+
+/* Card heading */
+.why-card h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+/* Card body text */
+.why-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ── .why-icon ──────────────────────────────────────────────────
+   HTML    : <div class="why-icon">🛡️</div>  (×6)
+   Location: Top of each .why-card, above the heading.
+   Purpose : Small square icon container with subtle gold border
+             and a semi-transparent gold background tint.
+---------------------------------------------------------------- */
+.why-icon {
+  width: 52px; height: 52px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+
+/* ================================================================
+   VACANCIES SECTION — Filter panel, results bar, job cards.
+   Section ID: #vacancies  (background: #07111f)
+================================================================ */
+
+/* Dark background for the vacancies section */
+#vacancies { background: #07111f; }
+
+/* ── .filter-panel ──────────────────────────────────────────────
+   HTML    : <div class="filter-panel" id="filterPanel"> … </div>
+   Location: Inside #vacancies, above the results bar.
+   Purpose : Dark card containing all filter rows and the search
+             input. Semi-transparent navy background with gold border.
+---------------------------------------------------------------- */
+.filter-panel {
+  background: rgba(15,30,58,0.8);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 6px;
+  padding: 28px 28px 20px;
+  margin: 40px 0 28px;
+}
+
+/* ── .filter-row ────────────────────────────────────────────────
+   HTML    : <div class="filter-row"> … </div>  (×3)
+   Location: Direct children of .filter-panel.
+   Purpose : Horizontal flex row holding a label and filter buttons.
+             Last row has no bottom margin (search row).
+---------------------------------------------------------------- */
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.filter-row:last-child { margin-bottom: 0; }
+
+/* ── .filter-row-label ──────────────────────────────────────────
+   HTML    : <span class="filter-row-label">Category</span>
+   Location: First child of each .filter-row and .search-row.
+   Purpose : Small all-caps gold label naming the filter group.
+             ::after adds a short vertical gold rule as a divider.
+---------------------------------------------------------------- */
+.filter-row-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  min-width: 88px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Short vertical gold rule after the label text */
+.filter-row-label::after {
+  content: '';
+  flex: 0 0 1px;
+  height: 12px;
+  background: rgba(201,168,76,0.35);
+}
+
+/* ── .filter-btn ────────────────────────────────────────────────
+   HTML    : <button class="filter-btn active" …>All Roles</button>
+   Location: Inside .filter-row elements.
+   Purpose : Individual filter toggle button. The .active class is
+             toggled by JavaScript setFilter() to show the current
+             active selection with gold highlighting.
+---------------------------------------------------------------- */
+.filter-btn {
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.2);
+  color: var(--text-muted);
+  padding: 7px 15px;
+  border-radius: 3px;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: 'Barlow', sans-serif;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+/* Brighten border and text on hover */
+.filter-btn:hover {
+  border-color: var(--gold);
+  color: var(--white);
+  background: rgba(201,168,76,0.08);
+}
+
+/* Active state — set by JS when this filter dimension is selected */
+.filter-btn.active {
+  background: rgba(201,168,76,0.18);
+  border-color: var(--gold);
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ── .filter-divider ────────────────────────────────────────────
+   HTML    : <div class="filter-divider"></div>  (×3)
+   Location: Between filter rows inside .filter-panel.
+   Purpose : Thin 1 px horizontal gold-tinted rule visually
+             separating Category / Location / Type filter rows.
+---------------------------------------------------------------- */
+.filter-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(201,168,76,0.1);
+  margin: 4px 0 16px;
+}
+
+/* ── .search-row ────────────────────────────────────────────────
+   HTML    : <div class="search-row"> … </div>
+   Location: Last row inside .filter-panel.
+   Purpose : Flex row holding the "Search" label and the keyword
+             search input field.
+---------------------------------------------------------------- */
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ── .search-box ────────────────────────────────────────────────
+   HTML    : <input type="text" class="search-box" id="searchInput" …>
+   Location: Inside .search-row inside .filter-panel.
+   Purpose : Live keyword search input. Fires applyFilters() on
+             every keystroke via oninput. Gold border on focus.
+---------------------------------------------------------------- */
+.search-box {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 3px;
+  padding: 8px 14px;
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  width: 240px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-box::placeholder { color: var(--text-muted); }
+.search-box:focus         { border-color: var(--gold); }
+
+/* ── .results-bar ───────────────────────────────────────────────
+   HTML    : <div class="results-bar"> … </div>
+   Location: Inside #resultsBarWrap, between filter panel and job list.
+   Purpose : Flex row showing vacancy count on the left and active
+             filter chip pills + clear button on the right.
+---------------------------------------------------------------- */
+.results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  min-height: 32px;
+}
+
+/* ── .results-count ─────────────────────────────────────────────
+   HTML    : <div class="results-count" id="resultsCount"> … </div>
+   Location: Left side of .results-bar.
+   Purpose : Shows "X vacancies found". The <strong> child is
+             styled gold and larger to emphasise the number.
+---------------------------------------------------------------- */
+.results-count {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+/* Gold large number inside the count */
+.results-count strong {
+  color: var(--gold);
+  font-size: 18px;
+  margin-right: 4px;
+}
+
+/* ── .active-filters ────────────────────────────────────────────
+   HTML    : <div class="active-filters" id="activeFilters"></div>
+   Location: Right side of .results-bar.
+   Purpose : Flex container that JS populates with chip pill
+             elements for each currently active filter dimension.
+---------------------------------------------------------------- */
+.active-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── .clear-btn ─────────────────────────────────────────────────
+   HTML    : <button class="clear-btn" id="clearBtn" …>✕ Clear all</button>
+   Location: Right side of .results-bar, shown only when filters active.
+   Purpose : Text-only underlined button that resets all filters
+             via clearAllFilters(). Hidden (display:none) by default.
+---------------------------------------------------------------- */
+.clear-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Barlow', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  transition: color 0.2s;
+  text-decoration: underline;
+}
+
+.clear-btn:hover { color: var(--gold); }
+
+
+/* ================================================================
+   JOB CARDS — Injected dynamically by vacancies.js → renderJobs()
+   All classes below are written into the DOM at runtime.
+   They must be kept even though they do not appear in the HTML source.
+================================================================ */
+
+/* ── .vacancies-grid ────────────────────────────────────────────
+   HTML    : <div class="vacancies-grid" id="jobList"></div>
+   Location: Inside #vacancies, below the results bar.
+   Purpose : Vertical flex column that JS fills with .job-card divs.
+---------------------------------------------------------------- */
+.vacancies-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── .job-card ──────────────────────────────────────────────────
+   Injected by : vacancies.js → renderJobs()
+   Purpose     : Individual job listing card. Slides right on hover
+                 and reveals a gold left-side bar via ::after.
+                 .featured variant has the bar always visible.
+---------------------------------------------------------------- */
+.job-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 4px;
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gold left bar — hidden by default, revealed on hover */
+.job-card::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.3s;
+}
+
+/* Slide right, brighten border, darken background on hover */
+.job-card:hover {
+  border-color: rgba(201,168,76,0.4);
+  background: #142040;
+  transform: translateX(4px);
+}
+
+/* Reveal gold left bar on hover */
+.job-card:hover::after { transform: scaleY(1); }
+
+/* Featured card — gold border and left bar always visible */
+.job-card.featured      { border-color: rgba(201,168,76,0.35); }
+.job-card.featured::after { transform: scaleY(1); }
+
+/* ── .job-card.unavailable ──────────────────────────────────────
+   Injected by : vacancies.js for filled/expired roles.
+   Purpose     : Dims and desaturates the card so visitors can see
+                 the role existed but understand it is no longer open.
+                 All hover/click interactions are disabled.
+---------------------------------------------------------------- */
+.job-card.unavailable {
+  opacity: 0.45;                          /* Dim entire card               */
+  filter: grayscale(60%);                 /* Desaturate colour badges       */
+  pointer-events: none;                   /* Disable all hover/click        */
+  border-color: rgba(255,255,255,0.06);   /* Near-invisible border          */
+  transform: none !important;             /* No slide-right on hover        */
+  cursor: default;
+}
+
+/* Hide gold left-bar on unavailable cards */
+.job-card.unavailable::after { display: none; }
+
+/* Strikethrough job title for filled/expired roles */
+.job-card.unavailable .job-title {
+  text-decoration: line-through;
+  text-decoration-color: rgba(255,255,255,0.25);
+}
+
+/* ── .job-info ──────────────────────────────────────────────────
+   Injected by : vacancies.js
+   Purpose     : Flex-grow container for the left part of each card
+                 (badges, title, salary, meta row).
+---------------------------------------------------------------- */
+.job-info { flex: 1; min-width: 200px; }
+
+/* ── .job-top ───────────────────────────────────────────────────
+   Injected by : vacancies.js
+   Purpose     : Flex row holding the category and type badges
+                 above the job title.
+---------------------------------------------------------------- */
+.job-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── .job-badge ─────────────────────────────────────────────────
+   Injected by : vacancies.js (base class for all badge variants)
+   Purpose     : Small pill-shaped category / type label on each card.
+---------------------------------------------------------------- */
+.job-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+
+/* Gold "Featured" badge */
+.badge-featured {
+  background: rgba(201,168,76,0.2);
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.4);
+}
+
+/* Red "Security" category badge */
+.badge-security {
+  background: rgba(192,57,43,0.2);
+  color: #e74c3c;
+  border: 1px solid rgba(192,57,43,0.3);
+}
+
+/* Teal "Operations" category badge */
+.badge-ops {
+  background: rgba(26,188,156,0.15);
+  color: #1abc9c;
+  border: 1px solid rgba(26,188,156,0.25);
+}
+
+/* Blue "Intelligence" category badge */
+.badge-intel {
+  background: rgba(52,152,219,0.15);
+  color: #3498db;
+  border: 1px solid rgba(52,152,219,0.25);
+}
+
+/* Purple "Admin" category badge */
+.badge-admin {
+  background: rgba(155,89,182,0.15);
+  color: #9b59b6;
+  border: 1px solid rgba(155,89,182,0.25);
+}
+
+/* Green "Full-Time" type badge */
+.badge-full     { background: rgba(22,160,133,0.15); color: #16a085; }
+
+/* Yellow "Part-Time" type badge */
+.badge-part     { background: rgba(241,196,15,0.1);  color: #f1c40f; }
+
+/* Red-tint "Contract" type badge */
+.badge-contract { background: rgba(231,76,60,0.1);   color: #e74c3c; }
+
+/* Grey "Position Filled / Expired" badge — shown on unavailable cards */
+.badge-filled {
+  background: rgba(180,180,180,0.12);
+  border: 1px solid rgba(180,180,180,0.25);
+  color: #9aa5b8;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; padding: 3px 10px; border-radius: 2px;
+  white-space: nowrap; flex-shrink: 0;
+}
+
+/* ── .job-title ─────────────────────────────────────────────────
+   Injected by : vacancies.js
+   Purpose     : Main job role heading inside each card.
+---------------------------------------------------------------- */
+.job-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--white);
+}
+
+/* ── .salary ────────────────────────────────────────────────────
+   Injected by : vacancies.js
+   Purpose     : Gold salary / pay range text below the job title.
+---------------------------------------------------------------- */
+.salary {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+}
+
+/* ── .job-meta ──────────────────────────────────────────────────
+   Injected by : vacancies.js
+   Purpose     : Flex row of small meta items (location, type, etc.)
+                 below the salary line.
+---------------------------------------------------------------- */
+.job-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Each meta item (icon + text pair) */
+.job-meta span {
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── .job-actions ───────────────────────────────────────────────
+   Injected by : vacancies.js
+   Purpose     : Flex container for the "View Role" and Indeed
+                 buttons on the right of each card.
+---------------------------------------------------------------- */
+.job-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+/* ── .btn-indeed ────────────────────────────────────────────────
+   Injected by : vacancies.js
+   Purpose     : Indeed-branded blue "Apply on Indeed" button.
+---------------------------------------------------------------- */
+.btn-indeed {
+  background: #2557a7;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.btn-indeed:hover {
+  background: #1a4080;
+  transform: translateY(-2px);
+}
+
+/* ── .btn-apply ─────────────────────────────────────────────────
+   Injected by : vacancies.js
+   Purpose     : Gold "View Role" button that opens the job detail modal.
+---------------------------------------------------------------- */
+.btn-apply {
+  background: var(--gold);
+  color: var(--navy);
+  padding: 10px 20px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-apply:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+/* ── .no-results ────────────────────────────────────────────────
+   Injected by : vacancies.js when filters return zero matching jobs.
+   Purpose     : Centred empty-state message with gold heading.
+---------------------------------------------------------------- */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.no-results strong {
+  color: var(--gold);
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+
+/* ================================================================
+   HOLDING BANNER — shown when ALL jobs are filled/expired.
+   Injected / shown by vacancies.js → applyFilters().
+   HTML is pre-rendered in vacancies.html but hidden (display:none).
+================================================================ */
+
+/* ── Keyframe: sweep ────────────────────────────────────────────
+   Used by : .holding-banner::before
+   Effect  : Gold shimmer line sweeps across the top of the banner.
+---------------------------------------------------------------- */
+@keyframes sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── .holding-banner ────────────────────────────────────────────
+   HTML    : <div class="holding-banner" id="holdingBanner" …>
+   Location: Inside #vacancies, hidden until all jobs are filled.
+   Purpose : Full-width card shown when no live vacancies exist.
+             Animated gold shimmer sweeps across the top border.
+---------------------------------------------------------------- */
+.holding-banner {
+  margin-top: 48px;
+  background: var(--card-bg);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Sweeping gold shimmer across the top edge of the banner */
+.holding-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  animation: sweep 3s ease-in-out infinite;
+}
+
+/* ── .holding-inner ─────────────────────────────────────────────
+   HTML    : <div class="holding-inner"> … </div>
+   Location: Direct child of .holding-banner.
+   Purpose : Two-column grid — left panel for messaging,
+             right panel for stats and CTA.
+---------------------------------------------------------------- */
+.holding-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+/* ── .holding-left ──────────────────────────────────────────────
+   HTML    : <div class="holding-left"> … </div>
+   Location: Left column of .holding-inner.
+   Purpose : Contains the lock icon, heading, explanation copy,
+             and the "submit CV to be notified" prompt.
+---------------------------------------------------------------- */
+.holding-left {
+  padding: 56px 48px;
+  border-right: 1px solid rgba(201,168,76,0.12);
+}
+
+/* Section icon (emoji) at top of left panel */
+.holding-icon {
+  font-size: 48px;
+  margin-bottom: 24px;
+  display: block;
+}
+
+/* Left panel heading */
+.holding-left h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 14px;
+  line-height: 1.1;
+}
+
+/* Left panel body copy */
+.holding-left p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  max-width: 380px;
+}
+
+/* ── .holding-notify ────────────────────────────────────────────
+   HTML    : <div class="holding-notify"> … </div>
+   Location: Bottom of .holding-left.
+   Purpose : Small inline "submit CV to be notified" pill prompt
+             with a subtle gold background and border.
+---------------------------------------------------------------- */
+.holding-notify {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 3px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: var(--gold);
+  margin-top: 8px;
+}
+
+/* ── .holding-right ─────────────────────────────────────────────
+   HTML    : <div class="holding-right"> … </div>
+   Location: Right column of .holding-inner.
+   Purpose : Contains three trust-stat rows and the "Send Your
+             CV Now" primary CTA button.
+---------------------------------------------------------------- */
+.holding-right {
+  padding: 56px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+}
+
+/* ── .holding-stat ──────────────────────────────────────────────
+   HTML    : <div class="holding-stat"> … </div>  (×3)
+   Location: Direct children of .holding-right.
+   Purpose : Flex row pairing an icon box with a text block for
+             each trust statistic.
+---------------------------------------------------------------- */
+.holding-stat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ── .holding-stat-icon ─────────────────────────────────────────
+   HTML    : <div class="holding-stat-icon">🛡️</div>  (×3)
+   Location: Left side of each .holding-stat.
+   Purpose : Small square emoji icon box with gold tint and border.
+---------------------------------------------------------------- */
+.holding-stat-icon {
+  width: 48px; height: 48px;
+  flex-shrink: 0;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+/* ── .holding-stat-text ─────────────────────────────────────────
+   HTML    : <div class="holding-stat-text"> … </div>  (×3)
+   Location: Right side of each .holding-stat.
+   Purpose : Contains a bold white stat headline and a muted
+             descriptor span below it.
+---------------------------------------------------------------- */
+.holding-stat-text strong {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+
+.holding-stat-text span {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── .holding-cta ───────────────────────────────────────────────
+   HTML    : <a href="#apply" class="holding-cta"> … </a>
+   Location: Bottom of .holding-right, below the stat rows.
+   Purpose : Gold "Send Your CV Now →" primary CTA button.
+             Scrolls the visitor down to the CV upload form.
+---------------------------------------------------------------- */
+.holding-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 13px 28px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+  margin-top: 8px;
+  align-self: flex-start;
+}
+
+.holding-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+
+/* ================================================================
+   APPLY / CV UPLOAD SECTION
+   Two-column layout: left = copy, right = form.
+   Section ID: #apply
+================================================================ */
+
+/* Background for the apply section */
+#apply { background: var(--navy); }
+
+/* ── .apply-grid ────────────────────────────────────────────────
+   HTML    : <div class="apply-grid"> … </div>
+   Location: Inside #apply.
+   Purpose : Two-column CSS grid — left persuasive copy,
+             right CV submission form card.
+---------------------------------------------------------------- */
+.apply-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-top: 60px;
+  align-items: start;
+}
+
+/* ── .apply-left ────────────────────────────────────────────────
+   HTML    : <div class="apply-left"> … </div>
+   Location: Left column of .apply-grid.
+   Purpose : Contains heading, body copy, and bullet-point
+             checklist of application benefits.
+---------------------------------------------------------------- */
+.apply-left h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 38px;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.apply-left p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+/* Unstyled flex-column list */
+.apply-left ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Each list item with a small gold dot bullet */
+.apply-left ul li {
+  font-size: 14px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.apply-left ul li::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ── .cv-form ───────────────────────────────────────────────────
+   HTML    : <div class="cv-form"> … </div>
+   Location: Right column of .apply-grid.
+   Purpose : Dark card containing the full CV submission form —
+             name, email, phone, role select, cover message,
+             file upload zone, and submit button.
+---------------------------------------------------------------- */
+.cv-form {
+  background: var(--card-bg);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 6px;
+  padding: 40px;
+}
+
+.cv-form h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 28px;
+}
+
+/* ── .form-row ──────────────────────────────────────────────────
+   HTML    : <div class="form-row"> … </div>
+   Location: Inside .cv-form (used for first name / last name pair).
+   Purpose : Two-column grid row for side-by-side form fields.
+---------------------------------------------------------------- */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── .form-group ────────────────────────────────────────────────
+   HTML    : <div class="form-group"> … </div>  (×6)
+   Location: Direct children of .cv-form and inside .form-row.
+   Purpose : Label + input wrapper. Provides consistent bottom
+             spacing between form fields.
+---------------------------------------------------------------- */
+.form-group { margin-bottom: 18px; }
+
+/* Form field label */
+.form-group label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* Shared styles for all form input types */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 3px;
+  padding: 11px 14px;
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+/* Gold border on focus for all input types */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--gold); }
+
+/* Dropdown option background */
+.form-group select option { background: var(--navy-mid); }
+
+/* Textarea: vertically resizable, minimum height */
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* ── .drop-zone ─────────────────────────────────────────────────
+   HTML    : <div class="drop-zone" id="dropZone" …> … </div>
+   Location: Inside .cv-form, wrapping the file upload input.
+   Purpose : Drag-and-drop CV upload zone. Clicking triggers the
+             hidden <input type="file">. .drag class added by JS
+             while a file is dragged over it.
+---------------------------------------------------------------- */
+.drop-zone {
+  border: 2px dashed rgba(201,168,76,0.3);
+  border-radius: 4px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 18px;
+}
+
+/* Highlight on hover or during drag-over */
+.drop-zone:hover,
+.drop-zone.drag {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.05);
+}
+
+/* ── .drop-icon ─────────────────────────────────────────────────
+   HTML    : <div class="drop-icon">📄</div>
+   Location: Inside .drop-zone.
+   Purpose : Large emoji icon displayed inside the upload zone.
+---------------------------------------------------------------- */
+.drop-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+/* Body text inside the drop zone */
+.drop-zone p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.drop-zone p strong { color: var(--gold); }
+
+/* Hide the native file input — zone click triggers it via JS */
+.drop-zone input[type="file"] { display: none; }
+
+/* ── .file-name ─────────────────────────────────────────────────
+   HTML    : <div class="file-name" id="fileName"></div>
+   Location: Inside .drop-zone, below the prompt text.
+   Purpose : Shows the selected file's name in gold text after the
+             user picks a file (populated by showFileName() in JS).
+---------------------------------------------------------------- */
+.file-name {
+  font-size: 12px;
+  color: var(--gold);
+  margin-top: 8px;
+}
+
+/* ── .submit-btn ────────────────────────────────────────────────
+   HTML    : <button class="submit-btn" onclick="submitForm()"> … </button>
+   Location: Bottom of .cv-form.
+   Purpose : Full-width gold submit button for the CV application form.
+             Calls submitForm() which validates and shows the toast.
+---------------------------------------------------------------- */
+.submit-btn {
+  width: 100%;
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  padding: 15px;
+  border-radius: 3px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+
+/* ================================================================
+   TOAST NOTIFICATION
+   HTML: <div class="toast" id="toast"> … </div>
+   Shown by vacancies.js → submitForm() adding .show class.
+   Auto-hides after 4.5 seconds.
+================================================================ */
+
+/* ── .toast ─────────────────────────────────────────────────────
+   HTML    : <div class="toast" id="toast"> … </div>
+   Location: Fixed, bottom-right of the viewport.
+   Purpose : Success confirmation message that slides up from below
+             after a CV form submission. Default state: hidden.
+             .show class (added by JS) makes it visible.
+---------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  bottom: 30px; right: 30px;
+  z-index: 999;
+  background: #1a3a1a;
+  border: 1px solid #2ecc71;
+  color: #2ecc71;
+  padding: 14px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.4s;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Visible state — triggered by JS adding .show */
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
+/* ================================================================
+   JOB DETAIL MODAL
+   HTML: <div class="modal-overlay" id="modalOverlay"> … </div>
+   Opened by vacancies.js → openModal(id).
+   Closed by closeModal() (overlay click) or closeModalDirect().
+================================================================ */
+
+/* ── .modal-overlay ─────────────────────────────────────────────
+   HTML    : <div class="modal-overlay" id="modalOverlay" …>
+   Location: Fixed, covers the full viewport.
+   Purpose : Dark semi-transparent backdrop behind the modal box.
+             Default: invisible and non-interactive.
+             .open class (JS) makes it visible and interactive.
+---------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(5,12,25,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  padding: 20px;
+}
+
+/* Visible + interactive state */
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── .modal ─────────────────────────────────────────────────────
+   HTML    : <div class="modal" id="modal"> … </div>
+   Location: Direct child of .modal-overlay.
+   Purpose : White (navy-mid) scrollable content box displaying the
+             full job role details injected by openModal().
+             Scales from 0.95 → 1 when the overlay opens.
+---------------------------------------------------------------- */
+.modal {
+  background: var(--navy-mid);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 6px;
+  max-width: 620px;
+  width: 100%;
+  padding: 40px;
+  position: relative;
+  transform: scale(0.95);
+  transition: transform 0.3s;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Scale up modal box when overlay opens */
+.modal-overlay.open .modal { transform: scale(1); }
+
+/* ── .modal-close ───────────────────────────────────────────────
+   HTML    : <button class="modal-close" onclick="closeModalDirect()">✕</button>
+   Location: Top-right of .modal.
+   Purpose : Invisible-background close button. Gold on hover.
+---------------------------------------------------------------- */
+.modal-close {
+  position: absolute;
+  top: 16px; right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 22px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover { color: var(--gold); }
+
+/* Modal headings and meta text (base styles for JS-injected content) */
+.modal h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.modal .modal-meta {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* ── .modal-body ────────────────────────────────────────────────
+   Injected by : vacancies.js → openModal()
+   Purpose     : Container for the full job description, requirements
+                 list, and duties list inside the modal.
+---------------------------------------------------------------- */
+.modal-body p {
+  font-size: 14px;
+  color: #adb9cc;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.modal-body h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  margin: 20px 0 10px;
+  text-transform: uppercase;
+}
+
+.modal-body ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-body ul li {
+  font-size: 14px;
+  color: #adb9cc;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Gold arrow bullet for modal body list items */
+.modal-body ul li::before {
+  content: '▸';
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── .modal-actions ─────────────────────────────────────────────
+   Injected by : vacancies.js → openModal()
+   Purpose     : Flex row at the bottom of the modal holding the
+                 "Apply on Indeed" and "Send CV" buttons.
+---------------------------------------------------------------- */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+
+/* ================================================================
+   RESPONSIVE OVERRIDES
+   Only overrides properties of classes kept above.
+================================================================ */
+
+/* ── Holding banner — stack to single column below 760px ────────
+   Affects: .holding-inner, .holding-left, .holding-right
+---------------------------------------------------------------- */
+@media (max-width: 760px) {
+  /* Stack two-column holding banner into single column */
+  .holding-inner {
+    grid-template-columns: 1fr;
+  }
+
+  /* Remove right border, add bottom border instead */
+  .holding-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    padding: 36px 28px;
+  }
+
+  .holding-right { padding: 36px 28px; }
+}
+
+/* ── Tablet — max-width: 900px ──────────────────────────────────
+   Affects: .apply-grid, .vach__deco-line, .vach__stats,
+            .vach__stat, .form-row, .job-actions, .filter-row-label
+---------------------------------------------------------------- */
+@media (max-width: 900px) {
+
+  /* Stack apply grid to single column */
+  .apply-grid { grid-template-columns: 1fr; }
+
+  /* Hide decorative gold line — too tall for small screens */
+  .vach__deco-line { display: none; }
+
+  /* Allow stats row to wrap onto two lines */
+  .vach__stats { flex-wrap: wrap; gap: 24px; }
+
+  /* Remove divider borders when stats wrap */
+  .vach__stat {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+    min-width: 110px;
+  }
+
+  /* Stack name form row to single column */
+  .form-row { grid-template-columns: 1fr; }
+
+  /* Allow job action buttons to take full width */
+  .job-actions { width: 100%; }
+
+  /* Reduce filter label min-width */
+  .filter-row-label { min-width: 70px; }
+}
+
+/* ── Mobile — max-width: 600px ──────────────────────────────────
+   Affects: .cv-form, .modal, .filter-panel
+---------------------------------------------------------------- */
+@media (max-width: 600px) {
+
+  /* Reduce form card padding on small screens */
+  .cv-form      { padding: 24px; }
+
+  /* Reduce modal padding on small screens */
+  .modal        { padding: 28px 20px; }
+
+  /* Reduce filter panel padding on small screens */
+  .filter-panel { padding: 18px 14px 12px; }
+}

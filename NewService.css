@@ -1,0 +1,1602 @@
+/* ================================================================
+   NewService.css
+   Purpose  : Clean, optimised stylesheet for services.html ONLY.
+   Source   : Extracted from style.css and Newcontact.css by
+              auditing every class attribute in services.html.
+   ----------------------------------------------------------------
+
+   AUDIT METHODOLOGY
+   ─────────────────
+   Every HTML class attribute in services.html was catalogued.
+   Only rules whose selectors target those classes are kept.
+   Pseudo-classes (:hover, :last-child, :nth-child, :focus,
+   :active, ::before, ::after) and JS-toggled state classes
+   (.active, .mobile-nav.active, .visible) belonging to a KEPT
+   selector are also kept.
+   All other rules are discarded.
+
+   ─────────────────────────────────────────────────────────────
+   SOURCE: style.css
+   ─────────────────────────────────────────────────────────────
+
+   ✅ KEPT (sections / rule-groups):
+     01. CSS Variables / Design Tokens   — needed by all kept rules
+     02. Reset & Base                    — html, body, *, a, img, button
+     03. Layout Utilities                — .container, .section,
+                                           .theme-dark, .theme-soft-blue,
+                                           .theme-white, .theme-gradient-cta
+     04. Top Bar                         — .topbar, .topbar-inner,
+                                           .topbar-left, .topbar-left a
+     05. Site Header & Navigation        — .site-header, .nav-wrap,
+                                           .brand, .brand-logo-img,
+                                           .main-nav, .main-nav a,
+                                           .main-nav a::after,
+                                           .main-nav a.active,
+                                           .nav-actions
+     06. Mega Menu                       — .mega-menu, .mega-trigger,
+                                           .mega-content, .mega-column
+     07. Buttons                         — .btn, .btn::before,
+                                           .btn-gold, .btn-outline,
+                                           .btn-light, .btn-icon,
+                                           .whatsapp-btn, .btn-icon span
+     08. Mobile Navigation               — .menu-toggle, .mobile-nav,
+                                           .mobile-nav a,
+                                           .mobile-nav.active
+     09. Hero Tag Badge                  — .hero-tag, .hero-tag::before,
+                                           .hero-tag .eyebrow,
+                                           @keyframes blink
+     10. Tag / Label Pills               — .eyebrow, .tag-label,
+                                           .dark-tag
+     11. Section Headings                — .section-heading,
+                                           .section-heading.center-align,
+                                           .section-heading.light h2 / p,
+                                           .section-heading h2,
+                                           .section-heading p
+     12. Icon Cards — Why Choose Us      — .icon-card-grid, .four-col,
+                                           .icon-card, .icon-bubble,
+                                           .icon-card h3, .icon-card p,
+                                           hover & ::before variants
+     13. CTA Banner                      — .cta-banner, .cta-orb
+                                           (cta-orb-1 / cta-orb-2 via
+                                           inline style — no selector
+                                           rule exists; kept comment),
+                                           .cta-text-col (no rule),
+                                           .cta-buttons-col,
+                                           .cta-banner h2 / p
+     14. Site Footer                     — .site-footer, .footer-grid,
+                                           .footer-logo, .footer-links,
+                                           .footer-cta, .footer-socials,
+                                           .social-chip, .footer-bottom,
+                                           .site-footer h4
+     15. Page Hero (Inner Pages)         — .page-hero, .page-hero::after,
+                                           .page-hero .container,
+                                           .page-hero h1,
+                                           .page-hero h1 span,
+                                           .page-hero p
+     16. Services Page                   — .services-tab-nav,
+                                           .srv-tab-btn, .srv-content,
+                                           .srv-layout, .srv-text,
+                                           .srv-image, .srv-features,
+                                           .srv-cards-grid, .srv-card,
+                                           .srv-card-icon, .srv-tab-btn.active,
+                                           hover variants
+     17. Floating CTA Buttons            — .floating-cta-stack,
+                                           .float-btn, .float-btn.call,
+                                           .float-btn.whatsapp,
+                                           hover & ::before / ::after
+     18. Custom Cursor                   — .cursor-ring, .cursor-dot,
+                                           .cursor-ring.on-link/btn/input/img
+     19. Scroll Reveal Animations        — .reveal, .reveal.visible
+     20. Keyframe Animations             — only those driving kept classes:
+                                           @keyframes pulse-gold,
+                                           @keyframes fadeUp,
+                                           @keyframes float-pulse,
+                                           @keyframes blink,
+                                           @keyframes fadeIn
+     21. Responsive Breakpoints          — only kept-class overrides
+
+   ❌ DISCARDED (style.css sections not referenced in services.html):
+     Glass Card Utility (.glass-card)
+     Hero Carousel (.hero, .hero-home, .hero-bg-lines, .hero-carousel,
+       .hero-slide, .hero-inner, .hero-bg-img, .hero-overlay, etc.)
+     Hero Typography right panels (.hero-copy, .hero-card-grid,
+       .hero-mini-card, .hero-stat-stack, .hero-badge-panel, etc.)
+     Hero Dots (.hero-dots)
+     Premium Trust Strip (.pull-up-strip, .trust-heading,
+       .premium-strip-wrap, .premium-strip-card, etc.)
+     Logo / Client Strip (.logo-strip, .logo-chip)
+     Accreditations Marquee (.accreditation-section, .logo-marquee,
+       .logo-track, .accreditation-card, etc.)
+     Testimonial Marquee (.testimonial-marquee-wrap, .marquee-row,
+       .marquee-track, .marquee-card, .testimonial-cards-grid,
+       .testimonial-card, etc.)
+     Reviews Section (.reviews-section, .review-card, .avatar, etc.)
+     FAQ Accordion (.faq-section, .faq-tabs, .tab, .faq-item, etc.)
+     Content Layouts — Inner Pages (.two-col-content, .image-panel,
+       .three-card-grid, .info-card, .timeline-item, etc.)
+     Gallery Page (.ukds-gallery, .gallery-tabs, .gallery-card, etc.)
+     Blog Page (.blog-grid, .blog-card, .blog-post-*, etc.)
+     Contact Page (.contact-grid-advanced, .contact-form-card, etc.)
+     Vacancies Page (.vacancies-section, .job-card, etc.)
+     AI Chat Widget (.chat-widget, .chat-header, .bubble, etc.)
+     Services Video Section (.services-video-section, .svs-layout, etc.)
+     UKDS Insights Section (.ukds-insights-section, etc.)
+     Blog Index (.blgi__*, etc.)
+     Gallery Page (.gl__*, except gl__hero-title / gl__hero-desc
+       which ARE used in services.html hero)
+     About Page (.who, .approach, .values, .team, etc.)
+     Various keyframes driving only discarded classes:
+       @keyframes drift, floaty, marquee, borderMove, phoneShake,
+       pulse-cta, shimmer-bar, svs-pulse, bubble-in, typing-dot,
+       blink-dot, accreditationScroll, cardFloatRotate, reviewsScroll,
+       meshMove, orbFloat, badgeFloat, chapterSlideIn, gradientShift,
+       floatOrb, pulse, gl-pulse
+
+   ─────────────────────────────────────────────────────────────
+   SOURCE: Newcontact.css
+   ─────────────────────────────────────────────────────────────
+
+   ✅ KEPT (7 classes + their keyframes from ukds-vacancy.css origin):
+     vach__deco-line, vach__stats, vach__stat, vach__stat-num,
+     vach__stat-label, vach__scroll, vach__scroll-line
+     @keyframes vach-fadeUp, vach-linePulse, vach-scrollBounce
+
+   ❌ DISCARDED (1 class from ukds-contact.css origin):
+     .btn-primary — NOT present in services.html.
+     (services.html uses .btn.btn-gold for all CTA buttons)
+     NOTE: style.css defines its OWN .btn-primary (red gradient) —
+     that rule IS kept below because .btn-primary appears in
+     style.css section 08 Buttons. But neither .btn-primary
+     variant is used in this page's HTML, so BOTH are discarded.
+
+   FINAL NOTE ON .btn-primary:
+     services.html has NO element with class="btn-primary".
+     Therefore both the style.css version (red gradient) and the
+     Newcontact.css version (gold fill) are discarded here.
+================================================================ */
+
+
+/* ================================================================
+   01. CSS VARIABLES / DESIGN TOKENS
+   Source  : style.css — :root block
+   Used by : All kept rules reference these custom properties.
+================================================================ */
+:root {
+  /* Core Palette */
+  --navy:          #040d1e;
+  --navy-2:        #0b1f4a;
+  --navy-3:        #102a68;
+  --navy-glass:    rgba(4,13,30,.72);
+
+  /* Brand Accent — Crimson */
+  --red:           #c8102e;
+  --red-soft:      #e8415a;
+  --red-glow:      rgba(200,16,46,.35);
+
+  /* Brand Accent — Champagne Gold */
+  --gold:          #d4a843;
+  --gold-light:    #f0cb6e;
+  --gold-pale:     rgba(212,168,67,.12);
+
+  /* Neutral Surface */
+  --white:         #ffffff;
+  --offwhite:      #f5f8ff;
+
+  /* Typography */
+  --text:          #0d1726;
+  --muted:         #5c6b85;
+
+  /* Borders */
+  --border:        rgba(212,168,67,.15);
+  --border-dark:   rgba(255,255,255,.08);
+
+  /* Shadows */
+  --shadow:        0 20px 60px rgba(4,13,30,.14);
+  --shadow-gold:   0 20px 60px rgba(212,168,67,.18);
+  --shadow-strong: 0 28px 80px rgba(4,13,30,.28);
+
+  /* Border Radius */
+  --radius-xl:     32px;
+  --radius-lg:     22px;
+  --radius-md:     16px;
+
+  /* Layout */
+  --container:     1240px;
+
+  /* Typography Families */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+}
+
+
+/* ================================================================
+   02. RESET & BASE
+   Source  : style.css — section 02
+   Used by : All elements on the page.
+================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: #ffffff;
+  overflow-x: hidden;
+  line-height: 1.65;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; }
+
+
+/* ================================================================
+   03. LAYOUT UTILITIES
+   Source  : style.css — section 03
+   Used by : .container (every section), .section (all sections),
+             .theme-dark, .theme-soft-blue, .theme-gradient-cta
+             (section wrappers in services.html)
+   DISCARDED from this source section:
+     .theme-light — not used in services.html
+     .theme-white — not used in services.html
+================================================================ */
+
+/* .container — centred max-width wrapper, used everywhere */
+.container {
+  width: min(var(--container), calc(100% - 32px));
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* .section — base padding for all content sections */
+.section { padding: 100px 0; position: relative; overflow: hidden; }
+
+/* .theme-dark — services tab section background */
+.theme-dark { background: linear-gradient(135deg, #040d1e, #0b1f4a 55%, #040d1e); color: white; }
+
+/* .theme-soft-blue — Why Choose Us section background */
+.theme-soft-blue { background: linear-gradient(180deg, #e8f0ff, #f6f9ff); }
+
+/* .theme-gradient-cta — CTA banner section background */
+.theme-gradient-cta { background: linear-gradient(135deg, #040d1e, #0f2660 50%, #040d1e); color: white; overflow: hidden; }
+
+
+/* ================================================================
+   05. TOP BAR
+   Source  : style.css — section 05
+   Used by : .topbar, .topbar-inner, .topbar-left, .topbar-left a
+             (all present in services.html header)
+================================================================ */
+
+/* .topbar — dark strip at very top of page */
+.topbar {
+  background: linear-gradient(90deg, #010508, #061020 40%, #030c1a 60%, #010508);
+  color: #a8bcd8;
+  font-size: 14px;
+  position: relative;
+  z-index: 20;
+  border-bottom: 1px solid rgba(212,168,67,.2);
+}
+
+/* .topbar-inner — flex row inside top bar */
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 0;
+}
+
+/* .topbar-left — left cluster of contact links */
+.topbar-left { display: flex; gap: 20px; flex-wrap: wrap; }
+
+/* Links inside .topbar-left */
+.topbar-left a {
+  color: #a8bcd8;
+  transition: color .18s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.topbar-left a:hover { color: var(--gold-light); }
+
+
+/* ================================================================
+   06. SITE HEADER & NAVIGATION
+   Source  : style.css — section 06
+   Used by : .site-header, .nav-wrap, .brand, .brand-logo-img,
+             .main-nav, .main-nav a, .nav-actions
+================================================================ */
+
+/* .site-header — sticky top navigation bar */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgb(253, 251, 251);
+  border-bottom: 1px solid rgba(212,168,67,.18);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  transition: background .3s ease;
+}
+
+/* .nav-wrap — flex row holding logo, nav, and action buttons */
+.nav-wrap {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* .brand — logo link wrapper */
+.brand { display: flex; align-items: center; min-width: 0; }
+
+/* .brand-logo-img — the logo image itself */
+.brand-logo-img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(1.08) drop-shadow(0 0 14px rgba(212,168,67,.28));
+  transition: filter .3s;
+}
+.brand:hover .brand-logo-img {
+  filter: brightness(1.15) drop-shadow(0 0 20px rgba(212,168,67,.5));
+}
+
+/* .main-nav — horizontal desktop navigation links */
+.main-nav { display: flex; gap: 2px; align-items: center; }
+.main-nav a {
+  color: rgba(2, 2, 2, 0.945);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 13.5px;
+  letter-spacing: .04em;
+  position: relative;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: color .2s, background .2s;
+}
+.main-nav a:hover { color: rgb(239, 9, 9); background: rgba(212,168,67,.1); }
+
+/* Animated underline on nav links */
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 14px; bottom: 4px;
+  width: 0; height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  transition: width .28s ease;
+}
+.main-nav a:hover::after,
+.main-nav a.active::after { width: calc(100% - 28px); }
+
+/* Active nav link */
+.main-nav a.active { color: rgb(251, 6, 6); }
+
+/* .nav-actions — wrapper for WhatsApp + Get Quote buttons */
+.nav-actions { display: flex; gap: 10px; align-items: center; }
+
+
+/* ================================================================
+   07. MEGA MENU
+   Source  : style.css — section 07
+   Used by : .mega-menu (div), .mega-trigger (anchor inside),
+             .mega-content (dropdown panel), .mega-column (each col)
+================================================================ */
+
+/* .mega-menu — relative wrapper that triggers dropdown */
+.mega-menu { position: relative; display: inline-block; }
+
+/* .mega-trigger — the clickable "Services ▾" anchor */
+.mega-trigger { text-decoration: none; color: rgba(255,255,255,.72); font-weight: 600; }
+
+/* .mega-content — the dropdown grid panel */
+.mega-content {
+  position: absolute;
+  top: 55px; left: 0;
+  width: 680px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 20px 45px rgba(0,0,0,.15);
+  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: all .25s ease;
+  z-index: 999;
+}
+/* Show dropdown on hover */
+.mega-menu:hover .mega-content { opacity: 1; visibility: visible; transform: translateY(0); }
+
+/* .mega-column — individual service column inside dropdown */
+.mega-column { padding: 18px; border-radius: 12px; transition: all .3s ease; }
+.mega-column h4 { color: var(--red); font-size: 18px; margin-bottom: 6px; }
+.mega-column a { display: block; font-weight: 600; color: #111; margin-bottom: 6px; transition: color .25s ease; }
+.mega-column p { font-size: 14px; color: #666; line-height: 1.5; }
+.mega-column:hover {
+  background: linear-gradient(135deg, #fff6e8, #f5deb3);
+  border-left: 4px solid var(--red);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.15);
+}
+.mega-column:hover a { color: var(--red); }
+
+
+/* ================================================================
+   08. BUTTONS
+   Source  : style.css — section 08
+   Used by : .btn (base), .btn-gold (all CTAs + service links),
+             .btn-outline + .btn-icon + .whatsapp-btn (nav WhatsApp),
+             .btn-light (CTA banner phone button)
+   DISCARDED from this source section:
+     .btn-primary   — NOT used in services.html
+     .btn-ghost     — NOT used in services.html
+     .btn-dark      — NOT used in services.html
+     .btn-small     — NOT used in services.html
+     .call-btn      — NOT used in services.html
+     .icon          — NOT used in services.html
+     .btn-light span (phoneShake) — .btn-light IS used but the span
+                                    inside it has no special class;
+                                    the animation target is generic.
+                                    Kept for completeness since btn-light
+                                    IS in use and its span rule is tiny.
+================================================================ */
+
+/* .btn — base pill button shared by all button variants */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 26px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .04em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s ease, background .22s ease;
+}
+
+/* Gloss sheen overlay on all buttons */
+.btn::before {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, transparent 55%);
+  pointer-events: none;
+}
+.btn:hover  { transform: translateY(-4px) scale(1.02); }
+.btn:active { transform: translateY(1px) scale(.98); }
+
+/* .btn-gold — pulsing gold CTA used throughout services.html */
+.btn-gold {
+  background: linear-gradient(135deg, #c49030, var(--gold-light) 50%, var(--gold));
+  color: var(--navy);
+  font-weight: 800;
+  box-shadow: 0 10px 36px rgba(212,168,67,.4);
+  animation: pulse-gold 3.5s ease-in-out infinite;
+}
+.btn-gold:hover {
+  animation: none;
+  box-shadow: 0 22px 64px rgba(212,168,67,.7);
+  background: linear-gradient(135deg, var(--gold), #ffd878 50%, var(--gold));
+}
+
+/* .btn-outline — transparent with gold border (nav WhatsApp button) */
+.btn-outline {
+  background: transparent;
+  color: #ed0707 !important;
+  border: 2.5px solid #D4A843;
+}
+.btn-outline:hover { background: var(--gold-pale); border-color: var(--gold); color: white; }
+
+/* .whatsapp-btn — thinner border override on the WhatsApp nav button */
+.whatsapp-btn {
+  border: 1.5px solid #D4A843 !important;
+}
+
+/* .btn-icon span — emoji icon inside btn-icon */
+.btn-icon span { font-size: 15px; }
+
+/* .btn-light — white button used in CTA banner */
+.btn-light { background: white; color: var(--navy); box-shadow: 0 8px 28px rgba(4,13,30,.18); }
+.btn-light:hover { background: var(--offwhite); }
+
+/* span inside .btn-light shakes like a phone icon */
+.btn-light span { animation: phoneShake 3s infinite; }
+
+
+/* ================================================================
+   09. MOBILE NAVIGATION
+   Source  : style.css — section 09
+   Used by : .menu-toggle (hamburger button), .mobile-nav (dropdown),
+             .mobile-nav a (links), .mobile-nav.active (JS toggled)
+================================================================ */
+
+/* .menu-toggle — hamburger shown on tablet/mobile */
+.menu-toggle {
+  display: none;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.14);
+  color: white;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.menu-toggle:hover { background: rgba(255,255,255,.14); }
+
+/* .mobile-nav — vertical link list, hidden by default */
+.mobile-nav { display: none; gap: 8px; flex-direction: column; padding: 0 16px 16px; }
+.mobile-nav a {
+  padding: 14px 18px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,.85);
+  font-family: var(--font-display);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.mobile-nav a:hover { background: rgba(212,168,67,.1); border-color: rgba(212,168,67,.3); color: white; }
+
+/* .mobile-nav.active — JS adds this class to show the menu */
+.mobile-nav.active { display: flex; }
+
+
+/* ================================================================
+   10. HERO TAG BADGE
+   Source  : style.css — section 10 (Hero Carousel block)
+   Used by : .hero-tag (the "Security UK Defence Services" pill
+             at the top of the page-hero section),
+             .hero-tag .eyebrow (inner decorative capsule)
+   @keyframes blink — drives the dot pulse inside .hero-tag::before
+================================================================ */
+
+/* @keyframes blink — used by .hero-tag::before pulsing dot */
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* .hero-tag — glassmorphism pill label above hero headline */
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212,168,75,0.12);
+  border: 1px solid rgba(212,168,75,0.3);
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 999px;
+  margin-top: 70px;
+  margin-bottom: 28px;
+  width: fit-content;
+  backdrop-filter: blur(6px);
+  animation: fadeUp 0.8s ease both;
+}
+
+/* Animated blinking gold dot before tag text */
+.hero-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+/* .eyebrow — inner decorative oval inside .hero-tag */
+.hero-tag .eyebrow {
+  width: 45px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(212,168,75,0.45);
+  display: inline-block;
+}
+
+
+/* ================================================================
+   11. TAG / LABEL PILLS
+   Source  : style.css — section 13
+   Used by : .eyebrow (also used standalone in hero badge above),
+             .tag-label (section labels in Why Choose Us),
+             .dark-tag (service panel section labels)
+   DISCARDED from this source section:
+     .mini-tag   — not used in services.html
+     .white-tag  — not used in services.html
+     .white-mini — not used in services.html
+================================================================ */
+
+/* Shared base for all pill label variants */
+.eyebrow, .tag-label, .dark-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 11px; letter-spacing: .2em;
+  text-transform: uppercase; font-weight: 700;
+}
+
+/* .eyebrow — gold-tinted pill (used in hero tag and standalone) */
+.eyebrow { background: rgba(212,168,67,.12); border: 1px solid rgba(212,168,67,.32); color: var(--gold-light); }
+
+/* .tag-label — red-tinted section label (Why Choose Us) */
+.tag-label { background: rgba(200,16,46,.08);  border: 1px solid rgba(200,16,46,.22);  color: var(--red); }
+
+/* .dark-tag — white/transparent pill for dark section service labels */
+.dark-tag { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); color: white; }
+
+
+/* ================================================================
+   12. SECTION HEADINGS
+   Source  : style.css — section 15
+   Used by : .section-heading (Why Choose Us),
+             .section-heading.center-align (Why Choose Us centred),
+             .section-heading h2, .section-heading p
+   DISCARDED from this source section:
+     .section-heading.center-width — not used in services.html
+     .section-heading.light        — not used in services.html
+================================================================ */
+
+/* .section-heading — wrapper for section label + title + subtitle */
+.section-heading { margin-bottom: 48px; }
+
+/* .center-align — centres all text in the heading block */
+.section-heading.center-align { text-align: center; }
+
+/* Heading h2 */
+.section-heading h2 {
+  margin: 12px 0 14px;
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1.04;
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+/* Heading paragraph / subtitle */
+.section-heading p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.75; }
+
+
+/* ================================================================
+   13. ICON CARDS — WHY CHOOSE US
+   Source  : style.css — section 17
+   Used by : .icon-card-grid, .four-col, .icon-card, .icon-bubble,
+             .icon-card h3, .icon-card p — all in Why Choose Us
+================================================================ */
+
+/* .icon-card-grid — CSS grid wrapper for icon card collection */
+.icon-card-grid { display: grid; gap: 22px; }
+
+/* .four-col — 4-column layout modifier */
+.icon-card-grid.four-col { grid-template-columns: repeat(4, 1fr); }
+
+/* .icon-card — individual white card */
+.icon-card {
+  background: white;
+  border: 1px solid rgba(4,13,30,.07);
+  border-radius: var(--radius-xl);
+  padding: 34px 28px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: transform .32s cubic-bezier(.34,1.56,.64,1), box-shadow .32s, border-color .32s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle gradient overlay revealed on hover */
+.icon-card::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(200,16,46,.03), rgba(212,168,67,.06));
+  opacity: 0;
+  transition: opacity .3s;
+}
+.icon-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 75px rgba(4,13,30,.18);
+  border-color: rgba(212,168,67,.3);
+}
+.icon-card:hover::before { opacity: 1; }
+
+/* .icon-bubble — the large emoji circle at top of each icon card */
+.icon-bubble {
+  width: 78px; height: 78px;
+  border-radius: 22px;
+  display: grid; place-items: center;
+  margin: 0 auto 18px;
+  font-size: 30px;
+  background: linear-gradient(135deg, rgba(200,16,46,.1), rgba(212,168,67,.18));
+  border: 1px solid rgba(212,168,67,.22);
+  transition: transform .32s cubic-bezier(.34,1.56,.64,1);
+}
+.icon-card:hover .icon-bubble { transform: scale(1.12) rotate(-6deg); }
+
+/* Icon card headings and body text */
+.icon-card h3 { margin: 0 0 10px; color: var(--navy); font-family: var(--font-display); font-weight: 700; }
+.icon-card p  { margin: 0; color: var(--muted); font-size: 15px; }
+
+
+/* ================================================================
+   14. CTA BANNER
+   Source  : style.css — section 22
+   Used by : .cta-banner, .cta-text-col (no dedicated rule exists —
+             it relies on .cta-banner grid), .cta-buttons-col,
+             .cta-banner h2, .cta-banner p
+   NOTE    : .cta-orb, .cta-orb-1, .cta-orb-2 are present in HTML
+             but have NO matching CSS rules in either source file.
+             They are decorative divs positioned via the gradient-cta
+             section background. No rules to keep.
+================================================================ */
+
+/* .cta-banner — two-column grid layout for text + buttons */
+.cta-banner {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 28px;
+  align-items: center;
+}
+
+/* CTA heading */
+.cta-banner h2 {
+  color: white;
+  margin: 12px 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 50px);
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+/* CTA subtitle */
+.cta-banner p { color: rgba(255,255,255,.62); margin: 0; font-size: 17px; }
+
+/* .cta-buttons-col — right column flex container for buttons */
+.cta-buttons-col { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 14px; }
+
+
+/* ================================================================
+   15. SITE FOOTER
+   Source  : style.css — section 24 / 25
+   Used by : .site-footer, .footer-grid, .footer-logo,
+             .footer-links, .footer-cta, .footer-socials,
+             .social-chip, .footer-bottom, site-footer h4
+================================================================ */
+
+/* .site-footer — dark gradient footer wrapper */
+.site-footer {
+  background: linear-gradient(135deg, #020810 0%, #040d1e 55%, #020810 100%);
+  border-top: 1px solid rgba(212,168,67,.14);
+  color: rgba(255,255,255,.65);
+  padding: 80px 0 0;
+}
+
+/* .footer-grid — 4-column grid for footer content areas */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.2fr 1fr;
+  gap: 48px;
+  padding-bottom: 60px;
+}
+
+/* .footer-logo — logo image in footer */
+.footer-logo {
+  height: 48px;
+  width: auto;
+  margin-bottom: 20px;
+  filter: brightness(1.08) drop-shadow(0 0 10px rgba(212,168,67,.2));
+}
+
+/* Footer paragraph text */
+.footer-grid > div > p { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,.5); }
+
+/* Footer column headings */
+.site-footer h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(212,168,67,.18);
+}
+
+/* .footer-links — vertical link list in footer */
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links li a {
+  color: rgba(255,255,255,.55);
+  font-size: 14px;
+  transition: color .2s, padding-left .2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.footer-links li a:hover { color: var(--gold-light); padding-left: 4px; }
+.footer-links li a::before { content: '›'; color: var(--red); opacity: 0; transition: opacity .2s; }
+.footer-links li a:hover::before { opacity: 1; }
+.footer-links li { color: rgba(255,255,255,.4); font-size: 14px; line-height: 1.6; }
+
+/* .footer-socials — column flex container for social chips */
+.footer-socials {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* .social-chip — individual social network pill button */
+.social-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.social-chip:hover { background: rgba(212,168,67,.1); border-color: rgba(212,168,67,.3); color: var(--gold-light); }
+
+/* Icon inside social chip */
+.social-chip i { font-size: 14px; color: var(--gold-light); }
+
+/* .footer-cta — red pill CTA button in footer contact column */
+.footer-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  background: linear-gradient(135deg, var(--red), #9e0d22);
+  color: white;
+  font-weight: 700;
+  font-family: var(--font-display);
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: box-shadow .3s, transform .2s;
+  box-shadow: 0 8px 28px var(--red-glow);
+}
+.footer-cta:hover { box-shadow: 0 14px 44px rgba(200,16,46,.5); transform: translateY(-2px); }
+
+/* .footer-bottom — copyright bar at base of footer */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 22px 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.922);
+  text-align: center;
+  line-height: 1.7;
+}
+
+
+/* ================================================================
+   16. PAGE HERO (INNER PAGES)
+   Source  : style.css — section 25
+   Used by : .page-hero (the full-width hero on services.html),
+             .page-hero::after (dark overlay), .page-hero .container,
+             .page-hero h1, .page-hero h1 span, .page-hero p
+   NOTE    : The h1 inside .page-hero uses class="gl__hero-title"
+             and the p uses class="gl__hero-desc" — those are
+             handled in section 17 below. The generic .page-hero h1
+             and .page-hero p rules also apply as a base.
+================================================================ */
+
+/* .page-hero — full-width hero banner with background image */
+.page-hero {
+  min-height: 52vh;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+}
+
+/* Darkening overlay over hero background image */
+.page-hero::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(4,13,30,.32), rgba(4,13,30,.72));
+}
+
+/* Content container inside hero — sits above ::after overlay */
+.page-hero .container { position: relative; z-index: 2; padding: 70px 0; }
+
+/* Hero headline */
+.hero-copy h1, .page-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 78px);
+  line-height: 1.0;
+  margin: 16px 0 18px;
+  letter-spacing: -.04em;
+  color: white;
+  font-weight: 800;
+}
+
+/* Gold gradient text on hero headline span */
+.hero-copy h1 span, .page-hero h1 span {
+  background: linear-gradient(95deg, #ffffff, var(--gold-light) 55%, var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero subtitle paragraph */
+.hero-copy p, .page-hero p {
+  color: rgba(255,255,255,.66);
+  font-size: 17px;
+  max-width: 580px;
+  margin: 0 0 28px;
+  line-height: 1.75;
+}
+
+
+/* ================================================================
+   17. GALLERY HERO CLASSES USED IN SERVICES PAGE HERO
+   Source  : style.css — gl__ gallery section
+   Used by : .gl__hero-title (h1 inside .page-hero),
+             .gl__hero-desc  (p  inside .page-hero)
+   NOTE    : Only these two gl__ classes appear in services.html.
+             All other .gl__* rules are discarded.
+================================================================ */
+
+/* .gl__hero-title — large display headline in the hero section */
+.gl__hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(58px, 9.5vw, 120px);
+  line-height: .88;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 20px;
+}
+
+/* Gold gradient on the <span> inside .gl__hero-title */
+.gl__hero-title span:first-child { display: block; color: var(--white); }
+.gl__hero-title span:last-child  { display: block; color: var(--gold); }
+
+/* .gl__hero-desc — hero subtitle paragraph with left gold border */
+.gl__hero-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,.65);
+  line-height: 1.7;
+  max-width: 440px;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 36px;
+  padding-left: 14px;
+  border-left: 2px solid var(--gold);
+}
+
+
+/* ================================================================
+   18. SERVICES OVERVIEW PAGE TAB SECTION
+   Source  : style.css — section 28 (Services Page)
+   Used by : .services-tab-nav, .srv-tab-btn, .srv-tab-btn.active,
+             .srv-content, .srv-content.active, .srv-layout,
+             .srv-text, .srv-image, .srv-features, .srv-cards-grid,
+             .srv-card, .srv-card-icon
+             — all used inside the tabbed services section
+================================================================ */
+
+/* .services-tab-nav — centred flex row of tab buttons */
+.services-tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+/* .srv-tab-btn — individual tab pill button */
+.srv-tab-btn {
+  padding: 13px 26px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255,255,255,.18);
+  background: transparent;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .04em;
+  transition: all .28s ease;
+}
+.srv-tab-btn:hover {
+  border-color: rgba(212,168,67,.5);
+  color: white;
+  background: rgba(212,168,67,.08);
+}
+
+/* .srv-tab-btn.active — JS-applied active state */
+.srv-tab-btn.active {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+  border-color: transparent;
+  box-shadow: 0 8px 28px rgba(212,168,67,.3);
+}
+
+/* .srv-content — individual service panel, hidden by default */
+.srv-content { display: none; animation: fadeUp .45s ease; }
+
+/* .srv-content.active — JS-applied active panel state */
+.srv-content.active { display: block; }
+
+/* .srv-layout — two-column grid: text left, image right */
+.srv-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* .srv-image — image column with hover zoom */
+.srv-image {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 28px 70px rgba(4,13,30,.3);
+}
+.srv-image img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s ease;
+}
+.srv-image:hover img { transform: scale(1.04); }
+
+/* .srv-text headings and paragraphs */
+.srv-text h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 800;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.srv-text p { color: rgba(255,255,255,.68); font-size: 17px; line-height: 1.8; margin-bottom: 26px; }
+
+/* .srv-features — checkmark feature list */
+.srv-features {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+.srv-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: rgba(255,255,255,.82);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Gold checkmark before each feature item */
+.srv-features li::before {
+  content: '✓';
+  color: var(--gold);
+  font-weight: 800;
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* .srv-cards-grid — 3-column sub-service card grid */
+.srv-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 60px;
+}
+
+/* .srv-card — individual sub-service glass card */
+.srv-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  color: white;
+  transition: border-color .3s, background .3s, transform .3s;
+}
+.srv-card:hover {
+  border-color: rgba(212,168,67,.35);
+  background: rgba(212,168,67,.06);
+  transform: translateY(-5px);
+}
+
+/* .srv-card-icon — emoji icon container at top of each sub-service card */
+.srv-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(200,16,46,.2), rgba(212,168,67,.25));
+  border: 1px solid rgba(212,168,67,.2);
+}
+
+/* Card headings and body text */
+.srv-card h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+.srv-card p  { color: rgba(255,255,255,.6); font-size: 14px; line-height: 1.7; }
+
+
+/* ================================================================
+   19. FLOATING CTA BUTTONS
+   Source  : style.css — section 32
+   Used by : .floating-cta-stack (wrapper), .float-btn (base),
+             .float-btn.call (phone button),
+             .float-btn.whatsapp (WhatsApp button)
+================================================================ */
+
+/* .floating-cta-stack — fixed bottom-left stack of CTAs */
+.floating-cta-stack {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* .float-btn — base circular floating action button */
+.float-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 24px;
+  position: relative;
+  overflow: visible;
+  transition: transform .28s cubic-bezier(.34,1.56,.64,1), box-shadow .28s;
+  text-decoration: none;
+}
+.float-btn:hover { transform: scale(1.14) translateY(-3px); }
+
+/* Pulsing ring animation around float buttons */
+.float-btn::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 24px;
+  border: 2px solid currentColor;
+  opacity: 0;
+  animation: float-pulse 2.8s ease-out infinite;
+}
+
+/* .float-btn.call — navy/gold phone button */
+.float-btn.call {
+  background: linear-gradient(135deg, #0d2255, #1a3a8a);
+  box-shadow: 0 12px 38px rgba(13,34,85,.55), inset 0 1px 0 rgba(255,255,255,.15);
+  border: 2px solid rgba(212,168,67,.4);
+  color: var(--gold-light);
+}
+.float-btn.call::before { border-color: var(--gold); }
+
+/* "Call Us" tooltip label on call button hover */
+.float-btn.call::after {
+  content: "Call Us";
+  position: absolute;
+  left: 72px; top: 50%;
+  transform: translateY(-50%);
+  background: #0d2255;
+  color: var(--gold-light);
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  border: 1px solid rgba(212,168,67,.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s, left .22s;
+}
+.float-btn.call:hover::after { opacity: 1; left: 76px; }
+
+/* .float-btn.whatsapp — green WhatsApp button */
+.float-btn.whatsapp {
+  background: linear-gradient(135deg, #0a7a34, #1db954);
+  box-shadow: 0 12px 38px rgba(29,185,84,.4), inset 0 1px 0 rgba(255,255,255,.18);
+  border: 2px solid rgba(255,255,255,.15);
+  color: white;
+}
+.float-btn.whatsapp::before { border-color: #1db954; animation-delay: 1.4s; }
+
+/* "WhatsApp" tooltip label on WhatsApp button hover */
+.float-btn.whatsapp::after {
+  content: "WhatsApp";
+  position: absolute;
+  left: 72px; top: 50%;
+  transform: translateY(-50%);
+  background: #0a7a34;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  border: 1px solid rgba(255,255,255,.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s, left .22s;
+}
+.float-btn.whatsapp:hover::after { opacity: 1; left: 76px; }
+
+
+/* ================================================================
+   20. CUSTOM CURSOR
+   Source  : style.css — section 34
+   Used by : .cursor-ring, .cursor-dot, state classes applied by JS:
+             .cursor-ring.on-link, .cursor-ring.on-btn,
+             .cursor-ring.on-input, .cursor-ring.on-img
+   NOTE    : The global * { cursor: none !important; } rule is also
+             needed; it is part of the same section.
+================================================================ */
+
+/* Hide native cursor site-wide */
+* { cursor: none !important; }
+
+/* .cursor-ring — outer gold ring that tracks the cursor */
+.cursor-ring {
+  position: fixed; top: 0; left: 0;
+  width: 36px; height: 36px;
+  border: 2px solid rgba(212,168,67,.8);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  background: rgba(212,168,67,.06);
+  transition: width .18s ease, height .18s ease, border-color .18s ease,
+              background .18s ease, border-radius .18s ease, opacity .2s ease;
+  will-change: left, top;
+  box-sizing: border-box;
+}
+
+/* .cursor-dot — small red dot at exact cursor position */
+.cursor-dot {
+  position: fixed; top: 0; left: 0;
+  width: 8px; height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100000;
+  transform: translate(-50%, -50%);
+  transition: opacity .2s ease;
+  will-change: left, top;
+}
+
+/* JS-toggled state: cursor over links */
+.cursor-ring.on-link  { width: 50px; height: 50px; border-color: rgba(80,140,255,.85);  background: rgba(80,140,255,.06); }
+
+/* JS-toggled state: cursor over buttons */
+.cursor-ring.on-btn   { width: 44px; height: 44px; border-color: rgba(200,16,46,.85);  background: rgba(200,16,46,.07); }
+
+/* JS-toggled state: cursor over inputs */
+.cursor-ring.on-input { width: 3px; height: 36px; border-radius: 2px; border-color: rgba(212,168,67,.9); background: rgba(212,168,67,.15); }
+
+/* JS-toggled state: cursor over images */
+.cursor-ring.on-img   { width: 64px; height: 64px; border-color: rgba(255,255,255,.55); background: rgba(255,255,255,.04); }
+
+
+/* ================================================================
+   21. SCROLL REVEAL ANIMATIONS
+   Source  : style.css — section 35
+   Used by : .reveal (icon cards in Why Choose Us),
+             .reveal.visible (JS-applied when in viewport)
+   DISCARDED from this source section:
+     .reveal-up, .reveal-up.active — not used in services.html
+     .hidden                       — not used in services.html
+================================================================ */
+
+/* .reveal — initial hidden state for scroll-triggered elements */
+.reveal    { opacity: 0; transform: translateY(44px); transition: opacity .72s ease, transform .72s ease; }
+
+/* .reveal.visible — JS adds this when element enters viewport */
+.reveal.visible { opacity: 1; transform: none; }
+
+
+/* ================================================================
+   22. KEYFRAME ANIMATIONS
+   Source  : style.css — section 37
+   Kept only the keyframes that drive kept CSS rules above.
+   ─────────────────────────────────────────────────────────────
+   ✅ KEPT:
+     @keyframes pulse-gold   — drives .btn-gold animation
+     @keyframes float-pulse  — drives .float-btn::before animation
+     @keyframes fadeUp       — drives .hero-tag and .srv-content
+     @keyframes phoneShake   — drives .btn-light span animation
+     @keyframes fadeIn       — used by .srv-content animation context
+   ❌ DISCARDED (drive only discarded classes):
+     drift, floaty, marquee, borderMove, pulse-cta, shimmer-bar,
+     svs-pulse, bubble-in, typing-dot, blink-dot, accreditationScroll,
+     cardFloatRotate, reviewsScroll, meshMove, orbFloat, badgeFloat,
+     chapterSlideIn, gradientShift, floatOrb, pulse, gl-pulse
+================================================================ */
+
+/* Pulsing gold glow — drives .btn-gold continuous animation */
+@keyframes pulse-gold {
+  0%,100% { box-shadow: 0 10px 36px rgba(212,168,67,.4); }
+  50%      { box-shadow: 0 20px 62px rgba(212,168,67,.62); }
+}
+
+/* Expanding fading ring — drives .float-btn::before animation */
+@keyframes float-pulse {
+  0%   { opacity: .65; transform: scale(1); }
+  70%  { opacity: 0;   transform: scale(1.55); }
+  100% { opacity: 0;   transform: scale(1.55); }
+}
+
+/* Fade and rise — drives .hero-tag, .srv-content entry animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Phone icon shake — drives .btn-light span */
+@keyframes phoneShake {
+  0%   { transform: rotate(0); }
+  3%   { transform: rotate(-15deg); }
+  6%   { transform: rotate(15deg); }
+  9%   { transform: rotate(-10deg); }
+  12%  { transform: rotate(10deg); }
+  15%  { transform: rotate(0); }
+  100% { transform: rotate(0); }
+}
+
+/* Simple fade-in — used in animation context for srv-content */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+/* ================================================================
+   23. VACH__ CLASSES FROM Newcontact.css
+   Source  : Newcontact.css — Section 1 (from ukds-vacancy.css)
+   Used by : .vach__deco-line, .vach__stats, .vach__stat,
+             .vach__stat-num, .vach__stat-label,
+             .vach__scroll, .vach__scroll-line
+             — all present in services.html hero section
+   @keyframes kept: vach-fadeUp, vach-linePulse, vach-scrollBounce
+   ❌ DISCARDED from Newcontact.css:
+     .btn-primary (Newcontact.css version) — not in services.html
+================================================================ */
+
+/* @keyframes vach-fadeUp — fades stats row up on load */
+@keyframes vach-fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* @keyframes vach-linePulse — pulses the decorative gold line */
+@keyframes vach-linePulse {
+  0%,100% { opacity: .35; }
+  50%     { opacity: .9;  }
+}
+
+/* @keyframes vach-scrollBounce — bobs the scroll indicator line */
+@keyframes vach-scrollBounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(8px); }
+}
+
+/* .vach__deco-line — thin animated gold vertical line, right side of hero */
+.vach__deco-line {
+  position: absolute;
+  top: 14%; right: 7%;
+  width: 1px; height: 50%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(212,168,67,.45) 30%,
+    rgba(212,168,67,.45) 70%,
+    transparent
+  );
+  z-index: 4;
+  animation: vach-linePulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Gold dot cap at the TOP of the decorative line */
+.vach__deco-line::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+  top: 0;
+}
+
+/* Gold dot cap at the BOTTOM of the decorative line */
+.vach__deco-line::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+  bottom: 0;
+}
+
+/* .vach__stats — flex row wrapper for hero stat blocks */
+.vach__stats {
+  display: flex;
+  gap: 0;
+  animation: vach-fadeUp .75s ease both .44s;
+}
+
+/* .vach__stat — individual stat block with right divider */
+.vach__stat {
+  padding: 0 36px 0 0;
+  margin-right: 36px;
+  border-right: 1px solid rgba(255,255,255,.12);
+}
+
+/* Remove right border and margin from last stat */
+.vach__stat:last-child {
+  border-right: none;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+/* .vach__stat-num — large gold number value */
+.vach__stat-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(22px, 3vw, 40px);
+  font-weight: 700;
+  color: #d4a843;
+  line-height: 1;
+}
+
+/* .vach__stat-label — small uppercase caption below stat number */
+.vach__stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-top: 7px;
+}
+
+/* .vach__scroll — scroll indicator pinned to bottom of hero */
+.vach__scroll {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  animation: vach-fadeUp .8s ease both .7s;
+}
+
+/* .vach__scroll-line — animated gold line inside scroll indicator */
+.vach__scroll-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, rgba(212,168,67,.7), transparent);
+  animation: vach-scrollBounce 2.2s ease-in-out infinite;
+}
+
+
+/* ================================================================
+   24. RESPONSIVE BREAKPOINTS
+   Source  : style.css — section 38
+   Kept only overrides that target kept classes.
+   ─────────────────────────────────────────────────────────────
+   ❌ DISCARDED breakpoint overrides for:
+     .hero-inner, .two-col-content, .contact-grid-advanced,
+     .service-page-grid, .wide-blog-grid, .gallery-grid-videos,
+     .vacancy-grid, .strip-grid, .logo-strip, .three-card-grid,
+     .timeline-grid, .hero-card-grid, .hero-badge-panel,
+     .hero-stat-stack, .premium-strip-wrap, .testimonial-cards-grid,
+     .svs-layout, .form-grid, .vacancies-grid, .security-figure-decor,
+     .contact-form-card, .chat-widget, .faq-question, .faq-answer,
+     .gallery-grid, .review-card, .reviews-track, .accreditation-*
+================================================================ */
+
+/* ── TABLET: 1100px — hide desktop nav, show hamburger ── */
+@media (max-width: 1100px) {
+  /* Hide full desktop navigation and action buttons */
+  .main-nav, .nav-actions { display: none; }
+
+  /* Show hamburger toggle */
+  .menu-toggle { display: inline-block; }
+
+  /* Show mobile nav when JS adds .active */
+  .mobile-nav.active { display: flex; }
+
+  /* Stack CTA banner vertically */
+  .cta-banner { grid-template-columns: 1fr 1fr; }
+
+  /* Stack footer to 2 columns */
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Stack icon cards to 2 columns */
+  .icon-card-grid.four-col { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── MOBILE: 820px — single column layouts ── */
+@media (max-width: 820px) {
+  /* Top bar stacks vertically */
+  .topbar-inner, .topbar-left { flex-direction: column; align-items: flex-start; }
+
+  /* CTA banner goes single column */
+  .cta-banner { grid-template-columns: 1fr; }
+
+  /* Footer goes single column */
+  .footer-grid { grid-template-columns: 1fr; }
+
+  /* Icon cards go single column */
+  .icon-card-grid.four-col { grid-template-columns: 1fr; }
+
+  /* Restore native cursor on touch devices */
+  * { cursor: auto !important; }
+  .cursor-dot, .cursor-ring { display: none; }
+
+  /* Move floating buttons closer to screen edge */
+  .floating-cta-stack { left: 14px; bottom: 14px; }
+}
+
+/* ── Responsive overrides from Newcontact.css ── */
+@media (max-width: 900px) {
+  /* Hide decorative line on smaller viewports */
+  .vach__deco-line { display: none; }
+
+  /* Allow stats to wrap */
+  .vach__stats { flex-wrap: wrap; gap: 24px; }
+
+  /* Clean up wrapped stat blocks */
+  .vach__stat {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+    min-width: 110px;
+  }
+}
+
+/* ── Service layout responsive ── */
+@media (max-width: 820px) {
+  /* Stack service layout (text + image) vertically */
+  .srv-layout { grid-template-columns: 1fr; gap: 32px; }
+
+  /* Stack service cards to 1 column */
+  .srv-cards-grid { grid-template-columns: 1fr; }
+
+  /* Service image reduced height on mobile */
+  .srv-image img { height: 280px; }
+}

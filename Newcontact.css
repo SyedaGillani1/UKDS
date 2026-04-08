@@ -1,0 +1,320 @@
+/* ================================================================
+   Newcontact.css
+   Purpose  : Single clean stylesheet for contact.html only.
+   Generated: By auditing contact.html against both source files.
+   ----------------------------------------------------------------
+
+   SOURCE FILE 1 : ukds-vacancy.css
+   ─────────────────────────────────────────────────────────────
+   Total classes in source : 17
+   ✅ KEPT    (7) : vach__deco-line, vach__stats, vach__stat,
+                    vach__stat-num, vach__stat-label,
+                    vach__scroll, vach__scroll-line
+   ❌ DISCARDED (10): vach__hero, vach__bg, vach__overlay,
+                      vach__grid, vach__orb-red, vach__orb-gold,
+                      vach__ring, vach__content, vach__h1, vach__sub
+   Reason discarded: None of those 10 class names appear anywhere
+                     in contact.html — the page uses .page-hero
+                     and its own inline background instead.
+
+   SOURCE FILE 2 : ukds-contact.css
+   ─────────────────────────────────────────────────────────────
+   Total classes in source : 76
+   ✅ KEPT    (1) : btn-primary
+   ❌ DISCARDED (75): hero, hero-bg, hero-grid, hero-corner,
+     hero-content, hero-label, hero-sub, hero-stats, hero-stat,
+     hero-divider, hero-actions, btn-secondary, scroll-indicator,
+     scroll-line, section-label, why-grid, why-card, why-icon,
+     filter-panel, filter-row, filter-row-label, filter-btn,
+     filter-divider, search-row, search-box, results-bar,
+     results-count, active-filters, chip, clear-btn,
+     vacancies-grid, job-card, job-info, job-top, job-badge,
+     badge-featured, badge-security, badge-ops, badge-intel,
+     badge-admin, badge-full, badge-part, badge-contract,
+     job-title, salary, job-meta, job-actions, btn-indeed,
+     btn-apply, no-results, unavailable, badge-filled,
+     holding-banner, holding-inner, holding-left, holding-icon,
+     holding-right, holding-notify, holding-stat, holding-stat-icon,
+     holding-stat-text, holding-cta, apply-grid, apply-left,
+     cv-form, form-row, form-group, drop-zone, drop-icon,
+     file-name, submit-btn, toast, modal-overlay, modal,
+     modal-close, modal-body, modal-actions
+   Reason discarded: These belong to the Vacancies page feature
+     set (job board, modals, filters, CV upload). None of their
+     class names appear in contact.html.
+
+   KEYFRAMES KEPT (only those driving kept classes):
+     vach-fadeUp       → drives .vach__stats animation
+     vach-linePulse    → drives .vach__deco-line animation
+     vach-scrollBounce → drives .vach__scroll-line animation
+
+   KEYFRAMES DISCARDED (drove discarded classes only):
+     vach-gridDrift  → drove .vach__grid          (discarded)
+     vach-floaty     → drove .vach__orb-red /
+                             .vach__orb-gold /
+                             .vach__ring           (all discarded)
+     vach-ringPulse  → drove .vach__ring           (discarded)
+     gridDrift       → drove .hero-grid            (discarded)
+     pulse           → drove .hero-corner          (discarded)
+     blink           → drove .hero-label .dot      (discarded)
+     fadeInDown      → drove .hero-label           (discarded)
+     fadeInUp        → drove .hero h1 / .hero-sub  (discarded)
+     fadeIn          → drove .hero-stats /
+                             .scroll-indicator     (discarded)
+     scrollPulse     → drove .scroll-line          (discarded)
+     sweep           → drove .holding-banner       (discarded)
+================================================================ */
+
+
+/* ================================================================
+   SECTION 1 — FROM ukds-vacancy.css
+   Classes kept: vach__deco-line, vach__stats, vach__stat,
+                 vach__stat-num, vach__stat-label,
+                 vach__scroll, vach__scroll-line
+================================================================ */
+
+/* ── Keyframe: vach-fadeUp ──────────────────────────────────────
+   Used by : .vach__stats  (animation: vach-fadeUp .75s ease both .44s)
+   Effect  : Fades the stats row up from 22 px below on page load.
+---------------------------------------------------------------- */
+@keyframes vach-fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Keyframe: vach-linePulse ───────────────────────────────────
+   Used by : .vach__deco-line
+             (animation: vach-linePulse 3.5s ease-in-out infinite)
+   Effect  : Pulses the decorative gold line between
+             opacity 0.35 and 0.9 on a continuous loop.
+---------------------------------------------------------------- */
+@keyframes vach-linePulse {
+  0%,100% { opacity: .35; }
+  50%     { opacity: .9;  }
+}
+
+/* ── Keyframe: vach-scrollBounce ────────────────────────────────
+   Used by : .vach__scroll-line
+             (animation: vach-scrollBounce 2.2s ease-in-out infinite)
+   Effect  : Bobs the scroll-indicator line down by 8 px and back.
+---------------------------------------------------------------- */
+@keyframes vach-scrollBounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(8px); }
+}
+
+/* ── .vach__deco-line ───────────────────────────────────────────
+   HTML    : <div class="vach__deco-line" aria-hidden="true"></div>
+   Location: Direct child of .page-hero, sits on the right side.
+   Purpose : Thin animated vertical gold line — pure decoration.
+             The ::before and ::after pseudo-elements add a small
+             filled circle at each end of the line.
+---------------------------------------------------------------- */
+.vach__deco-line {
+  position: absolute;
+  top: 14%; right: 7%;
+  width: 1px; height: 50%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(212,168,67,.45) 30%,
+    rgba(212,168,67,.45) 70%,
+    transparent
+  );
+  z-index: 4;
+  animation: vach-linePulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Gold dot cap at the TOP of the decorative line */
+.vach__deco-line::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+  top: 0;
+}
+
+/* Gold dot cap at the BOTTOM of the decorative line */
+.vach__deco-line::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.8);
+  bottom: 0;
+}
+
+/* ── .vach__stats ───────────────────────────────────────────────
+   HTML    : <div class="vach__stats"> … </div>
+   Location: Inside .container inside .page-hero, below price badge.
+   Purpose : Flex row wrapper that holds all four stat blocks
+             (4hr / Free / UK / 0333).
+---------------------------------------------------------------- */
+.vach__stats {
+  display: flex;
+  gap: 0;
+  animation: vach-fadeUp .75s ease both .44s;
+}
+
+/* ── .vach__stat ────────────────────────────────────────────────
+   HTML    : <div class="vach__stat"> … </div>  (appears ×4)
+   Location: Direct children of .vach__stats.
+   Purpose : Individual stat block. Right padding + border create
+             a visual divider between stats.
+---------------------------------------------------------------- */
+.vach__stat {
+  padding: 0 36px 0 0;
+  margin-right: 36px;
+  border-right: 1px solid rgba(255,255,255,.12);
+}
+
+/* Remove right border and spacing from the last stat block */
+.vach__stat:last-child {
+  border-right: none;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+/* ── .vach__stat-num ────────────────────────────────────────────
+   HTML    : <div class="vach__stat-num">4hr</div>  (appears ×4)
+   Location: First child inside each .vach__stat.
+   Purpose : Large gold number / value label (e.g. "4hr", "Free").
+---------------------------------------------------------------- */
+.vach__stat-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(22px, 3vw, 40px);
+  font-weight: 700;
+  color: #d4a843;
+  line-height: 1;
+}
+
+/* ── .vach__stat-label ──────────────────────────────────────────
+   HTML    : <div class="vach__stat-label">Response Time</div> (×4)
+   Location: Second child inside each .vach__stat.
+   Purpose : Small uppercase caption sitting beneath the stat number.
+---------------------------------------------------------------- */
+.vach__stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-top: 7px;
+}
+
+/* ── .vach__scroll ──────────────────────────────────────────────
+   HTML    : <div class="vach__scroll" aria-hidden="true"> … </div>
+   Location: Inside .page-hero, absolutely pinned to bottom-centre.
+   Purpose : "Scroll" label and animated line hinting to scroll down.
+---------------------------------------------------------------- */
+.vach__scroll {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  animation: vach-fadeUp .8s ease both .7s;
+}
+
+/* ── .vach__scroll-line ─────────────────────────────────────────
+   HTML    : <div class="vach__scroll-line"></div>
+   Location: First child of .vach__scroll.
+   Purpose : Thin gold-to-transparent line that bounces vertically
+             to draw the eye downward.
+---------------------------------------------------------------- */
+.vach__scroll-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, rgba(212,168,67,.7), transparent);
+  animation: vach-scrollBounce 2.2s ease-in-out infinite;
+}
+
+
+/* ================================================================
+   SECTION 2 — FROM ukds-contact.css
+   Classes kept: btn-primary
+================================================================ */
+
+/* ── .btn-primary ───────────────────────────────────────────────
+   HTML    : <button type="button" class="btn btn-primary full">
+               Send Enquiry
+             </button>
+   Location: Inside .form-grid inside .contact-form-card
+             (the quote request form on the contact page).
+   Purpose : Primary gold call-to-action button. Pairs with .btn
+             (global base styles in style.css) and .full
+             (width: 100% utility, defined in ukds-contact.css).
+   Note    : Uses CSS custom properties --gold and --gold-light
+             declared in style.css :root, and --navy for text.
+---------------------------------------------------------------- */
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy);
+  padding: 14px 32px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Lighten the gold fill and lift the button 2 px on hover */
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+
+/* ================================================================
+   RESPONSIVE OVERRIDES
+   Only overrides properties of classes kept above.
+   Affects: .vach__deco-line, .vach__stats, .vach__stat
+================================================================ */
+
+/* ── Tablet / Mobile — max-width: 900px ────────────────────────
+   Changes:
+   1. .vach__deco-line → hidden (too tall for small viewports)
+   2. .vach__stats     → allow wrapping into 2-row layout
+   3. .vach__stat      → remove dividers that look broken when wrapped
+---------------------------------------------------------------- */
+@media (max-width: 900px) {
+
+  /* Hide the right-side decorative gold line on smaller screens */
+  .vach__deco-line {
+    display: none;
+  }
+
+  /* Let stat blocks wrap onto a second line instead of overflowing */
+  .vach__stats {
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  /* Remove borders and spacing so wrapped stats look clean */
+  .vach__stat {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+    min-width: 110px;
+  }
+}

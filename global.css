@@ -1,0 +1,1332 @@
+/* ================================================================
+   global.css
+   UK Defence Services — Shared Global Stylesheet
+   ================================================================
+   PURPOSE
+   ───────
+   This file contains ONLY the CSS components that appear on
+   every single page of the website:
+     • Top Bar
+     • Site Header & Navigation
+     • Mega Menu
+     • All Buttons
+     • Mobile Navigation
+     • Tag / Label Pills
+     • Section Headings
+     • Site Footer
+     • Floating CTA Buttons
+     • Custom Cursor
+     • Scroll Reveal
+     • Page Hero (inner pages)
+     • Glass Card Utility
+     • CSS Variables, Reset, Layout Utilities
+
+   HOW TO USE
+   ───────────
+   Link this file on EVERY page, followed by the page-specific
+   stylesheet for that page only.
+
+   Every page (example):
+     <link rel="stylesheet" href="global.css" />
+     <link rel="stylesheet" href="Newhome.css" />
+
+   services.html:
+     <link rel="stylesheet" href="global.css" />
+     <link rel="stylesheet" href="NewService.css" />
+
+   about.html:
+     <link rel="stylesheet" href="global.css" />
+     <link rel="stylesheet" href="NewAbout.css" />
+
+   (and so on for every page)
+
+   WHAT IS NOT IN THIS FILE
+   ─────────────────────────
+   Page-specific sections (hero carousel, services grid, FAQ,
+   reviews, accreditations, video section, gallery, blog, contact
+   form, vacancies, about page sections, etc.) are NOT here.
+   They live in their own page-specific stylesheet.
+
+   REPLACING style.css
+   ────────────────────
+   Once every page has its own page-specific CSS file and links
+   global.css instead of style.css, the original style.css can
+   be safely archived or deleted.
+
+   TABLE OF CONTENTS
+   ──────────────────
+   01. CSS Variables / Design Tokens
+   02. Reset & Base
+   03. Layout Utilities
+   04. Glass Card Utility
+   05. Top Bar
+   06. Site Header & Navigation
+   07. Mega Menu
+   08. Buttons
+   09. Mobile Navigation
+   10. Tag / Label Pills
+   11. Section Headings
+   12. Page Hero (Inner Pages)
+   13. Site Footer
+   14. Floating CTA Buttons
+   15. Custom Cursor
+   16. Scroll Reveal Animations
+   17. Keyframe Animations
+   18. Responsive Breakpoints
+================================================================ */
+
+
+/* ================================================================
+   01. CSS VARIABLES / DESIGN TOKENS
+   ─────────────────────────────────
+   Central design tokens for the entire site.
+   Change a value here and it updates every page instantly.
+   Referenced by every component below via var(--name).
+================================================================ */
+:root {
+  /* ── Core Palette ── */
+  --navy:          #040d1e;       /* Primary dark background */
+  --navy-2:        #0b1f4a;       /* Secondary dark navy */
+  --navy-3:        #102a68;       /* Tertiary navy for links */
+  --navy-glass:    rgba(4,13,30,.72); /* Translucent navy overlay */
+
+  /* ── Brand Accent — Crimson ── */
+  --red:           #c8102e;       /* Primary red */
+  --red-soft:      #e8415a;       /* Softer red for hover states */
+  --red-glow:      rgba(200,16,46,.35); /* Red glow for box-shadows */
+
+  /* ── Brand Accent — Champagne Gold ── */
+  --gold:          #d4a843;       /* Primary gold */
+  --gold-light:    #f0cb6e;       /* Lighter gold for highlights */
+  --gold-pale:     rgba(212,168,67,.12); /* Very pale gold for backgrounds */
+
+  /* ── Neutral Surface ── */
+  --white:         #ffffff;
+  --offwhite:      #f5f8ff;       /* Slightly blue-tinted white */
+
+  /* ── Typography ── */
+  --text:          #0d1726;       /* Primary body text colour */
+  --muted:         #5c6b85;       /* Secondary / caption text */
+
+  /* ── Borders ── */
+  --border:        rgba(212,168,67,.15);  /* Subtle gold border */
+  --border-dark:   rgba(255,255,255,.08); /* White border on dark backgrounds */
+
+  /* ── Shadows ── */
+  --shadow:        0 20px 60px rgba(4,13,30,.14);  /* Standard card shadow */
+  --shadow-gold:   0 20px 60px rgba(212,168,67,.18); /* Gold-tinted shadow */
+  --shadow-strong: 0 28px 80px rgba(4,13,30,.28);  /* Strong elevation shadow */
+
+  /* ── Border Radius ── */
+  --radius-xl:     32px;  /* Large cards and hero panels */
+  --radius-lg:     22px;  /* Medium cards */
+  --radius-md:     16px;  /* Small cards and inputs */
+
+  /* ── Layout ── */
+  --container:     1240px; /* Maximum content width */
+
+  /* ── Typography Families ── */
+  --font-display: 'Syne', sans-serif;   /* Headings, labels, nav */
+  --font-body:    'DM Sans', sans-serif; /* Body text, paragraphs */
+}
+
+
+/* ================================================================
+   02. RESET & BASE
+   ─────────────────
+   Normalises browser defaults across all pages.
+   Applies to every element on the page.
+================================================================ */
+
+/* Universal box-sizing and margin/padding reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Smooth scroll for anchor navigation */
+html { scroll-behavior: smooth; }
+
+/* Base body styles */
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: #ffffff;
+  overflow-x: hidden; /* Prevent horizontal scroll from animations */
+  line-height: 1.65;
+}
+
+/* Remove underline from all links by default */
+a { color: inherit; text-decoration: none; }
+
+/* Prevent images from overflowing their containers */
+img { display: block; max-width: 100%; }
+
+/* Inherit font on all form elements */
+button, input, select, textarea { font: inherit; }
+
+
+/* ================================================================
+   03. LAYOUT UTILITIES
+   ─────────────────────
+   Core layout helpers used on every page.
+   .container    — centred max-width wrapper
+   .section      — standard vertical padding for content blocks
+   .theme-*      — background colour/gradient variants for sections
+================================================================ */
+
+/* Centred, max-width content wrapper */
+.container {
+  width: min(var(--container), calc(100% - 32px));
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Standard section padding — used on all content sections */
+.section {
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Section Background Themes ── */
+
+/* Light — white to pale blue gradient (services preview, etc.) */
+.theme-light { background: linear-gradient(180deg, #ffffff, #f0f5ff); }
+
+/* Soft Blue — used for Why Choose Us sections */
+.theme-soft-blue { background: linear-gradient(180deg, #e8f0ff, #f6f9ff); }
+
+/* White — plain white background (clients strip, etc.) */
+.theme-white { background: #ffffff; }
+
+/* Dark — deep navy gradient (services tab section, etc.) */
+.theme-dark {
+  background: linear-gradient(135deg, #040d1e, #0b1f4a 55%, #040d1e);
+  color: white;
+}
+
+/* Gradient CTA — deep navy for CTA banner sections */
+.theme-gradient-cta {
+  background: linear-gradient(135deg, #040d1e, #0f2660 50%, #040d1e);
+  color: white;
+  overflow: hidden;
+}
+
+
+/* ================================================================
+   04. GLASS CARD UTILITY
+   ───────────────────────
+   Reusable frosted-glass card style.
+   Used on hero panels, testimonial cards, and any component
+   that needs the glass morphism treatment.
+================================================================ */
+.glass-card {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.11);
+  box-shadow: var(--shadow-strong);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+
+/* ================================================================
+   05. TOP BAR
+   ────────────
+   The very top strip showing phone number, email and rate.
+   Present on every page above the main header.
+================================================================ */
+
+/* Dark gradient strip */
+.topbar {
+  background: linear-gradient(90deg, #010508, #061020 40%, #030c1a 60%, #010508);
+  color: #a8bcd8;
+  font-size: 14px;
+  position: relative;
+  z-index: 20;
+  border-bottom: 1px solid rgba(212,168,67,.2);
+}
+
+/* Flex row: contact links left, rate badge right */
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 0;
+}
+
+/* Left group — phone and email links */
+.topbar-left {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Links inside top bar left group */
+.topbar-left a {
+  color: #a8bcd8;
+  transition: color .18s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.topbar-left a:hover { color: var(--gold-light); }
+
+/* Right side — rate / availability label */
+.topbar-right {
+  font-size: 14px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+
+/* ================================================================
+   06. SITE HEADER & NAVIGATION
+   ──────────────────────────────
+   Sticky navigation bar at the top of every page.
+   Contains logo, desktop nav links, and action buttons.
+================================================================ */
+
+/* Sticky translucent header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgb(253, 251, 251);
+  border-bottom: 1px solid rgba(212,168,67,.18);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  transition: background .3s ease;
+}
+
+/* Flex row: logo | nav | actions | hamburger */
+.nav-wrap {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Logo link wrapper */
+.brand {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* Logo image with gold drop-shadow */
+.brand-logo-img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(1.08) drop-shadow(0 0 14px rgba(212,168,67,.28));
+  transition: filter .3s;
+}
+.brand:hover .brand-logo-img {
+  filter: brightness(1.15) drop-shadow(0 0 20px rgba(212,168,67,.5));
+}
+
+/* Desktop horizontal navigation */
+.main-nav {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+/* Individual nav link */
+.main-nav a {
+  color: rgba(2, 2, 2, 0.945);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 13.5px;
+  letter-spacing: .04em;
+  position: relative;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: color .2s, background .2s;
+}
+.main-nav a:hover {
+  color: rgb(239, 9, 9);
+  background: rgba(212,168,67,.1);
+}
+
+/* Animated underline on hover and active state */
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 14px; bottom: 4px;
+  width: 0; height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  transition: width .28s ease;
+}
+.main-nav a:hover::after,
+.main-nav a.active::after { width: calc(100% - 28px); }
+
+/* Active nav link — red text */
+.main-nav a.active { color: rgb(251, 6, 6); }
+
+/* Container for WhatsApp + Get Quote buttons */
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+
+/* ================================================================
+   07. MEGA MENU
+   ──────────────
+   Dropdown services menu that appears on hover over "Services ▾".
+   Present in the main nav on every page.
+================================================================ */
+
+/* Relative wrapper — triggers dropdown on hover */
+.mega-menu {
+  position: relative;
+  display: inline-block;
+}
+
+/* The "Services ▾" anchor text */
+.mega-trigger {
+  text-decoration: none;
+  color: rgba(255,255,255,.72);
+  font-weight: 600;
+}
+
+/* Dropdown panel — hidden by default, shown on hover */
+.mega-content {
+  position: absolute;
+  top: 55px; left: 0;
+  width: 680px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 20px 45px rgba(0,0,0,.15);
+  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: all .25s ease;
+  z-index: 999;
+}
+
+/* Show dropdown when parent is hovered */
+.mega-menu:hover .mega-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Individual service column inside dropdown */
+.mega-column {
+  padding: 18px;
+  border-radius: 12px;
+  transition: all .3s ease;
+}
+.mega-column h4 { color: var(--red); font-size: 18px; margin-bottom: 6px; }
+.mega-column a  { display: block; font-weight: 600; color: #111; margin-bottom: 6px; transition: color .25s ease; }
+.mega-column p  { font-size: 14px; color: #666; line-height: 1.5; }
+
+/* Hover state — warm gradient with red left border */
+.mega-column:hover {
+  background: linear-gradient(135deg, #fff6e8, #f5deb3);
+  border-left: 4px solid var(--red);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.15);
+}
+.mega-column:hover a { color: var(--red); }
+
+
+/* ================================================================
+   08. BUTTONS
+   ────────────
+   All button variants used across the site.
+   Every page uses at least .btn-gold and .btn-outline from the nav.
+   Other variants appear on specific pages but are kept global
+   so any page can use any button without extra imports.
+================================================================ */
+
+/* ── Base Button ── */
+/* All button variants inherit from .btn */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 26px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .04em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1),
+              box-shadow .22s ease,
+              background .22s ease;
+}
+
+/* Gloss sheen overlay on all buttons */
+.btn::before {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, transparent 55%);
+  pointer-events: none;
+}
+.btn:hover  { transform: translateY(-4px) scale(1.02); }
+.btn:active { transform: translateY(1px) scale(.98); }
+
+/* ── Primary — Pulsing Red ── */
+/* Used for main CTAs: "Request a Quote", "Get Security Quote", etc. */
+.btn-primary {
+  background: linear-gradient(135deg, var(--red), #9e0d22 55%, var(--navy-2));
+  color: white;
+  box-shadow: 0 10px 36px var(--red-glow), inset 0 1px 0 rgba(255,255,255,.18);
+  animation: pulse-cta 3.5s ease-in-out infinite;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #e8203e, var(--red) 55%, var(--navy-2));
+  animation: none;
+  box-shadow: 0 20px 60px rgba(200,16,46,.65);
+}
+
+/* ── Gold — Pulsing Gold ── */
+/* Used in nav "Get Quote", video section, CTA banner */
+.btn-gold {
+  background: linear-gradient(135deg, #c49030, var(--gold-light) 50%, var(--gold));
+  color: var(--navy);
+  font-weight: 800;
+  box-shadow: 0 10px 36px rgba(212,168,67,.4);
+  animation: pulse-gold 3.5s ease-in-out infinite;
+}
+.btn-gold:hover {
+  animation: none;
+  box-shadow: 0 22px 64px rgba(212,168,67,.7);
+  background: linear-gradient(135deg, var(--gold), #ffd878 50%, var(--gold));
+}
+
+/* ── Ghost — Transparent White ── */
+/* Used as secondary CTA on hero slides */
+.btn-ghost {
+  background: rgba(255,255,255,.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,.2);
+}
+.btn-ghost:hover { background: rgba(255,255,255,.15); }
+
+/* ── Outline — Transparent with Gold Border ── */
+/* Used for WhatsApp button in nav */
+.btn-outline {
+  background: transparent;
+  color: #ed0707 !important;
+  border: 2.5px solid #D4A843;
+}
+.btn-outline:hover {
+  background: var(--gold-pale);
+  border-color: var(--gold);
+  color: white;
+}
+
+/* Thinner border override specifically for the WhatsApp nav button */
+.whatsapp-btn { border: 1.5px solid #D4A843 !important; }
+
+/* ── Dark ── */
+/* Navy background button */
+.btn-dark { background: var(--navy); color: white; }
+
+/* ── Light ── */
+/* White button — used in CTA banner "Call Now" */
+.btn-light {
+  background: white;
+  color: var(--navy);
+  box-shadow: 0 8px 28px rgba(4,13,30,.18);
+}
+.btn-light:hover { background: var(--offwhite); }
+
+/* Phone emoji inside .btn-light shakes continuously */
+.btn-light span { animation: phoneShake 3s infinite; }
+
+/* ── Small ── */
+/* Compact variant used on service tile links */
+.btn-small { padding: 10px 20px; font-size: 13px; }
+
+/* ── Icon ── */
+/* Emoji/icon span inside icon buttons */
+.btn-icon span { font-size: 15px; }
+
+/* ── Call Button ── */
+/* Special dark blue animated button for call CTAs */
+.call-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .04em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2b0aab, #020c3b);
+  color: rgba(230,230,9,.95);
+  border: 1px solid var(--gold);
+  box-shadow: 0 10px 30px rgba(193,18,31,.35);
+  transition: all .25s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* Shimmer sweep on call button */
+.call-btn::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -120%;
+  width: 120%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.6), transparent);
+  transition: .6s;
+}
+.call-btn:hover::before { left: 120%; }
+.call-btn:hover {
+  background: linear-gradient(135deg, rgba(255,0,0,.83), #990000);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 18px 45px rgba(255,0,0,.35);
+}
+.call-btn:active { transform: translateY(1px) scale(.97); }
+
+/* Icon span with phone shake animation */
+.icon { display: inline-block; animation: phoneShake 3s infinite; }
+
+
+/* ================================================================
+   09. MOBILE NAVIGATION
+   ──────────────────────
+   Hamburger toggle and vertical dropdown nav.
+   Used on every page at tablet/mobile breakpoints.
+================================================================ */
+
+/* Hamburger button — hidden on desktop */
+.menu-toggle {
+  display: none;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.14);
+  color: white;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.menu-toggle:hover { background: rgba(255,255,255,.14); }
+
+/* Vertical link list — hidden until JS adds .active */
+.mobile-nav {
+  display: none;
+  gap: 8px;
+  flex-direction: column;
+  padding: 0 16px 16px;
+}
+
+/* Individual mobile nav link */
+.mobile-nav a {
+  padding: 14px 18px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,.85);
+  font-family: var(--font-display);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.mobile-nav a:hover {
+  background: rgba(212,168,67,.1);
+  border-color: rgba(212,168,67,.3);
+  color: white;
+}
+
+/* JS adds .active to show the mobile menu */
+.mobile-nav.active { display: flex; }
+
+
+/* ================================================================
+   10. TAG / LABEL PILLS
+   ──────────────────────
+   Small pill-shaped labels used throughout the site to identify
+   sections, categories and service types.
+   All variants share the base selector for common properties.
+================================================================ */
+
+/* Shared base for all pill variants */
+.eyebrow, .tag-label, .mini-tag, .dark-tag, .white-tag, .white-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Gold-tinted pill — used above hero headlines */
+.eyebrow {
+  background: rgba(212,168,67,.12);
+  border: 1px solid rgba(212,168,67,.32);
+  color: var(--gold-light);
+}
+
+/* Red-tinted pill — used as section identifier labels */
+.tag-label {
+  background: rgba(200,16,46,.08);
+  border: 1px solid rgba(200,16,46,.22);
+  color: var(--red);
+}
+
+/* White/transparent pill — used on dark section backgrounds */
+.dark-tag, .white-tag {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.16);
+  color: white;
+}
+
+/* Gold gradient pill — prominent version for special labels */
+.white-mini {
+  background: linear-gradient(90deg, rgba(255,255,255,.25), rgba(212,168,67,.35));
+  border: 1px solid rgba(212,168,67,.6);
+  color: #ede6e6;
+  box-shadow: 0 4px 20px rgba(212,168,67,.25);
+  backdrop-filter: blur(6px);
+  padding: 8px 18px;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  border-radius: 50px;
+}
+
+/* Red-to-gold gradient pill — used for mini service badges */
+.mini-tag {
+  background: linear-gradient(90deg, rgba(163,6,32,.92), rgba(212,168,67,.14));
+  color: var(--navy-2);
+}
+
+
+/* ================================================================
+   11. SECTION HEADINGS
+   ─────────────────────
+   Reusable heading block used on every content section.
+   Wraps the section label pill, h2, and subtitle paragraph.
+================================================================ */
+
+/* Heading block wrapper */
+.section-heading { margin-bottom: 48px; }
+
+/* Centre-align text variant */
+.section-heading.center-align { text-align: center; }
+
+/* Centre-align and constrain width variant */
+.section-heading.center-width {
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* White text variants for use on dark section backgrounds */
+.section-heading.light h2 { color: #fff; }
+.section-heading.light p  { color: rgba(255,255,255,.72); }
+
+/* Section h2 headline */
+.section-heading h2 {
+  margin: 12px 0 14px;
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1.04;
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+/* Section subtitle paragraph */
+.section-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+
+/* ================================================================
+   12. PAGE HERO (INNER PAGES)
+   ────────────────────────────
+   Full-width hero banner used on all inner pages:
+   services.html, about.html, gallery.html, blog.html,
+   contact.html, vacancies.html, security.html, etc.
+   The background image is set inline in the HTML.
+================================================================ */
+
+/* Full-width hero container */
+.page-hero {
+  min-height: 52vh;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+}
+
+/* Dark overlay over the background image */
+.page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(4,13,30,.32), rgba(4,13,30,.72));
+}
+
+/* Content container sits above the overlay */
+.page-hero .container {
+  position: relative;
+  z-index: 2;
+  padding: 70px 0;
+}
+
+/* Hero headline — shared by page-hero and hero-copy (home hero) */
+.hero-copy h1, .page-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 78px);
+  line-height: 1.0;
+  margin: 16px 0 18px;
+  letter-spacing: -.04em;
+  color: white;
+  font-weight: 800;
+}
+
+/* Gold gradient text on span inside hero headlines */
+.hero-copy h1 span, .page-hero h1 span {
+  background: linear-gradient(95deg, #ffffff, var(--gold-light) 55%, var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero subtitle paragraph */
+.hero-copy p, .page-hero p {
+  color: rgba(255,255,255,.66);
+  font-size: 17px;
+  max-width: 580px;
+  margin: 0 0 28px;
+  line-height: 1.75;
+}
+
+
+/* ================================================================
+   13. SITE FOOTER
+   ────────────────
+   Footer present on every page.
+   Contains logo, page links, contact info, social chips,
+   and copyright bar.
+================================================================ */
+
+/* Dark gradient footer wrapper */
+.site-footer {
+  background: linear-gradient(135deg, #020810 0%, #040d1e 55%, #020810 100%);
+  border-top: 1px solid rgba(212,168,67,.14);
+  color: rgba(255,255,255,.65);
+  padding: 80px 0 0;
+}
+
+/* 4-column content grid */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.2fr 1fr;
+  gap: 48px;
+  padding-bottom: 60px;
+}
+
+/* Footer logo image */
+.footer-logo {
+  height: 48px;
+  width: auto;
+  margin-bottom: 20px;
+  filter: brightness(1.08) drop-shadow(0 0 10px rgba(212,168,67,.2));
+}
+
+/* Footer description paragraph */
+.footer-grid > div > p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: rgba(255,255,255,.5);
+}
+
+/* Footer column headings */
+.site-footer h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(212,168,67,.18);
+}
+
+/* Vertical link list in footer columns */
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-links li a {
+  color: rgba(255,255,255,.55);
+  font-size: 14px;
+  transition: color .2s, padding-left .2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.footer-links li a:hover { color: var(--gold-light); padding-left: 4px; }
+
+/* Arrow prefix on hover */
+.footer-links li a::before {
+  content: '›';
+  color: var(--red);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.footer-links li a:hover::before { opacity: 1; }
+
+/* Plain list item (address line) */
+.footer-links li { color: rgba(255,255,255,.4); font-size: 14px; line-height: 1.6; }
+
+/* Social chips column — vertical flex */
+.footer-socials {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Individual social network pill */
+.social-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.social-chip:hover {
+  background: rgba(212,168,67,.1);
+  border-color: rgba(212,168,67,.3);
+  color: var(--gold-light);
+}
+
+/* Font Awesome icon inside social chip */
+.social-chip i { font-size: 14px; color: var(--gold-light); }
+
+/* Red CTA button in contact column */
+.footer-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  background: linear-gradient(135deg, var(--red), #9e0d22);
+  color: white;
+  font-weight: 700;
+  font-family: var(--font-display);
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: box-shadow .3s, transform .2s;
+  box-shadow: 0 8px 28px var(--red-glow);
+}
+.footer-cta:hover {
+  box-shadow: 0 14px 44px rgba(200,16,46,.5);
+  transform: translateY(-2px);
+}
+
+/* Copyright bar at the very bottom */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 22px 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.922);
+  text-align: center;
+  line-height: 1.7;
+}
+
+
+/* ================================================================
+   14. FLOATING CTA BUTTONS
+   ─────────────────────────
+   Fixed bottom-left call and WhatsApp buttons.
+   Present on every page.
+================================================================ */
+
+/* Fixed stack wrapper — bottom-left corner */
+.floating-cta-stack {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Base circular floating action button */
+.float-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 24px;
+  position: relative;
+  overflow: visible;
+  transition: transform .28s cubic-bezier(.34,1.56,.64,1), box-shadow .28s;
+  text-decoration: none;
+}
+.float-btn:hover { transform: scale(1.14) translateY(-3px); }
+
+/* Pulsing ring animation around each button */
+.float-btn::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 24px;
+  border: 2px solid currentColor;
+  opacity: 0;
+  animation: float-pulse 2.8s ease-out infinite;
+}
+
+/* Phone call button — navy/blue */
+.float-btn.call {
+  background: linear-gradient(135deg, #0d2255, #1a3a8a);
+  box-shadow: 0 12px 38px rgba(13,34,85,.55), inset 0 1px 0 rgba(255,255,255,.15);
+  border: 2px solid rgba(212,168,67,.4);
+  color: var(--gold-light);
+}
+.float-btn.call::before { border-color: var(--gold); }
+
+/* "Call Us" tooltip label */
+.float-btn.call::after {
+  content: "Call Us";
+  position: absolute;
+  left: 72px; top: 50%;
+  transform: translateY(-50%);
+  background: #0d2255;
+  color: var(--gold-light);
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  border: 1px solid rgba(212,168,67,.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s, left .22s;
+}
+.float-btn.call:hover::after { opacity: 1; left: 76px; }
+
+/* WhatsApp button — green */
+.float-btn.whatsapp {
+  background: linear-gradient(135deg, #0a7a34, #1db954);
+  box-shadow: 0 12px 38px rgba(29,185,84,.4), inset 0 1px 0 rgba(255,255,255,.18);
+  border: 2px solid rgba(255,255,255,.15);
+  color: white;
+}
+.float-btn.whatsapp::before { border-color: #1db954; animation-delay: 1.4s; }
+
+/* "WhatsApp" tooltip label */
+.float-btn.whatsapp::after {
+  content: "WhatsApp";
+  position: absolute;
+  left: 72px; top: 50%;
+  transform: translateY(-50%);
+  background: #0a7a34;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  border: 1px solid rgba(255,255,255,.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s, left .22s;
+}
+.float-btn.whatsapp:hover::after { opacity: 1; left: 76px; }
+
+
+/* ================================================================
+   15. CUSTOM CURSOR
+   ──────────────────
+   Custom gold ring + red dot cursor.
+   Present on every desktop page. Hidden on mobile via media query.
+================================================================ */
+
+/* Hide the native browser cursor site-wide */
+* { cursor: none !important; }
+
+/* Outer gold ring that tracks the cursor position */
+.cursor-ring {
+  position: fixed; top: 0; left: 0;
+  width: 36px; height: 36px;
+  border: 2px solid rgba(212,168,67,.8);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  background: rgba(212,168,67,.06);
+  transition: width .18s ease, height .18s ease,
+              border-color .18s ease, background .18s ease,
+              border-radius .18s ease, opacity .2s ease;
+  will-change: left, top;
+  box-sizing: border-box;
+}
+
+/* Small red dot at the precise cursor position */
+.cursor-dot {
+  position: fixed; top: 0; left: 0;
+  width: 8px; height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100000;
+  transform: translate(-50%, -50%);
+  transition: opacity .2s ease;
+  will-change: left, top;
+}
+
+/* JS-toggled states — applied by script.js based on element type */
+
+/* Cursor is over a link */
+.cursor-ring.on-link {
+  width: 50px; height: 50px;
+  border-color: rgba(80,140,255,.85);
+  background: rgba(80,140,255,.06);
+}
+
+/* Cursor is over a button */
+.cursor-ring.on-btn {
+  width: 44px; height: 44px;
+  border-color: rgba(200,16,46,.85);
+  background: rgba(200,16,46,.07);
+}
+
+/* Cursor is over an input field — thin vertical bar */
+.cursor-ring.on-input {
+  width: 3px; height: 36px;
+  border-radius: 2px;
+  border-color: rgba(212,168,67,.9);
+  background: rgba(212,168,67,.15);
+}
+
+/* Cursor is over an image */
+.cursor-ring.on-img {
+  width: 64px; height: 64px;
+  border-color: rgba(255,255,255,.55);
+  background: rgba(255,255,255,.04);
+}
+
+
+/* ================================================================
+   16. SCROLL REVEAL ANIMATIONS
+   ──────────────────────────────
+   JS-triggered entrance animations.
+   Elements start hidden, then become visible when they scroll
+   into the viewport. script.js adds .visible to trigger the reveal.
+================================================================ */
+
+/* Initial hidden state — element is below and invisible */
+.reveal {
+  opacity: 0;
+  transform: translateY(44px);
+  transition: opacity .72s ease, transform .72s ease;
+}
+
+/* JS adds .visible when element enters the viewport */
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Larger upward reveal variant — used on some inner pages */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(70px);
+  transition: opacity .9s ease, transform .9s ease;
+  will-change: opacity, transform;
+}
+.reveal-up.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Utility to completely hide an element */
+.hidden { display: none !important; }
+
+
+/* ================================================================
+   17. KEYFRAME ANIMATIONS
+   ────────────────────────
+   Only keyframes that drive the shared global components above.
+   Page-specific keyframes (reviewsScroll, accreditationScroll,
+   meshMove, orbFloat, chapterSlideIn, etc.) live in the
+   page-specific stylesheets where they are needed.
+================================================================ */
+
+/* ── drift ──
+   Used by: .hero-bg-lines (animated grid lines in home hero)
+   Note: kept here because home hero is driven from Newhome.css
+         but the keyframe is referenced globally */
+@keyframes drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-80px); }
+}
+
+/* ── floaty ──
+   Used by: .hero-home::before and ::after (floating orbs) */
+@keyframes floaty {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-24px); }
+}
+
+/* ── borderMove ──
+   Used by: .svs-frame animated gradient border */
+@keyframes borderMove {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+/* ── phoneShake ──
+   Used by: .btn-light span, .icon — phone shake animation */
+@keyframes phoneShake {
+  0%   { transform: rotate(0); }
+  3%   { transform: rotate(-15deg); }
+  6%   { transform: rotate(15deg); }
+  9%   { transform: rotate(-10deg); }
+  12%  { transform: rotate(10deg); }
+  15%  { transform: rotate(0); }
+  100% { transform: rotate(0); }
+}
+
+/* ── pulse-cta ──
+   Used by: .btn-primary — red glow pulse animation */
+@keyframes pulse-cta {
+  0%,100% { box-shadow: 0 10px 36px var(--red-glow); }
+  50%     { box-shadow: 0 18px 60px rgba(200,16,46,.58); }
+}
+
+/* ── pulse-gold ──
+   Used by: .btn-gold — gold glow pulse animation */
+@keyframes pulse-gold {
+  0%,100% { box-shadow: 0 10px 36px rgba(212,168,67,.4); }
+  50%     { box-shadow: 0 20px 62px rgba(212,168,67,.62); }
+}
+
+/* ── float-pulse ──
+   Used by: .float-btn::before — expanding ring on floating buttons */
+@keyframes float-pulse {
+  0%   { opacity: .65; transform: scale(1); }
+  70%  { opacity: 0;   transform: scale(1.55); }
+  100% { opacity: 0;   transform: scale(1.55); }
+}
+
+/* ── fadeIn ──
+   Used by: general fade-in utility for modals and transitions */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── fadeUp ──
+   Used by: .reveal animations, FAQ panels, section entries */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── blink ──
+   Used by: .hero-tag::before pulsing dot on inner page heroes */
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.3; }
+}
+
+
+/* ================================================================
+   18. RESPONSIVE BREAKPOINTS
+   ───────────────────────────
+   Overrides for global shared components only.
+   Page-specific responsive rules live in each page stylesheet.
+================================================================ */
+
+/* ── TABLET: 1100px ── */
+@media (max-width: 1100px) {
+
+  /* Hide desktop navigation and action buttons */
+  .main-nav, .nav-actions { display: none; }
+
+  /* Show hamburger menu button */
+  .menu-toggle { display: inline-block; }
+
+  /* Show mobile nav when JS adds .active */
+  .mobile-nav.active { display: flex; }
+
+  /* Footer collapses to 2 columns */
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── MOBILE: 820px ── */
+@media (max-width: 820px) {
+
+  /* Top bar stacks vertically */
+  .topbar-inner,
+  .topbar-left { flex-direction: column; align-items: flex-start; }
+
+  /* Footer goes single column */
+  .footer-grid { grid-template-columns: 1fr; }
+
+  /* Restore native browser cursor on touch devices */
+  * { cursor: auto !important; }
+
+  /* Hide custom cursor elements */
+  .cursor-dot,
+  .cursor-ring { display: none; }
+
+  /* Move floating buttons closer to screen edge */
+  .floating-cta-stack { left: 14px; bottom: 14px; }
+
+  /* Page hero headline smaller on mobile */
+  .hero-copy h1,
+  .page-hero h1 { font-size: 40px; }
+}

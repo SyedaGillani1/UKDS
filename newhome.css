@@ -1,0 +1,2225 @@
+/* ================================================================
+   Newhome.css
+   Purpose  : Clean, optimised stylesheet for index.html ONLY.
+   Source   : Extracted from style.css by auditing every class
+              attribute present in index.html.
+   ----------------------------------------------------------------
+
+   AUDIT SUMMARY
+   ─────────────
+   Every HTML class in index.html was catalogued section by section.
+   Only rules whose selectors match those classes are kept.
+   Pseudo-classes (:hover, :active, :last-child, :nth-child, :focus,
+   :not(), ::before, ::after) and JS-toggled state classes (.active,
+   .mobile-nav.active, .reveal.visible, .faq-question.active) that
+   belong to a KEPT selector are also kept.
+
+   ─────────────────────────────────────────────────────────────
+   ✅ KEPT — classes confirmed present in index.html:
+   ─────────────────────────────────────────────────────────────
+   01. :root CSS variables          — used by all kept rules
+   02. Reset & Base                 — *, html, body, a, img, button
+   03. Layout Utilities             — .container, .section,
+                                      .theme-light, .theme-soft-blue,
+                                      .theme-white, .theme-gradient-cta
+   04. Glass Card Utility           — .glass-card (hero mini cards)
+   05. Top Bar                      — .topbar, .topbar-inner,
+                                      .topbar-left
+   06. Site Header & Nav            — .site-header, .nav-wrap,
+                                      .brand, .brand-logo-img,
+                                      .main-nav, .nav-actions
+   07. Mega Menu                    — .mega-menu, .mega-trigger,
+                                      .mega-content, .mega-column
+   08. Buttons                      — .btn, .btn-primary, .btn-gold,
+                                      .btn-ghost, .btn-outline,
+                                      .btn-light, .btn-small,
+                                      .btn-icon, .whatsapp-btn,
+                                      .call-btn, .icon
+   09. Mobile Navigation            — .menu-toggle, .mobile-nav
+   10. Hero Carousel                — .hero, .hero-home,
+                                      .hero-bg-lines, .hero-carousel,
+                                      .hero-slide, .security-slide,
+                                      .hero-inner
+   11. Hero Typography & Panels     — .hero-copy, .eyebrow,
+                                      .hero-cta-row, .hero-points,
+                                      .hero-card-grid, .hero-mini-card,
+                                      .hero-mini-icon, .hero-stat-stack,
+                                      .hero-stat-up, .hero-side-card
+   12. Hero Dots                    — .hero-dots
+   13. Tag / Label Pills            — .eyebrow, .tag-label,
+                                      .white-tag, .white-mini
+   14. Premium Trust Strip          — .pull-up-strip,
+                                      .premium-strip-wrap,
+                                      .premium-strip-card,
+                                      .premium-strip-icon
+   15. Section Headings             — .section-heading,
+                                      .center-align, .center-width
+   16. Services Feature Grid        — .service-feature-grid,
+                                      .feature-tile (all 5 variants),
+                                      .feature-content, .feature-badge
+   17. Icon Cards — Why Choose Us   — .icon-card-grid, .four-col,
+                                      .icon-card, .icon-bubble
+   18. Logo / Client Strip          — .logo-strip, .logo-chip
+   19. Accreditations Marquee       — .accreditation-section,
+                                      .section-heading-acc,
+                                      .logo-marquee, .logo-track,
+                                      .accreditation-card
+   20. Reviews Section              — .reviews-section,
+                                      .reviews-header, .google-badge,
+                                      .badge-left, .g-logo,
+                                      .reviews-marquee, .reviews-track,
+                                      .review-card, .review-user,
+                                      .avatar (.g-blue/red/yellow/green),
+                                      .cta-heading
+   21. CTA Banner                   — .cta-banner, .cta-buttons-col
+   22. FAQ Accordion                — .faq-section, .faq-tabs, .tab,
+                                      .faq-content, .faq-item,
+                                      .faq-question, .faq-icon,
+                                      .faq-answer
+   23. Site Footer                  — .site-footer, .footer-grid,
+                                      .footer-logo, .footer-links,
+                                      .footer-cta, .footer-socials,
+                                      .social-chip, .footer-bottom
+   24. Floating CTA Buttons         — .floating-cta-stack, .float-btn,
+                                      .float-btn.call, .float-btn.whatsapp
+   25. Custom Cursor                — .cursor-ring, .cursor-dot,
+                                      state classes
+   26. Scroll Reveal                — .reveal, .reveal.visible
+   27. Services Video Section       — .services-video-section,
+                                      .svs-layout, .svs-player,
+                                      .svs-frame, .svs-frame-inner,
+                                      .svs-poster, .svs-overlay,
+                                      .svs-play-btn, .svs-play-triangle,
+                                      .svs-play-pulse, .svs-badge,
+                                      .svs-chapters, .svs-chapter,
+                                      .svs-ch-num, .svs-ch-body,
+                                      .svs-orb, .orb-1, .orb-2
+   28. Keyframes (kept)             — pulse-cta, pulse-gold, fadeUp,
+                                      blink, drift, floaty, borderMove,
+                                      phoneShake, float-pulse, svs-pulse,
+                                      fadeIn, accreditationScroll,
+                                      reviewsScroll, meshMove, orbFloat,
+                                      chapterSlideIn, pulse (local)
+   29. Responsive Breakpoints       — only overrides for kept classes
+
+   ─────────────────────────────────────────────────────────────
+   ❌ DISCARDED — classes NOT present in index.html:
+   ─────────────────────────────────────────────────────────────
+   .page-hero (+ variants)          — inner pages only
+   .two-col-content, .image-panel,
+    .three-card-grid, .info-card,
+    .timeline-item, .timeline-grid   — inner pages only
+   All .service-page-* / .ukds-*
+    / .srv-* / .services-tab-nav     — services.html only
+   All .gallery-* / .tab-btn /
+    .play-icon / .modal-*            — gallery.html only
+   .blog-grid, .blog-card,
+    .blog-body, .text-link,
+    .blog-post-* / .sidebar-*        — blog pages only
+   All .contact-* / .form-grid /
+    .map-shell / .security-figure    — contact.html only
+   All .vacancies-* / .job-* /
+    .apply-* / .vacancy-card /
+    .meta-pills                       — vacancies.html only
+   All .chat-widget / .bubble /
+    .typing-dots / .chat-*           — chat widget (commented out)
+   All .gl__* classes                — gallery.html only
+   All .who / .approach / .values /
+    .team / .cta-section /
+    .step-card / .step-num            — about.html only
+   All .ukds-insights-*              — not in index.html
+   All .blgi__* classes              — blog.html only
+   All .service-page-hero-stats /
+    .sph-stat / .process-* /
+    .scope-* / .related-post-*        — individual service pages
+   .testimonial-marquee-wrap,
+    .marquee-row, .marquee-track,
+    .marquee-card,
+    .testimonial-cards-grid,
+    .testimonial-card,
+    .testimonial-author,
+    .reviewer-avatar,
+    .reviewer-initials                — not in index.html
+   .carousel-btn, .prev, .next,
+    .carousel-dots                    — not in index.html
+   .why-section, .why-label,
+    .why-title                        — not in index.html
+   .trust-heading, .trust-label      — not in index.html
+   .hero-badge-panel                 — not used in index.html
+   .topbar-right                     — not in index.html HTML
+   .dark-tag, .mini-tag              — not in index.html
+   .hidden, .reveal-up               — not in index.html
+   Keyframes: marquee, bubble-in,
+    typing-dot, blink-dot,
+    cardFloatRotate, shimmer-bar,
+    gradientShift, floatOrb,
+    badgeFloat, gl-pulse              — drive only discarded classes
+================================================================ */
+
+
+/* ================================================================
+   01. CSS VARIABLES / DESIGN TOKENS
+   Source  : style.css — :root block
+   Used by : Every kept rule that references a CSS custom property.
+================================================================ */
+:root {
+  /* Core Palette */
+  --navy:          #040d1e;
+  --navy-2:        #0b1f4a;
+  --navy-3:        #102a68;
+  --navy-glass:    rgba(4,13,30,.72);
+
+  /* Brand Accent — Crimson */
+  --red:           #c8102e;
+  --red-soft:      #e8415a;
+  --red-glow:      rgba(200,16,46,.35);
+
+  /* Brand Accent — Champagne Gold */
+  --gold:          #d4a843;
+  --gold-light:    #f0cb6e;
+  --gold-pale:     rgba(212,168,67,.12);
+
+  /* Neutral Surface */
+  --white:         #ffffff;
+  --offwhite:      #f5f8ff;
+
+  /* Typography */
+  --text:          #0d1726;
+  --muted:         #5c6b85;
+
+  /* Borders */
+  --border:        rgba(212,168,67,.15);
+  --border-dark:   rgba(255,255,255,.08);
+
+  /* Shadows */
+  --shadow:        0 20px 60px rgba(4,13,30,.14);
+  --shadow-gold:   0 20px 60px rgba(212,168,67,.18);
+  --shadow-strong: 0 28px 80px rgba(4,13,30,.28);
+
+  /* Border Radius */
+  --radius-xl:     32px;
+  --radius-lg:     22px;
+  --radius-md:     16px;
+
+  /* Layout */
+  --container:     1240px;
+
+  /* Typography Families */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+}
+
+
+/* ================================================================
+   02. RESET & BASE
+   Source  : style.css — section 02
+   Used by : All elements on the page.
+================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: #ffffff;
+  overflow-x: hidden;
+  line-height: 1.65;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; }
+
+
+/* ================================================================
+   03. LAYOUT UTILITIES
+   Source  : style.css — section 03
+   Used by : .container (every section wrapper),
+             .section (pull-up-strip, services, why, clients,
+              accreditations, video, cta, faq sections),
+             .theme-light (services preview section),
+             .theme-soft-blue (why choose us section),
+             .theme-white (clients/industries section),
+             .theme-gradient-cta (CTA banner section)
+   DISCARDED: .theme-dark — not used in index.html
+================================================================ */
+
+/* Centred max-width wrapper used on every section */
+.container {
+  width: min(var(--container), calc(100% - 32px));
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Base padding for all full-width content sections */
+.section { padding: 100px 0; position: relative; overflow: hidden; }
+
+/* Services preview section — white-to-light-blue gradient */
+.theme-light { background: linear-gradient(180deg, #ffffff, #f0f5ff); }
+
+/* Why Choose Us section — soft blue gradient */
+.theme-soft-blue { background: linear-gradient(180deg, #e8f0ff, #f6f9ff); }
+
+/* Clients / Industries section — plain white */
+.theme-white { background: #ffffff; }
+
+/* CTA Banner section — deep navy gradient */
+.theme-gradient-cta {
+  background: linear-gradient(135deg, #040d1e, #0f2660 50%, #040d1e);
+  color: white;
+  overflow: hidden;
+}
+
+
+/* ================================================================
+   04. GLASS CARD UTILITY
+   Source  : style.css — section 04
+   Used by : .glass-card — applied to .hero-mini-card,
+             .hero-stat-stack, .hero-side-card in the hero carousel
+================================================================ */
+.glass-card {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.11);
+  box-shadow: var(--shadow-strong);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+
+/* ================================================================
+   05. TOP BAR
+   Source  : style.css — section 05
+   Used by : .topbar (dark strip), .topbar-inner (flex row),
+             .topbar-left (contact links cluster)
+   DISCARDED: .topbar-right — no element with this class in index.html
+================================================================ */
+
+/* Dark gradient strip at very top of page */
+.topbar {
+  background: linear-gradient(90deg, #010508, #061020 40%, #030c1a 60%, #010508);
+  color: #a8bcd8;
+  font-size: 14px;
+  position: relative;
+  z-index: 20;
+  border-bottom: 1px solid rgba(212,168,67,.2);
+}
+
+/* Flex row: contact links left, rate badge right */
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 0;
+}
+
+/* Left cluster holding phone and email links */
+.topbar-left { display: flex; gap: 20px; flex-wrap: wrap; }
+.topbar-left a {
+  color: #a8bcd8;
+  transition: color .18s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.topbar-left a:hover { color: var(--gold-light); }
+
+
+/* ================================================================
+   06. SITE HEADER & NAVIGATION
+   Source  : style.css — section 06
+   Used by : .site-header (sticky nav bar), .nav-wrap (flex row),
+             .brand (logo link), .brand-logo-img (logo image),
+             .main-nav (desktop nav links), .nav-actions (CTA buttons)
+================================================================ */
+
+/* Sticky translucent header bar */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgb(253, 251, 251);
+  border-bottom: 1px solid rgba(212,168,67,.18);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  transition: background .3s ease;
+}
+
+/* Flex row: logo | nav | action buttons | hamburger */
+.nav-wrap {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Logo anchor wrapper */
+.brand { display: flex; align-items: center; min-width: 0; }
+
+/* Logo image with gold glow filter */
+.brand-logo-img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(1.08) drop-shadow(0 0 14px rgba(212,168,67,.28));
+  transition: filter .3s;
+}
+.brand:hover .brand-logo-img {
+  filter: brightness(1.15) drop-shadow(0 0 20px rgba(212,168,67,.5));
+}
+
+/* Horizontal desktop navigation */
+.main-nav { display: flex; gap: 2px; align-items: center; }
+.main-nav a {
+  color: rgba(2, 2, 2, 0.945);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 13.5px;
+  letter-spacing: .04em;
+  position: relative;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: color .2s, background .2s;
+}
+.main-nav a:hover { color: rgb(239, 9, 9); background: rgba(212,168,67,.1); }
+
+/* Animated underline on nav link hover / active */
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 14px; bottom: 4px;
+  width: 0; height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  transition: width .28s ease;
+}
+.main-nav a:hover::after,
+.main-nav a.active::after { width: calc(100% - 28px); }
+
+/* Active nav link (Home on this page) */
+.main-nav a.active { color: rgb(251, 6, 6); }
+
+/* Wrapper for WhatsApp + Get Quote buttons */
+.nav-actions { display: flex; gap: 10px; align-items: center; }
+
+
+/* ================================================================
+   07. MEGA MENU
+   Source  : style.css — section 07
+   Used by : .mega-menu (dropdown wrapper div),
+             .mega-trigger (Services ▾ anchor),
+             .mega-content (dropdown grid panel),
+             .mega-column (each service column)
+================================================================ */
+
+/* Relative positioned wrapper that activates dropdown on hover */
+.mega-menu { position: relative; display: inline-block; }
+
+/* The clickable "Services ▾" text link */
+.mega-trigger { text-decoration: none; color: rgba(255,255,255,.72); font-weight: 600; }
+
+/* Dropdown panel — hidden until .mega-menu:hover */
+.mega-content {
+  position: absolute;
+  top: 55px; left: 0;
+  width: 680px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 20px 45px rgba(0,0,0,.15);
+  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: all .25s ease;
+  z-index: 999;
+}
+/* Show dropdown on parent hover */
+.mega-menu:hover .mega-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Each individual service column inside the dropdown */
+.mega-column { padding: 18px; border-radius: 12px; transition: all .3s ease; }
+.mega-column h4 { color: var(--red); font-size: 18px; margin-bottom: 6px; }
+.mega-column a { display: block; font-weight: 600; color: #111; margin-bottom: 6px; transition: color .25s ease; }
+.mega-column p { font-size: 14px; color: #666; line-height: 1.5; }
+.mega-column:hover {
+  background: linear-gradient(135deg, #fff6e8, #f5deb3);
+  border-left: 4px solid var(--red);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.15);
+}
+.mega-column:hover a { color: var(--red); }
+
+
+/* ================================================================
+   08. BUTTONS
+   Source  : style.css — section 08
+   Used by : .btn (base), .btn-primary (hero CTA + service tiles),
+             .btn-gold (nav + video section + CTA banner),
+             .btn-ghost (hero secondary CTAs),
+             .btn-outline (nav WhatsApp), .btn-light (CTA banner call),
+             .btn-small (service tile links), .btn-icon (WhatsApp/call),
+             .whatsapp-btn (nav border override),
+             .call-btn (CTA banner phone button),
+             .icon (phoneShake animation)
+================================================================ */
+
+/* Base pill button — all variants inherit from this */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 26px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .04em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1),
+              box-shadow .22s ease,
+              background .22s ease;
+}
+
+/* Gloss sheen pseudo-element on all buttons */
+.btn::before {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, transparent 55%);
+  pointer-events: none;
+}
+.btn:hover  { transform: translateY(-4px) scale(1.02); }
+.btn:active { transform: translateY(1px) scale(.98); }
+
+/* .btn-primary — pulsing red gradient, used in hero and service tiles */
+.btn-primary {
+  background: linear-gradient(135deg, var(--red), #9e0d22 55%, var(--navy-2));
+  color: white;
+  box-shadow: 0 10px 36px var(--red-glow), inset 0 1px 0 rgba(255,255,255,.18);
+  animation: pulse-cta 3.5s ease-in-out infinite;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #e8203e, var(--red) 55%, var(--navy-2));
+  animation: none;
+  box-shadow: 0 20px 60px rgba(200,16,46,.65);
+}
+
+/* .btn-gold — pulsing gold gradient, used in nav, video section, CTA */
+.btn-gold {
+  background: linear-gradient(135deg, #c49030, var(--gold-light) 50%, var(--gold));
+  color: var(--navy);
+  font-weight: 800;
+  box-shadow: 0 10px 36px rgba(212,168,67,.4);
+  animation: pulse-gold 3.5s ease-in-out infinite;
+}
+.btn-gold:hover {
+  animation: none;
+  box-shadow: 0 22px 64px rgba(212,168,67,.7);
+  background: linear-gradient(135deg, var(--gold), #ffd878 50%, var(--gold));
+}
+
+/* .btn-ghost — semi-transparent, used as secondary hero CTA */
+.btn-ghost { background: rgba(255,255,255,.08); color: white; border: 1px solid rgba(255,255,255,.2); }
+.btn-ghost:hover { background: rgba(255,255,255,.15); }
+
+/* .btn-outline — transparent with gold border, nav WhatsApp button */
+.btn-outline {
+  background: transparent;
+  color: #ed0707 !important;
+  border: 2.5px solid #D4A843;
+}
+.btn-outline:hover { background: var(--gold-pale); border-color: var(--gold); color: white; }
+
+/* Border override on the WhatsApp nav button specifically */
+.whatsapp-btn { border: 1.5px solid #D4A843 !important; }
+
+/* .btn-light — white button used in CTA banner */
+.btn-light { background: white; color: var(--navy); box-shadow: 0 8px 28px rgba(4,13,30,.18); }
+.btn-light:hover { background: var(--offwhite); }
+
+/* .btn-small — compact padding variant used on service tile links */
+.btn-small { padding: 10px 20px; font-size: 13px; }
+
+/* Emoji/icon span inside .btn-icon buttons */
+.btn-icon span { font-size: 15px; }
+
+/* Phone icon inside .btn-light shakes continuously */
+.btn-light span { animation: phoneShake 3s infinite; }
+
+/* .call-btn — special dark blue/purple animated call button in CTA banner */
+.call-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .04em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2b0aab, #020c3b);
+  color: rgba(230,230,9,.95);
+  border: 1px solid var(--gold);
+  box-shadow: 0 10px 30px rgba(193,18,31,.35);
+  transition: all .25s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* Shimmer sweep effect on call-btn */
+.call-btn::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -120%;
+  width: 120%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.6), transparent);
+  transition: .6s;
+}
+.call-btn:hover::before { left: 120%; }
+.call-btn:hover {
+  background: linear-gradient(135deg, rgba(255,0,0,.83), #990000);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 18px 45px rgba(255,0,0,.35);
+}
+.call-btn:active { transform: translateY(1px) scale(.97); }
+
+/* .icon — inline phone shake animation on icon spans */
+.icon { display: inline-block; animation: phoneShake 3s infinite; }
+
+
+/* ================================================================
+   09. MOBILE NAVIGATION
+   Source  : style.css — section 09
+   Used by : .menu-toggle (hamburger button, shown at tablet/mobile),
+             .mobile-nav (vertical link list, hidden by default),
+             .mobile-nav.active (JS-toggled to show the menu)
+================================================================ */
+
+/* Hamburger button — hidden on desktop */
+.menu-toggle {
+  display: none;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.14);
+  color: white;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.menu-toggle:hover { background: rgba(255,255,255,.14); }
+
+/* Vertical dropdown nav — hidden until .active is added by JS */
+.mobile-nav { display: none; gap: 8px; flex-direction: column; padding: 0 16px 16px; }
+.mobile-nav a {
+  padding: 14px 18px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,.85);
+  font-family: var(--font-display);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.mobile-nav a:hover { background: rgba(212,168,67,.1); border-color: rgba(212,168,67,.3); color: white; }
+
+/* JS adds this class to show the mobile menu */
+.mobile-nav.active { display: flex; }
+
+
+/* ================================================================
+   10. HERO CAROUSEL
+   Source  : style.css — sections 10 & 12
+   Used by : .hero (outer wrapper), .hero-home (red + gold orbs via
+             ::before/::after), .hero-bg-lines (animated grid overlay),
+             .hero-carousel (slide container), .hero-slide (each slide),
+             .hero-slide.active (visible slide),
+             .security-slide (slide 1 z-index fix),
+             .hero-inner (two-column grid inside each slide)
+================================================================ */
+
+/* Full-viewport hero wrapper */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 88px);
+  display: flex;
+  align-items: stretch;
+}
+
+/* Red animated orb — top right corner */
+.hero-home::before {
+  content: "";
+  position: absolute;
+  width: 680px; height: 680px;
+  right: -100px; top: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,16,46,.2), transparent 68%);
+  animation: floaty 11s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Gold animated orb — bottom left corner */
+.hero-home::after {
+  content: "";
+  position: absolute;
+  width: 520px; height: 520px;
+  left: 8%; bottom: -200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,168,67,.14), transparent 68%);
+  animation: floaty 16s ease-in-out infinite reverse;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle animated dot-grid overlay behind hero content */
+.hero-bg-lines {
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(212,168,67,.035) 80px, rgba(212,168,67,.035) 81px),
+    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,.02) 80px, rgba(255,255,255,.02) 81px);
+  animation: drift 26s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Carousel container — holds all slides */
+.hero-carousel { width: 100%; position: relative; }
+
+/* Each slide — absolutely stacked, hidden by default */
+.hero-slide {
+  position: absolute; inset: 0;
+  opacity: 0; visibility: hidden;
+  background-size: cover; background-position: center;
+  transition: opacity 1.1s ease;
+}
+
+/* The currently visible slide */
+.hero-slide.active { opacity: 1; visibility: visible; position: relative; }
+
+/* Slide 1 container z-index fix so text sits above overlay */
+.security-slide .container { position: relative; z-index: 3; }
+
+/* Two-column inner grid: hero copy (left) + panel (right) */
+.hero-inner {
+  min-height: calc(100vh - 88px);
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  z-index: 2;
+  padding: 80px 0 100px;
+}
+
+/* ── Hero Dots ── */
+/* Dot navigation strip pinned to bottom-centre of hero */
+.hero-dots {
+  position: absolute; left: 50%; bottom: 28px;
+  transform: translateX(-50%);
+  display: flex; gap: 10px;
+  z-index: 4;
+}
+.hero-dots button {
+  width: 10px; height: 10px;
+  border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(255,255,255,.28);
+  transition: background .3s, width .3s ease;
+  padding: 0;
+}
+/* Active dot — stretched gold pill */
+.hero-dots button.active {
+  background: var(--gold);
+  width: 28px;
+  border-radius: 5px;
+  box-shadow: 0 0 12px rgba(212,168,67,.55);
+}
+
+
+/* ================================================================
+   11. HERO TYPOGRAPHY & RIGHT PANELS
+   Source  : style.css — section 11
+   Used by : .hero-copy (left text column),
+             .eyebrow (small label above h1),
+             .hero-cta-row (button row), .hero-points (tick list),
+             .hero-card-grid (2×2 mini cards — slide 1 right panel),
+             .hero-mini-card (individual mini card),
+             .hero-mini-icon (coloured icon box on mini card),
+             .hero-stat-stack (stats or list panel on slides 2–6),
+             .hero-stat-up (offset transform variant — slide 3),
+             .hero-side-card (wider glass card on slides 2,4,5,6)
+================================================================ */
+
+/* Left text column inside hero-inner */
+.hero-copy h1 {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 78px);
+  line-height: 1.0;
+  margin: 16px 0 18px;
+  letter-spacing: -.04em;
+  color: white;
+  font-weight: 800;
+}
+
+/* Gold gradient highlight on span inside hero h1 */
+.hero-copy h1 span {
+  background: linear-gradient(95deg, #ffffff, var(--gold-light) 55%, var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero subtitle paragraph */
+.hero-copy p {
+  color: rgba(255,255,255,.66);
+  font-size: 17px;
+  max-width: 580px;
+  margin: 0 0 28px;
+  line-height: 1.75;
+}
+
+/* Flex row of hero CTA buttons */
+.hero-cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 26px; }
+
+/* Tick-marked hero feature points below CTA row */
+.hero-points {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  color: rgba(255,255,255,.6);
+  font-weight: 500; font-size: 14px;
+}
+.hero-points span { display: flex; align-items: center; gap: 7px; }
+.hero-points span::before { content: '✓'; color: var(--gold); font-weight: 800; font-size: 13px; }
+
+/* 2×2 grid of mini service cards — right panel on slide 1 */
+.hero-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* Individual mini service card (5 items — last one centred when odd) */
+.hero-mini-card {
+  padding: 22px;
+  transform: translateY(-40px);
+  border-radius: var(--radius-xl);
+  color: white;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(212,168,67,.2);
+  transition: transform .32s, border-color .32s, box-shadow .32s;
+}
+.hero-mini-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212,168,67,.45);
+  box-shadow: 0 20px 50px rgba(212,168,67,.15);
+}
+.hero-mini-card h3 { margin: 14px 0 8px; font-family: var(--font-display); font-size: 19px; }
+.hero-mini-card p  { color: rgba(255,255,255,.58); margin: 0; font-size: 14px; }
+
+/* Centres the last card when there is an odd count */
+.hero-mini-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  max-width: 48%;
+  margin: 0 auto;
+}
+
+/* Coloured icon circle at top of each mini card */
+.hero-mini-icon {
+  width: 52px; height: 52px;
+  border-radius: 16px;
+  display: grid; place-items: center;
+  font-size: 22px;
+  background: linear-gradient(135deg, var(--red), var(--gold));
+  box-shadow: 0 8px 24px var(--red-glow);
+}
+.hero-mini-icon svg { filter: drop-shadow(0 4px 10px rgba(255,180,70,.6)); }
+
+/* Stats/list glass panel — right panel on slides 2,3,4,5,6 */
+.hero-stat-stack {
+  padding: 32px;
+  border-radius: var(--radius-xl);
+  color: white;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(212,168,67,.2);
+  display: grid;
+  gap: 20px;
+}
+.hero-stat-stack strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 44px; font-weight: 800;
+  color: var(--gold-light); line-height: 1;
+}
+.hero-stat-stack span { color: rgba(255,255,255,.58); font-size: 14px; }
+
+/* Offset transform variant — slide 3 stats panel */
+.hero-stat-up {
+  transform: translate(60px, -60px) scale(0.9);
+  transition: all .4s ease;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+
+/* Wider glass card variant — slides 2, 4, 5, 6 */
+.hero-side-card {
+  max-width: 420px;
+  padding: 32px; border-radius: 32px;
+  background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+  border: 1px solid rgba(212,175,55,.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.22);
+  color: #fff;
+}
+.hero-side-card h3 { margin: 18px 0 12px; font-size: 32px; font-weight: 800; line-height: 1.1; }
+.hero-side-card p  { margin: 0; font-size: 18px; line-height: 1.7; color: rgba(255,255,255,.78); }
+
+
+/* ================================================================
+   13. TAG / LABEL PILLS
+   Source  : style.css — section 13
+   Used by : .eyebrow (hero carousel small badge above h1),
+             .tag-label (section labels throughout page),
+             .white-tag (CTA banner label),
+             .white-mini (not directly in index but base rule kept
+              because .white-tag is a sibling in the same selector)
+   DISCARDED: .dark-tag, .mini-tag — not present in index.html
+================================================================ */
+
+/* Shared base for all pill label variants */
+.eyebrow, .tag-label, .white-tag, .white-mini {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 11px; letter-spacing: .2em;
+  text-transform: uppercase; font-weight: 700;
+}
+
+/* .eyebrow — gold-tinted pill above hero headlines */
+.eyebrow {
+  background: rgba(212,168,67,.12);
+  border: 1px solid rgba(212,168,67,.32);
+  color: var(--gold-light);
+}
+
+/* .tag-label — red-tinted section identifier pill */
+.tag-label {
+  background: rgba(200,16,46,.08);
+  border: 1px solid rgba(200,16,46,.22);
+  color: var(--red);
+}
+
+/* .white-tag — white/transparent pill used in CTA banner */
+.white-tag {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.16);
+  color: white;
+}
+
+/* .white-mini — gold gradient pill (kept as base; white-tag sibling) */
+.white-mini {
+  background: linear-gradient(90deg, rgba(255,255,255,.25), rgba(212,168,67,.35));
+  border: 1px solid rgba(212,168,67,.6);
+  color: #ede6e6;
+  box-shadow: 0 4px 20px rgba(212,168,67,.25);
+  backdrop-filter: blur(6px);
+  padding: 8px 18px;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  border-radius: 50px;
+}
+
+
+/* ================================================================
+   14. PREMIUM TRUST STRIP
+   Source  : style.css — section 14
+   Used by : .pull-up-strip (section wrapper with padding),
+             .premium-strip-wrap (dark 4-col grid),
+             .premium-strip-card (individual dark glass card),
+             .premium-strip-icon (emoji icon box on each card)
+   DISCARDED: .trust-heading, .trust-label — not in index.html
+================================================================ */
+
+/* Section wrapper with custom padding (overrides .section default) */
+.pull-up-strip { padding: 90px 0; background: linear-gradient(180deg, #f6f7fb, #ffffff); }
+
+/* Dark 4-column grid card container */
+.premium-strip-wrap {
+  padding: 40px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #0f172a, #16233b, #1f2e4d);
+  box-shadow: 0 30px 60px rgba(0,0,0,.15);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle red+gold radial gradient overlay on container */
+.premium-strip-wrap::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at top left, rgba(200,16,46,.1), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(212,168,67,.09), transparent 40%);
+}
+
+/* Individual dark glass card */
+.premium-strip-card {
+  position: relative; z-index: 1;
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(212,168,67,.15);
+  border-radius: var(--radius-lg);
+  padding: 22px 20px;
+  min-height: 155px;
+  display: flex; flex-direction: column; justify-content: flex-start;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, border-color .3s;
+}
+.premium-strip-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 22px 55px rgba(212,168,67,.14);
+  border-color: rgba(212,168,67,.42);
+}
+
+/* Emoji icon box at top of each card */
+.premium-strip-icon {
+  width: 50px; height: 50px; border-radius: 14px;
+  display: grid; place-items: center; font-size: 22px; margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(200,16,46,.18), rgba(212,168,67,.22));
+  border: 1px solid rgba(212,168,67,.2);
+}
+
+/* Small uppercase label inside each card */
+.premium-strip-card small {
+  display: block; margin-bottom: 8px;
+  font-size: 11px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .2em;
+  color: var(--gold);
+}
+
+/* Card body text */
+.premium-strip-card strong {
+  font-family: var(--font-display);
+  font-size: 17px; line-height: 1.38;
+  color: rgba(255,255,255,.9); font-weight: 700;
+}
+
+
+/* ================================================================
+   15. SECTION HEADINGS
+   Source  : style.css — section 15
+   Used by : .section-heading (wrapper used in every content section),
+             .section-heading.center-align (Why Choose Us),
+             .section-heading.center-width (trust strip, services,
+              video, clients, accreditations)
+================================================================ */
+
+/* Heading block wrapper with bottom margin */
+.section-heading { margin-bottom: 48px; }
+
+/* Centres text horizontally */
+.section-heading.center-align { text-align: center; }
+
+/* Centres and constrains width for wider paragraphs */
+.section-heading.center-width {
+  max-width: 780px;
+  margin-left: auto; margin-right: auto;
+  text-align: center;
+}
+
+/* Section h2 */
+.section-heading h2 {
+  margin: 12px 0 14px;
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1.04;
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+/* Section subtitle paragraph */
+.section-heading p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.75; }
+
+
+/* ================================================================
+   16. SERVICES FEATURE GRID (Home page)
+   Source  : style.css — section 16
+   Used by : .service-feature-grid (CSS grid layout),
+             .feature-tile + modifiers: .security, .cleaning,
+              .construction, .it, .hospitality (background images
+              and grid areas), .feature-content (text overlay),
+              .feature-badge (service label pill on each tile)
+================================================================ */
+
+/* 2-column CSS grid with named areas */
+.service-feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    'security    construction'
+    'security    it'
+    'cleaning    hospitality';
+  gap: 20px;
+}
+
+/* Base tile — background image cover, overlay via ::after */
+.feature-tile {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(4,13,30,.18);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform .42s ease, box-shadow .42s ease;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* Grid area and height per tile */
+.feature-tile.security     { grid-area: security;     height: 580px; }
+.feature-tile.cleaning     { grid-area: cleaning;     height: 280px; }
+.feature-tile.construction { grid-area: construction; height: 280px; }
+.feature-tile.it           { grid-area: it;           height: 280px; }
+.feature-tile.hospitality  { grid-area: hospitality;  height: 280px; }
+
+/* Background images per tile */
+.feature-tile.security     { background-image: url('assets/images/Security.png'); }
+.feature-tile.cleaning     { background-image: url('assets/images/cleaning.png'); }
+.feature-tile.construction { background-image: url('assets/images/Construction.png'); }
+.feature-tile.it           { background-image: url('assets/images/IT.png'); }
+.feature-tile.hospitality  { background-image: url('assets/images/Hospitality.png'); }
+
+/* Subtle scale on hover */
+.feature-tile:hover {
+  transform: scale(1.018);
+  box-shadow: 0 28px 70px rgba(4,13,30,.28);
+}
+
+/* Dark gradient overlay so text is always readable */
+.feature-tile::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(4,13,30,.45) 0%,
+    rgba(4,13,30,.85) 60%,
+    rgba(4,13,30,.97) 100%
+  );
+  z-index: 1;
+}
+
+/* Text content block pinned to bottom of each tile */
+.feature-content {
+  position: absolute;
+  inset: auto 24px 24px;
+  z-index: 2;
+  color: white;
+}
+.feature-content h3 {
+  margin: 10px 0 10px;
+  font-family: var(--font-display);
+  font-size: 28px; font-weight: 800; color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+.feature-content p {
+  color: rgba(255,255,255,.85);
+  margin-bottom: 16px; max-width: 520px;
+  font-size: 15px; text-shadow: 0 1px 4px rgba(0,0,0,.3);
+}
+
+/* Gold-tinted service label pill on each tile */
+.feature-badge {
+  display: inline-block;
+  padding: 6px 14px; border-radius: 999px;
+  background: rgba(212,168,67,.16);
+  border: 1px solid rgba(212,168,67,.32);
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: .18em; font-weight: 700;
+  color: var(--gold-light);
+}
+
+
+/* ================================================================
+   17. ICON CARDS — WHY CHOOSE US
+   Source  : style.css — section 17
+   Used by : .icon-card-grid (grid wrapper),
+             .four-col (4-column layout modifier),
+             .icon-card (individual white card),
+             .icon-bubble (large emoji icon circle)
+================================================================ */
+
+/* Grid wrapper */
+.icon-card-grid { display: grid; gap: 22px; }
+
+/* 4-column layout on this page */
+.icon-card-grid.four-col { grid-template-columns: repeat(4, 1fr); }
+
+/* White card with shadow */
+.icon-card {
+  background: white;
+  border: 1px solid rgba(4,13,30,.07);
+  border-radius: var(--radius-xl);
+  padding: 34px 28px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: transform .32s cubic-bezier(.34,1.56,.64,1), box-shadow .32s, border-color .32s;
+  position: relative; overflow: hidden;
+}
+
+/* Red+gold gradient revealed on hover */
+.icon-card::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(200,16,46,.03), rgba(212,168,67,.06));
+  opacity: 0; transition: opacity .3s;
+}
+.icon-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 75px rgba(4,13,30,.18);
+  border-color: rgba(212,168,67,.3);
+}
+.icon-card:hover::before { opacity: 1; }
+
+/* Large emoji icon circle at top of each card */
+.icon-bubble {
+  width: 78px; height: 78px; border-radius: 22px;
+  display: grid; place-items: center;
+  margin: 0 auto 18px; font-size: 30px;
+  background: linear-gradient(135deg, rgba(200,16,46,.1), rgba(212,168,67,.18));
+  border: 1px solid rgba(212,168,67,.22);
+  transition: transform .32s cubic-bezier(.34,1.56,.64,1);
+}
+.icon-card:hover .icon-bubble { transform: scale(1.12) rotate(-6deg); }
+
+/* Card headings and body text */
+.icon-card h3 { margin: 0 0 10px; color: var(--navy); font-family: var(--font-display); font-weight: 700; }
+.icon-card p  { margin: 0; color: var(--muted); font-size: 15px; }
+
+
+/* ================================================================
+   18. LOGO / CLIENT STRIP
+   Source  : style.css — section 18
+   Used by : .logo-strip (5-column grid), .logo-chip (each industry
+             card in the "Industries We Serve" section)
+================================================================ */
+
+/* 5-column grid for industry chips */
+.logo-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+
+/* Individual industry chip */
+.logo-chip {
+  min-height: 96px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #ffffff, #f2f7ff);
+  border: 1px solid rgba(4,13,30,.08);
+  border-radius: 20px; box-shadow: var(--shadow);
+  font-family: var(--font-display); font-weight: 800; color: var(--navy-2);
+  font-size: 14px; text-align: center; padding: 16px;
+  transition: transform .28s, border-color .28s, box-shadow .28s;
+}
+.logo-chip:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212,168,67,.38);
+  box-shadow: 0 20px 52px rgba(212,168,67,.2);
+}
+
+
+/* ================================================================
+   19. ACCREDITATIONS MARQUEE
+   Source  : style.css — section 19
+   Used by : .accreditation-section (dark section wrapper),
+             .section-heading-acc (centred heading inside),
+             .logo-marquee (overflow-hidden track container),
+             .logo-track (infinite-scroll flex row),
+             .accreditation-card (each white accreditation card)
+================================================================ */
+
+/* Dark section with red+blue radial accents */
+.accreditation-section {
+  position: relative; overflow: hidden; padding: 110px 0;
+  background:
+    radial-gradient(circle at top left, rgba(225,29,72,.10), transparent 22%),
+    radial-gradient(circle at top right, rgba(29,78,216,.12), transparent 24%),
+    linear-gradient(180deg, #08111f, #0b1220);
+}
+
+/* Edge-fade mask on the marquee container */
+.accreditation-section::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(8,17,31,1) 0%, rgba(8,17,31,0) 12%,
+    rgba(8,17,31,0) 88%, rgba(8,17,31,1) 100%);
+  z-index: 2;
+}
+
+/* Centred heading block inside accreditation section */
+.section-heading-acc {
+  position: relative; z-index: 3;
+  max-width: 900px; margin: 0 auto 46px; text-align: center;
+}
+.section-heading-acc h2 { color: #fff; margin: 12px 0 10px; font-size: clamp(34px, 4vw, 58px); line-height: 1.05; }
+.section-heading-acc p  { color: rgba(255,255,255,.68); font-size: 17px; line-height: 1.7; }
+
+/* Overflow-hidden track wrapper */
+.logo-marquee { position: relative; z-index: 3; overflow: hidden; padding: 18px 0; }
+
+/* Infinite-scroll flex row — pauses on hover */
+.logo-track {
+  display: flex; align-items: center; gap: 26px;
+  width: max-content;
+  animation: accreditationScroll 18s linear infinite;
+}
+.logo-marquee:hover .logo-track { animation-play-state: paused; }
+
+/* Individual white accreditation card */
+.accreditation-card {
+  flex: 0 0 auto;
+  width: 220px; height: 138px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,.993), rgb(255,255,255));
+  border: 1px solid rgba(236,14,14,.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 14px 36px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.10);
+  position: relative; overflow: hidden;
+  transform-origin: center;
+}
+
+/* Shimmer sweep on hover */
+.accreditation-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,.18) 50%, transparent 80%);
+  transform: translateX(-130%); transition: transform .7s ease;
+}
+.accreditation-card:hover::before { transform: translateX(130%); }
+.accreditation-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(225,29,72,.42);
+  box-shadow: 0 20px 50px rgba(0,0,0,.42),
+              0 0 0 1px rgba(29,78,216,.18),
+              0 0 24px rgba(225,29,72,.18);
+}
+.accreditation-card img {
+  width: auto; max-width: 78%; max-height: 170px;
+  object-fit: contain; display: block; transition: transform .35s ease;
+}
+.accreditation-card:hover img { transform: scale(1.06); }
+
+
+/* ================================================================
+   20. REVIEWS SECTION
+   Source  : style.css — section 21
+   Used by : .reviews-section (dark section wrapper),
+             .reviews-header (centred heading block),
+             .google-badge (Google 5-star strip + link),
+             .badge-left (logo + rating cluster),
+             .g-logo (coloured Google G letters),
+             .reviews-marquee (infinite scroll wrapper),
+             .reviews-track (flex row of cards),
+             .review-card (individual review card),
+             .review-user (avatar + name row),
+             .avatar + .g-blue/red/yellow/green (coloured avatar),
+             .cta-heading (CTA banner h2 size class)
+   NOTE    : .stars is used inside .badge-left and .review-card
+             but has no dedicated CSS rule — it inherits from its
+             parent context; no rule to keep.
+   NOTE    : .verified (span inside avatar) has no CSS rule in
+             style.css — it is a structural span only; nothing to keep.
+================================================================ */
+
+/* Dark section with gold + red radial accents */
+.reviews-section {
+  position: relative; overflow: hidden; padding: 100px 0;
+  background:
+    radial-gradient(circle at top right, rgba(212,168,67,.08), transparent 22%),
+    radial-gradient(circle at top left, rgba(230,57,70,.07), transparent 20%),
+    linear-gradient(180deg, #06101f, #020817);
+  color: #fff;
+}
+
+/* Centred heading block */
+.reviews-header { max-width: 860px; margin: 0 auto 18px; text-align: center; padding: 0 24px; }
+.reviews-header h2 { font-size: clamp(38px, 5vw, 72px); line-height: 1.02; font-weight: 800; margin: 0 0 16px; color: #fff; }
+.reviews-header p  { margin: 0; font-size: 20px; line-height: 1.7; color: rgba(255,255,255,.72); }
+
+/* Google rating badge + link row */
+.google-badge {
+  display: flex; align-items: center; justify-content: center;
+  gap: 28px; flex-wrap: wrap; margin: 0 auto 44px; padding: 0 24px;
+}
+.badge-left { display: flex; align-items: center; gap: 18px; }
+.g-logo { font-size: 44px; font-weight: 800; line-height: 1; }
+.badge-left h3  { margin: 0 0 6px; font-size: 20px; color: #fff; }
+.badge-left p   { margin: 0; color: rgba(255,255,255,.72); font-size: 15px; }
+.badge-left .stars { color: #f4c84a; letter-spacing: 2px; font-size: 18px; }
+
+/* "View All Reviews" link */
+.google-badge a {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 52px; padding: 0 24px; border-radius: 999px;
+  border: 1px solid rgba(212,168,67,.32);
+  background: rgba(255,255,255,.04); color: #fff;
+  text-decoration: none; font-weight: 700; transition: all .35s ease;
+}
+.google-badge a:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #d63a45, #122a7a);
+  border-color: transparent;
+}
+
+/* Infinite scroll review marquee */
+.reviews-marquee {
+  position: relative; overflow: hidden; padding: 10px 0;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.reviews-track {
+  display: flex; gap: 28px; width: max-content;
+  animation: reviewsScroll 30s linear infinite;
+}
+.reviews-marquee:hover .reviews-track { animation-play-state: paused; }
+
+/* Individual review card */
+.review-card {
+  width: 420px; min-height: 270px;
+  padding: 28px 28px 24px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 18px 44px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.08);
+  color: #fff;
+  display: flex; flex-direction: column; justify-content: space-between;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.review-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212,168,67,.28);
+  box-shadow: 0 22px 48px rgba(0,0,0,.34), 0 0 24px rgba(212,168,67,.10);
+}
+.review-card .stars { color: #f4c84a; font-size: 22px; letter-spacing: 2px; margin-bottom: 18px; }
+.review-card p  { margin: 0 0 26px; color: rgba(255,255,255,.92); font-size: 17px; line-height: 1.75; }
+
+/* Avatar + name/role row at bottom of card */
+.review-user { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+.review-user h4   { margin: 0; color: #fff; font-size: 18px; font-weight: 700; }
+.review-user span { display: block; margin-top: 5px; color: rgba(255,255,255,.72); font-size: 15px; }
+
+/* Circular avatar with Google colour variants */
+.avatar {
+  width: 52px; height: 52px; min-width: 52px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px; color: #fff;
+  position: relative; overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.15);
+  box-shadow: 0 10px 25px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.2);
+  transition: all .35s ease;
+}
+.avatar::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: linear-gradient(120deg, rgba(255,255,255,.35), transparent 40%);
+  opacity: .4;
+}
+.avatar.g-blue   { background: linear-gradient(135deg, #4285F4, #1a3fbf); box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 20px rgba(66,133,244,.25); }
+.avatar.g-red    { background: linear-gradient(135deg, #EA4335, #a52714); box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 20px rgba(234,67,53,.25); }
+.avatar.g-yellow { background: linear-gradient(135deg, #FBBC05, #d39e00); color: #111; box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 20px rgba(251,188,5,.25); }
+.avatar.g-green  { background: linear-gradient(135deg, #34A853, #0f6a2f); box-shadow: 0 10px 25px rgba(0,0,0,.35), 0 0 20px rgba(52,168,83,.25); }
+.review-card:hover .avatar { transform: scale(1.12); }
+
+/* CTA banner heading size class (used on h2 in CTA section) */
+.cta-heading { font-size: clamp(32px, 3.5vw, 52px); line-height: 1.2; max-width: 900px; }
+
+
+/* ================================================================
+   21. CTA BANNER
+   Source  : style.css — section 22
+   Used by : .cta-banner (two-column grid layout),
+             .cta-buttons-col (right column flex button row)
+   NOTE    : The CTA section uses .container.cta-banner in index.html
+             (not a separate .cta-text-col div — text sits in an
+             anonymous div). No dedicated .cta-text-col rule exists
+             in style.css so nothing to keep for it.
+================================================================ */
+
+/* Two-column grid: text left, buttons right */
+.cta-banner {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 28px;
+  align-items: center;
+}
+.cta-banner h2 {
+  color: white; margin: 12px 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 50px);
+  font-weight: 800; letter-spacing: -.035em;
+}
+.cta-banner p { color: rgba(255,255,255,.62); margin: 0; font-size: 17px; }
+
+/* Right column — flex row of buttons */
+.cta-buttons-col { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 14px; }
+
+
+/* ================================================================
+   22. FAQ ACCORDION
+   Source  : style.css — section 23
+   Used by : .faq-section (light grey section wrapper),
+             .faq-tabs (tab button row), .tab (individual tab),
+             .tab.active (JS-selected active tab),
+             .faq-content (content panel, hidden by default),
+             .faq-content.active (visible panel),
+             .faq-item (white card wrapping each Q&A),
+             .faq-question (button that toggles answer),
+             .faq-question.active (open state styling),
+             .faq-icon (+ / − animated icon),
+             .faq-answer (collapsible answer panel)
+   DISCARDED: .faq-cta — no element with this class in index.html
+================================================================ */
+
+/* Section wrapper */
+.faq-section {
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #f5f7fb, #eef1f6);
+  text-align: center;
+}
+.faq-section h2 { font-size: 38px; font-weight: 700; color: #0a0f1e; margin-bottom: 40px; }
+
+/* Centred row of tab buttons */
+.faq-tabs { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 50px; }
+
+/* Individual tab button */
+.tab {
+  padding: 12px 22px; border-radius: 30px;
+  background: #e9edf3; color: #2b2f3a; border: none;
+  font-size: 15px; font-weight: 500; cursor: pointer;
+  transition: all .25s ease; position: relative;
+}
+.tab:hover { background: #dde3ec; transform: translateY(-2px); }
+
+/* Active tab — dark fill with red underline bar */
+.tab.active { background: #0a0f1e; color: #ffffff; transform: translateY(-2px); }
+.tab.active::after {
+  content: ""; position: absolute;
+  left: 25%; right: 25%; bottom: -6px;
+  height: 3px; background: var(--red); border-radius: 2px;
+}
+
+/* FAQ content panel — hidden by default */
+.faq-content { display: none; }
+
+/* Active panel — shown with fadeUp animation */
+.faq-content.active { display: block; animation: fadeUp .4s ease; }
+
+/* White card wrapping each question + answer */
+.faq-item {
+  max-width: 850px; margin: 16px auto;
+  border-radius: 14px; background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0,0,0,.05); transition: all .3s ease;
+}
+.faq-item:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,.08); }
+
+/* Question toggle button */
+.faq-question {
+  width: 100%; padding: 20px 24px; border: none; background: none;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 17px; font-weight: 600; color: #0a0f1e; cursor: pointer;
+}
+
+/* + / − animated icon */
+.faq-icon { width: 22px; height: 22px; position: relative; }
+.faq-icon::before, .faq-icon::after {
+  content: ""; position: absolute; background: #0a0f1e; transition: all .3s ease;
+}
+.faq-icon::before { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
+.faq-icon::after  { width: 2px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+
+/* When question is open: remove vertical bar, colour horizontal bar red */
+.faq-question.active .faq-icon::after  { height: 0; opacity: 0; }
+.faq-question.active .faq-icon::before { background: var(--red); }
+
+/* Collapsible answer — max-height animation controlled by JS */
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height .4s ease; padding: 0 24px; }
+.faq-answer p { padding-bottom: 20px; color: #444; line-height: 1.7; text-align: left; }
+
+
+/* ================================================================
+   23. SITE FOOTER
+   Source  : style.css — sections 24 / 25
+   Used by : .site-footer, .footer-grid, .footer-logo,
+             .footer-links, .footer-cta, .footer-socials,
+             .social-chip, .footer-bottom, site-footer h4
+================================================================ */
+
+/* Dark gradient footer wrapper */
+.site-footer {
+  background: linear-gradient(135deg, #020810 0%, #040d1e 55%, #020810 100%);
+  border-top: 1px solid rgba(212,168,67,.14);
+  color: rgba(255,255,255,.65);
+  padding: 80px 0 0;
+}
+
+/* 4-column content grid */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.2fr 1fr;
+  gap: 48px;
+  padding-bottom: 60px;
+}
+
+/* Footer logo image */
+.footer-logo {
+  height: 48px; width: auto; margin-bottom: 20px;
+  filter: brightness(1.08) drop-shadow(0 0 10px rgba(212,168,67,.2));
+}
+
+/* Footer description paragraph */
+.footer-grid > div > p { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,.5); }
+
+/* Footer column headings */
+.site-footer h4 {
+  font-family: var(--font-display); font-weight: 800; font-size: 13px;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold-light); margin-bottom: 20px;
+  padding-bottom: 10px; border-bottom: 1px solid rgba(212,168,67,.18);
+}
+
+/* Vertical link lists */
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links li a {
+  color: rgba(255,255,255,.55); font-size: 14px;
+  transition: color .2s, padding-left .2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.footer-links li a:hover { color: var(--gold-light); padding-left: 4px; }
+.footer-links li a::before { content: '›'; color: var(--red); opacity: 0; transition: opacity .2s; }
+.footer-links li a:hover::before { opacity: 1; }
+.footer-links li { color: rgba(255,255,255,.4); font-size: 14px; line-height: 1.6; }
+
+/* Social chips column */
+.footer-socials { display: flex; flex-direction: column; flex-wrap: wrap; gap: 10px; }
+
+/* Individual social network pill */
+.social-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  padding: 10px 18px; border-radius: 12px;
+  font-size: 13px; color: rgba(255,255,255,.65);
+  font-family: var(--font-display); font-weight: 600;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.social-chip:hover { background: rgba(212,168,67,.1); border-color: rgba(212,168,67,.3); color: var(--gold-light); }
+.social-chip i { font-size: 14px; color: var(--gold-light); }
+
+/* Red pill CTA button in the contact column */
+.footer-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 20px;
+  background: linear-gradient(135deg, var(--red), #9e0d22);
+  color: white; font-weight: 700; font-family: var(--font-display);
+  padding: 12px 22px; border-radius: 999px; font-size: 13px;
+  letter-spacing: .06em; text-transform: uppercase;
+  transition: box-shadow .3s, transform .2s;
+  box-shadow: 0 8px 28px var(--red-glow);
+}
+.footer-cta:hover { box-shadow: 0 14px 44px rgba(200,16,46,.5); transform: translateY(-2px); }
+
+/* Copyright bar at base of footer */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 22px 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.922);
+  text-align: center;
+  line-height: 1.7;
+}
+
+
+/* ================================================================
+   24. FLOATING CTA BUTTONS
+   Source  : style.css — section 32
+   Used by : .floating-cta-stack (fixed stack wrapper),
+             .float-btn (base circular button),
+             .float-btn.call (blue phone button),
+             .float-btn.whatsapp (green WhatsApp button)
+================================================================ */
+
+/* Fixed bottom-left stack */
+.floating-cta-stack {
+  position: fixed; left: 20px; bottom: 20px;
+  z-index: 80;
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+/* Base circular FAB */
+.float-btn {
+  width: 62px; height: 62px; border-radius: 20px;
+  display: grid; place-items: center;
+  color: white; font-size: 24px;
+  position: relative; overflow: visible;
+  transition: transform .28s cubic-bezier(.34,1.56,.64,1), box-shadow .28s;
+  text-decoration: none;
+}
+.float-btn:hover { transform: scale(1.14) translateY(-3px); }
+
+/* Pulsing ring animation around each FAB */
+.float-btn::before {
+  content: ""; position: absolute; inset: -4px;
+  border-radius: 24px; border: 2px solid currentColor;
+  opacity: 0; animation: float-pulse 2.8s ease-out infinite;
+}
+
+/* Phone button — navy/blue */
+.float-btn.call {
+  background: linear-gradient(135deg, #0d2255, #1a3a8a);
+  box-shadow: 0 12px 38px rgba(13,34,85,.55), inset 0 1px 0 rgba(255,255,255,.15);
+  border: 2px solid rgba(212,168,67,.4); color: var(--gold-light);
+}
+.float-btn.call::before { border-color: var(--gold); }
+.float-btn.call::after {
+  content: "Call Us"; position: absolute; left: 72px; top: 50%;
+  transform: translateY(-50%); background: #0d2255; color: var(--gold-light);
+  padding: 6px 12px; border-radius: 10px; font-size: 12px;
+  font-family: var(--font-display); font-weight: 700;
+  letter-spacing: .06em; white-space: nowrap;
+  border: 1px solid rgba(212,168,67,.3);
+  opacity: 0; pointer-events: none; transition: opacity .22s, left .22s;
+}
+.float-btn.call:hover::after { opacity: 1; left: 76px; }
+
+/* WhatsApp button — green */
+.float-btn.whatsapp {
+  background: linear-gradient(135deg, #0a7a34, #1db954);
+  box-shadow: 0 12px 38px rgba(29,185,84,.4), inset 0 1px 0 rgba(255,255,255,.18);
+  border: 2px solid rgba(255,255,255,.15); color: white;
+}
+.float-btn.whatsapp::before { border-color: #1db954; animation-delay: 1.4s; }
+.float-btn.whatsapp::after {
+  content: "WhatsApp"; position: absolute; left: 72px; top: 50%;
+  transform: translateY(-50%); background: #0a7a34; color: white;
+  padding: 6px 12px; border-radius: 10px; font-size: 12px;
+  font-family: var(--font-display); font-weight: 700;
+  letter-spacing: .06em; white-space: nowrap;
+  border: 1px solid rgba(255,255,255,.2);
+  opacity: 0; pointer-events: none; transition: opacity .22s, left .22s;
+}
+.float-btn.whatsapp:hover::after { opacity: 1; left: 76px; }
+
+
+/* ================================================================
+   25. CUSTOM CURSOR
+   Source  : style.css — section 34
+   Used by : .cursor-ring, .cursor-dot (positioned by JS),
+             JS-toggled state classes on .cursor-ring
+================================================================ */
+
+/* Hide native cursor site-wide */
+* { cursor: none !important; }
+
+/* Outer gold ring that follows the cursor */
+.cursor-ring {
+  position: fixed; top: 0; left: 0;
+  width: 36px; height: 36px;
+  border: 2px solid rgba(212,168,67,.8);
+  border-radius: 50%; pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  background: rgba(212,168,67,.06);
+  transition: width .18s ease, height .18s ease, border-color .18s ease,
+              background .18s ease, border-radius .18s ease, opacity .2s ease;
+  will-change: left, top; box-sizing: border-box;
+}
+
+/* Small red dot at exact cursor position */
+.cursor-dot {
+  position: fixed; top: 0; left: 0;
+  width: 8px; height: 8px;
+  background: var(--red); border-radius: 50%;
+  pointer-events: none; z-index: 100000;
+  transform: translate(-50%, -50%);
+  transition: opacity .2s ease;
+  will-change: left, top;
+}
+
+/* JS-toggled state: over links */
+.cursor-ring.on-link  { width: 50px; height: 50px; border-color: rgba(80,140,255,.85);  background: rgba(80,140,255,.06); }
+/* JS-toggled state: over buttons */
+.cursor-ring.on-btn   { width: 44px; height: 44px; border-color: rgba(200,16,46,.85);  background: rgba(200,16,46,.07); }
+/* JS-toggled state: over inputs */
+.cursor-ring.on-input { width: 3px; height: 36px; border-radius: 2px; border-color: rgba(212,168,67,.9); background: rgba(212,168,67,.15); }
+/* JS-toggled state: over images */
+.cursor-ring.on-img   { width: 64px; height: 64px; border-color: rgba(255,255,255,.55); background: rgba(255,255,255,.04); }
+
+
+/* ================================================================
+   26. SCROLL REVEAL ANIMATIONS
+   Source  : style.css — section 35
+   Used by : .reveal (pull-up-strip section, premium strip cards,
+             services section, why-choose-us section, clients,
+             accreditations — all have class="... reveal"),
+             .reveal.visible (JS-applied when element enters viewport)
+   DISCARDED: .reveal-up, .hidden — not in index.html
+================================================================ */
+
+/* Initial hidden state for scroll-triggered elements */
+.reveal { opacity: 0; transform: translateY(44px); transition: opacity .72s ease, transform .72s ease; }
+
+/* JS adds this when element enters viewport */
+.reveal.visible { opacity: 1; transform: none; }
+
+
+/* ================================================================
+   27. SERVICES VIDEO SECTION
+   Source  : style.css — sections 36 & 39
+   Used by : .services-video-section (dark section wrapper with
+             animated mesh background via ::before),
+             .svs-layout (video left + chapters right grid),
+             .svs-player (video column),
+             .svs-frame (animated gradient border wrapper),
+             .svs-frame-inner (inner aspect-ratio container),
+             .svs-poster (poster image + play button overlay),
+             .svs-overlay (dark gradient over poster image),
+             .svs-play-btn (centred play button),
+             .svs-play-triangle (play icon inside button),
+             .svs-play-pulse (pulsing ring around play button),
+             .svs-badge (duration badge bottom-right),
+             .svs-chapters (right column flex list),
+             .svs-chapter (individual chapter row),
+             .svs-ch-num (chapter number badge),
+             .svs-ch-body (chapter title + description),
+             .svs-orb + .orb-1 + .orb-2 (blurred background orbs)
+================================================================ */
+
+/* Dark gradient section with animated grid via ::before */
+.services-video-section {
+  background: linear-gradient(160deg, #060c1c, #0a1530 50%, #050a16);
+  padding: 110px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated gradient mesh background */
+.services-video-section::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(200,16,46,.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(212,168,67,.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(26,54,120,.25) 0%, transparent 55%);
+  background-size: 200% 200%;
+  animation: meshMove 10s ease-in-out infinite alternate;
+  pointer-events: none; z-index: 0;
+}
+
+/* Content sits above ::before mesh background */
+.services-video-section .container { position: relative; z-index: 1; }
+
+/* Tag label override — gold tint inside this dark section */
+.services-video-section .tag-label {
+  background: rgba(201,146,42,.14);
+  border-color: rgba(201,146,42,.32);
+  color: #e8b84b;
+}
+
+/* Section heading colour overrides for dark background */
+.services-video-section .section-heading h2 { color: #f5ead8; }
+.services-video-section .section-heading p  { color: rgba(220,208,182,.68); }
+
+/* Two-column grid: video player left, chapters right */
+.svs-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 48px;
+}
+
+/* Video column */
+.svs-player { position: relative; }
+
+/* Animated gradient border around video frame */
+.svs-frame {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(4,13,30,.45);
+  border: 1px solid rgba(255,255,255,.08);
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+/* Inner container maintaining aspect ratio */
+.svs-frame-inner { width: 100%; height: 100%; position: relative; }
+
+/* Poster image with overlay and play button */
+.svs-poster { position: relative; width: 100%; height: 100%; }
+.svs-poster img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+/* Dark gradient overlay on poster */
+.svs-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(4,13,30,.15), rgba(4,13,30,.55));
+}
+
+/* Centred circular play button */
+.svs-play-btn {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px; height: 70px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--red), rgba(200,16,46,.8));
+  border: none; cursor: pointer;
+  display: grid; place-items: center;
+  box-shadow: 0 8px 32px rgba(200,16,46,.5);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+  z-index: 2;
+}
+.svs-play-btn:hover {
+  transform: translate(-50%, -50%) scale(1.12);
+  box-shadow: 0 12px 40px rgba(200,16,46,.7);
+}
+
+/* Play triangle icon */
+.svs-play-triangle { color: white; font-size: 22px; margin-left: 4px; }
+
+/* Pulsing ring around play button */
+.svs-play-pulse {
+  position: absolute; inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(200,16,46,.4);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Duration badge bottom-right of video */
+.svs-badge {
+  position: absolute; bottom: 14px; right: 14px;
+  background: rgba(4,13,30,.75);
+  backdrop-filter: blur(8px);
+  color: white; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 6px; z-index: 2;
+}
+
+/* Chapters column — vertical list */
+.svs-chapters { display: flex; flex-direction: column; gap: 12px; }
+
+/* Individual chapter row — animates in with chapterSlideIn */
+.svs-chapter {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg, 14px);
+  border: 1px solid rgba(255,255,255,.07);
+  background: rgba(255,255,255,.03);
+  cursor: pointer;
+  opacity: 0; transform: translateX(30px);
+  animation: chapterSlideIn .5s ease forwards;
+  animation-delay: calc(var(--i) * 0.12s);
+  transition: background .3s, border-color .3s, transform .3s;
+}
+.svs-chapter:hover {
+  transform: translateX(6px);
+  background: rgba(212,168,67,.06);
+  border-color: rgba(212,168,67,.25);
+}
+.svs-chapter.active {
+  background: rgba(212,168,67,.10);
+  border-color: rgba(212,168,67,.35);
+}
+
+/* Chapter number badge */
+.svs-ch-num {
+  min-width: 38px; height: 38px; border-radius: 10px;
+  background: rgba(212,168,67,.12);
+  border: 1px solid rgba(212,168,67,.22);
+  color: var(--gold-light);
+  font-size: 12px; font-weight: 800;
+  display: grid; place-items: center;
+  letter-spacing: .05em;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), background .3s;
+  flex-shrink: 0;
+}
+.svs-chapter:hover .svs-ch-num { transform: scale(1.15); }
+
+/* Chapter title and description */
+.svs-ch-body strong { display: block; color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.svs-ch-body p      { color: rgba(255,255,255,.55); font-size: 13px; margin: 0; line-height: 1.5; }
+
+/* Background blur orbs behind video section */
+.svs-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(100px); opacity: .12;
+  pointer-events: none;
+  animation: orbFloat 12s ease-in-out infinite;
+}
+
+/* Orb 1 — red, top-left */
+.orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(200,16,46,.7), transparent);
+  top: -150px; left: -150px;
+  animation-delay: 0s;
+}
+
+/* Orb 2 — gold, bottom-right */
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(212,168,67,.7), transparent);
+  bottom: -100px; right: -100px;
+  animation-delay: -6s;
+}
+
+
+/* ================================================================
+   28. KEYFRAME ANIMATIONS
+   Source  : style.css — sections 37 & 39
+   Kept only the keyframes that drive kept CSS rules above.
+   ─────────────────────────────────────────────────────────────
+   ✅ KEPT:
+     drift            → .hero-bg-lines (animated grid lines)
+     floaty           → .hero-home::before / ::after (orbs)
+     borderMove       → .svs-frame (animated gradient border)
+     phoneShake       → .btn-light span / .icon
+     pulse-cta        → .btn-primary animation
+     pulse-gold       → .btn-gold animation
+     float-pulse      → .float-btn::before (ring pulse)
+     svs-pulse        → .svs-play-pulse (original style.css version)
+     fadeIn           → .gallery-modal.active (kept as base utility)
+     fadeUp           → .faq-content.active, .tab.active
+     accreditationScroll → .logo-track infinite scroll
+     reviewsScroll    → .reviews-track infinite scroll
+     meshMove         → .services-video-section::before
+     orbFloat         → .svs-orb
+     chapterSlideIn   → .svs-chapter entry animation
+     pulse (local)    → .svs-play-pulse (section 39 version)
+     blink            → .hero-tag::before (if hero-tag is used on
+                         other pages via this file — kept as base)
+   ❌ DISCARDED:
+     marquee          → testimonial marquee (not in index.html)
+     bubble-in        → chat widget (not in index.html)
+     typing-dot       → chat widget (not in index.html)
+     blink-dot        → chat widget (not in index.html)
+     cardFloatRotate  → not used anywhere in index.html
+     shimmer-bar      → not used anywhere in index.html
+     gradientShift    → about.html .values
+     floatOrb         → about.html .values
+     badgeFloat       → .badge-1/2/3 (HTML commented out)
+     gl-pulse         → .gl__hero-badge (gallery.html only)
+================================================================ */
+
+/* Horizontal drift — animated grid background in hero */
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(-80px); } }
+
+/* Vertical float — hero background orbs */
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-24px); } }
+
+/* Gradient position sweep — svs-frame animated border */
+@keyframes borderMove {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+/* Phone shake — .btn-light span / .icon */
+@keyframes phoneShake {
+  0%   { transform: rotate(0); }
+  3%   { transform: rotate(-15deg); }
+  6%   { transform: rotate(15deg); }
+  9%   { transform: rotate(-10deg); }
+  12%  { transform: rotate(10deg); }
+  15%  { transform: rotate(0); }
+  100% { transform: rotate(0); }
+}
+
+/* Pulsing red glow — .btn-primary */
+@keyframes pulse-cta {
+  0%,100% { box-shadow: 0 10px 36px var(--red-glow); }
+  50%     { box-shadow: 0 18px 60px rgba(200,16,46,.58); }
+}
+
+/* Pulsing gold glow — .btn-gold */
+@keyframes pulse-gold {
+  0%,100% { box-shadow: 0 10px 36px rgba(212,168,67,.4); }
+  50%     { box-shadow: 0 20px 62px rgba(212,168,67,.62); }
+}
+
+/* Expanding fading ring — .float-btn::before */
+@keyframes float-pulse {
+  0%   { opacity: .65; transform: scale(1); }
+  70%  { opacity: 0;   transform: scale(1.55); }
+  100% { opacity: 0;   transform: scale(1.55); }
+}
+
+/* Expanding scale — original .svs-play-pulse from section 36 */
+@keyframes svs-pulse {
+  0%   { transform: scale(1);   opacity: .75; }
+  70%  { transform: scale(2);   opacity: 0; }
+  100% { transform: scale(2);   opacity: 0; }
+}
+
+/* Simple opacity fade — .faq-content.active entry */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Fade and slide up — .faq-content.active, .tab active states */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Continuous horizontal scroll — accreditation logo track */
+@keyframes accreditationScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Continuous horizontal scroll — reviews track */
+@keyframes reviewsScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Animated gradient mesh — services video section ::before */
+@keyframes meshMove {
+  0%   { background-position: 0% 0%,   100% 0%,   50% 100%; }
+  25%  { background-position: 30% 50%,  70% 30%,   20% 70%;  }
+  50%  { background-position: 60% 20%,  40% 80%,   80% 30%;  }
+  75%  { background-position: 20% 80%,  80% 50%,   40% 20%;  }
+  100% { background-position: 50% 100%, 10% 60%,   90% 50%;  }
+}
+
+/* Floating translate — .svs-orb background blobs */
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(40px, -30px) scale(1.08); }
+  66%       { transform: translate(-30px, 20px) scale(.94); }
+}
+
+/* Slide-in from right — .svs-chapter entry animation */
+@keyframes chapterSlideIn { to { opacity: 1; transform: translateX(0); } }
+
+/* Scale/fade pulse — .svs-play-pulse (section 39 version) */
+@keyframes pulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.2); opacity: 0; }
+}
+
+/* Blink — used on .hero-tag::before dot (if hero-tag is referenced) */
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+
+/* ================================================================
+   29. RESPONSIVE BREAKPOINTS
+   Source  : style.css — section 38
+   Kept only overrides that target classes present in index.html.
+   All overrides for .contact-*, .gallery-*, .srv-*, .blog-*,
+   .vacancy-*, .svs-play-triangle (size), .accreditation-card
+   (size), .review-card (size) are kept because those classes ARE
+   used in index.html. Overrides for classes not in index.html are
+   discarded.
+================================================================ */
+
+/* ── TABLET: 1100px ── */
+@media (max-width: 1100px) {
+  /* Hide desktop nav and action buttons, show hamburger */
+  .main-nav, .nav-actions { display: none; }
+  .menu-toggle { display: inline-block; }
+  .mobile-nav.active { display: flex; }
+
+  /* Stack CTA banner and footer to 2 columns */
+  .cta-banner         { grid-template-columns: 1fr 1fr; }
+  .footer-grid        { grid-template-columns: 1fr 1fr; }
+
+  /* Stack icon cards to 2 columns */
+  .icon-card-grid.four-col { grid-template-columns: 1fr 1fr; }
+
+  /* Hero card grid goes single column */
+  .hero-card-grid { grid-template-columns: 1fr; }
+
+  /* Hide right-panel stat/badge elements on tablet */
+  .hero-badge-panel, .hero-stat-stack { display: none; }
+
+  /* Premium strip goes 2 columns */
+  .premium-strip-wrap { grid-template-columns: repeat(2, 1fr); }
+
+  /* Video section goes single column */
+  .svs-layout { grid-template-columns: 1fr; gap: 40px; }
+  .services-video-section { padding: 80px 0; }
+}
+
+/* ── MOBILE: 820px ── */
+@media (max-width: 820px) {
+  /* Top bar stacks vertically */
+  .topbar-inner, .topbar-left { flex-direction: column; align-items: flex-start; }
+
+  /* Stack CTA banner, footer, icon cards to single column */
+  .cta-banner              { grid-template-columns: 1fr; }
+  .footer-grid             { grid-template-columns: 1fr; }
+  .icon-card-grid.four-col { grid-template-columns: 1fr; }
+
+  /* Services feature grid goes single column */
+  .service-feature-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'security' 'cleaning' 'construction' 'it' 'hospitality';
+  }
+  /* All tiles same height on mobile */
+  .feature-tile.security,
+  .feature-tile.cleaning,
+  .feature-tile.construction,
+  .feature-tile.it,
+  .feature-tile.hospitality { height: 280px; }
+
+  /* Hero reduces */
+  .hero { min-height: auto; }
+  .hero-inner { min-height: auto; padding: 56px 0 90px; grid-template-columns: 1fr; }
+  .hero-copy h1 { font-size: 40px; }
+
+  /* Pull-up strip spacing fix */
+  .pull-up-strip { margin-top: 0; }
+
+  /* Premium strip single column */
+  .premium-strip-wrap { grid-template-columns: 1fr; padding: 18px; border-radius: 22px; }
+  .premium-strip-card { min-height: auto; padding: 18px; }
+
+  /* Restore native cursor on touch devices */
+  * { cursor: auto !important; }
+  .cursor-dot, .cursor-ring { display: none; }
+
+  /* Floating CTA buttons closer to edge */
+  .floating-cta-stack { left: 14px; bottom: 14px; }
+
+  /* Video section mobile */
+  .svs-layout { grid-template-columns: 1fr; }
+  .services-video-section { padding: 64px 0; }
+  .svs-chapter { padding: 14px 16px; }
+  .svs-play-triangle, .svs-play-pulse { width: 60px; height: 60px; }
+  .svs-play-triangle { font-size: 20px; }
+
+  /* FAQ mobile */
+  .faq-question { padding: 20px 22px; font-size: 16px; }
+  .faq-answer   { padding: 0 22px; }
+  .faq-answer p { font-size: 15px; padding-bottom: 18px; }
+
+  /* Review cards narrower on mobile */
+  .review-card { width: 340px; min-height: 240px; }
+  .reviews-track { gap: 20px; animation-duration: 24s; }
+
+  /* Accreditation cards smaller on mobile */
+  .accreditation-section { padding: 80px 0; }
+  .accreditation-card { width: 180px; height: 120px; border-radius: 20px; }
+
+  /* Logo strip goes 2 columns on mobile */
+  .logo-strip { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Small mobile: 768px (video section) ── */
+@media (max-width: 768px) {
+  .svs-layout { grid-template-columns: 1fr; gap: 32px; }
+}
